@@ -275,7 +275,7 @@ class ThematicCommunityMembershipAdmin extends AbstractAdmin
                     'multiple' => true,
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('tc')
-                            ->where('tc.enabled = 1')
+                            ->where('tc.enabled = true')
                         ;
                     },
                 ],
@@ -445,7 +445,7 @@ class ThematicCommunityMembershipAdmin extends AbstractAdmin
 
                     $or = new Orx();
                     foreach ($value['value'] as $i => $motivation) {
-                        $or->add(sprintf('FIND_IN_SET(:motivation_%d, %s.motivations) > 0', $i, $alias));
+                        $or->add(":motivation_$i = ANY_OF(string_to_array($alias.motivations, ','))");
                         $qb->setParameter(sprintf('motivation_%d', $i), mb_strtolower($motivation));
                     }
                     $qb->andWhere($or);

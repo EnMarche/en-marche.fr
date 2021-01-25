@@ -179,6 +179,7 @@ abstract class AbstractCoordinatorAreaFilter
 
         $count = $qbCount
             ->select(sprintf('count(%s)', $alias))
+            ->resetDQLPart('orderBy')
             ->setMaxResults(null)
             ->setFirstResult(null)
             ->getQuery()

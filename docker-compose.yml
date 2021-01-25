@@ -18,11 +18,11 @@ services:
             - .:/app
 
     db:
-        image: mysql:5.7.14
-        volumes:
-            - ./docker/dev/my.cnf:/etc/mysql/conf.d/my.cnf
+        image: postgis/postgis:13-master
         environment:
-            MYSQL_ROOT_PASSWORD: root
+            POSTGRES_DB: enmarche
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
 
     redis:
         image: redis:3.2

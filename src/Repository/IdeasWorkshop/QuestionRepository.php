@@ -17,7 +17,7 @@ class QuestionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('question')
             ->innerJoin('question.guideline', 'guideline')
-            ->where('question.required = 1')
+            ->where('question.required = true')
             ->getQuery()
             ->getResult()
         ;

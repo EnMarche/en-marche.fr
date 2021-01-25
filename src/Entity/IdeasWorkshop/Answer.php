@@ -42,7 +42,7 @@ class Answer implements UserDocumentInterface
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @SymfonySerializer\Groups({"idea_thread_comment_read", "idea_read", "idea_with_answers", "idea_thread_list_read"})
      */

@@ -66,6 +66,7 @@
         "lexik/jwt-authentication-bundle": "^2.6",
         "lexik/paybox-bundle": "^2.1",
         "lullabot/amp": "^2.0",
+        "martin-georgiev/postgresql-for-doctrine": "^1.5",
         "misd/phone-number-bundle": "^1.2",
         "myclabs/php-enum": "^1.5",
         "nelmio/cors-bundle": "^1.5",

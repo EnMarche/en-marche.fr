@@ -60,7 +60,7 @@ class IdeaRepository extends ServiceEntityRepository
             INNER JOIN ideas_workshop_thread thread ON thread.id = threadComment.thread_id
             INNER JOIN ideas_workshop_answer answer ON answer.id = thread.answer_id
             INNER JOIN ideas_workshop_idea idea ON idea.id = answer.idea_id
-            WHERE idea.id = :idea AND threadComment.enabled = 1 AND thread.enabled = 1
+            WHERE idea.id = :idea AND threadComment.enabled = true AND thread.enabled = true
             AND threadComment.deleted_at IS NULL AND thread.deleted_at IS NULL
         )
         UNION 
@@ -69,7 +69,7 @@ class IdeaRepository extends ServiceEntityRepository
             FROM ideas_workshop_thread thread 
             INNER JOIN ideas_workshop_answer answer ON answer.id = thread.answer_id
             INNER JOIN ideas_workshop_idea idea ON idea.id = answer.idea_id
-            WHERE idea.id = :idea AND thread.enabled = 1 AND thread.deleted_at IS NULL
+            WHERE idea.id = :idea AND thread.enabled = true AND thread.deleted_at IS NULL
         )
 SQL;
 
@@ -196,7 +196,7 @@ SQL;
     {
         switch ($status) {
             case IdeaStatusEnum::UNPUBLISHED:
-                $queryBuilder->andWhere(sprintf('%s.enabled = 0', $alias));
+                $queryBuilder->andWhere(sprintf('%s.enabled = false', $alias));
                 break;
             case IdeaStatusEnum::DRAFT:
                 $queryBuilder->andWhere(sprintf('%s.publishedAt IS NULL', $alias));

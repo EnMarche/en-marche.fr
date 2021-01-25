@@ -27,10 +27,10 @@ class NewAdherentCalculator extends AbstractCalculator
         return $this->repository
             ->createQueryBuilder('adherent')
             ->select('COUNT(1) AS total')
-            ->addSelect('YEAR_MONTH(adherent.registeredAt) AS date')
+            ->addSelect("DATE_FORMAT(adherent.registeredAt, 'YYYYMM') AS date")
             ->innerJoin('adherent.referentTags', 'tags')
             ->where('adherent.registeredAt >= :start_date AND adherent.registeredAt <= :end_date')
-            ->andWhere('adherent.adherent = 1')
+            ->andWhere('adherent.adherent = true')
             ->andWhere('tags.code IN (:tags)')
             ->setParameters([
                 'start_date' => $request->getStartDateAsString(),

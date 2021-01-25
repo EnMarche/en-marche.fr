@@ -22,7 +22,7 @@ abstract class AbstractCommitteeCalculator extends AbstractCalculator
         return $this->repository
             ->createQueryBuilder('committee')
             ->select('COUNT(1) AS total')
-            ->addSelect('YEAR_MONTH(committee.createdAt) AS date')
+            ->addSelect("DATE_FORMAT(committee.createdAt, 'YYYYMM') AS date")
             ->innerJoin('committee.referentTags', 'tags')
             ->where('committee.createdAt >= :start_date AND committee.createdAt <= :end_date')
             ->andWhere('committee.status = :status')

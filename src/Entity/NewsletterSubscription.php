@@ -28,7 +28,7 @@ class NewsletterSubscription implements EntitySoftDeletedInterface
      *
      * @ORM\Column(type="bigint")
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

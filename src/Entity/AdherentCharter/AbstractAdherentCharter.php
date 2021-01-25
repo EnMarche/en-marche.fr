@@ -19,7 +19,7 @@ abstract class AbstractAdherentCharter implements AdherentCharterInterface
      *
      * @ORM\Column(type="smallint")
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

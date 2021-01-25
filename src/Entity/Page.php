@@ -36,7 +36,7 @@ class Page implements EntityMediaInterface, EntityContentInterface, EntitySoftDe
      *
      * @ORM\Column(type="bigint")
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

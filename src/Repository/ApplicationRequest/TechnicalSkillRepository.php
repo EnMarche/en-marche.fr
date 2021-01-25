@@ -18,7 +18,7 @@ class TechnicalSkillRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('t')
-            ->andWhere('t.display = 1')
+            ->andWhere('t.display = true')
             ->orderBy('t.name', 'ASC')
         ;
     }

@@ -31,7 +31,7 @@ class AdherentCalculator extends AbstractCalculator
             ->select('COUNT(1)')
             ->innerJoin('adherent.referentTags', 'tags')
             ->where('adherent.registeredAt < :date')
-            ->andWhere('adherent.adherent = 1')
+            ->andWhere('adherent.adherent = true')
             ->andWhere('tags.code IN (:tags)')
             ->setParameters([
                 'date' => $request->getStartDateAsString(),

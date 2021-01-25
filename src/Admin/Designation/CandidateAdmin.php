@@ -86,7 +86,7 @@ class CandidateAdmin extends AbstractAlgoliaAdmin
                             ->select('PARTIAL tc.{id, name}')
                             ->addSelect('pc')
                             ->leftJoin('tc.politicalCommittee', 'pc')
-                            ->andWhere('tc.isActive = 1')
+                            ->andWhere('tc.isActive = true')
                         ;
                     },
                 ],

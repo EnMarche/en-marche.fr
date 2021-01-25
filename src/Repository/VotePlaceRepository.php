@@ -142,7 +142,7 @@ class VotePlaceRepository extends AbstractAssessorRepository
     {
         return  $this
             ->createQueryBuilder('votePlace')
-            ->andWhere('FIND_IN_SET(:postalCode, votePlace.postalCode) > 0')
+            ->andWhere(":postalCode = ANY_OF(string_to_array(votePlace.postalCode, ','))")
             ->andWhere('votePlace.enabled = :true')
             ->setParameters([
                 'postalCode' => $postalCode,
@@ -186,7 +186,7 @@ class VotePlaceRepository extends AbstractAssessorRepository
             $orx = new Orx();
 
             foreach ($postalCodes as $index => $postalCode) {
-                $orx->add(sprintf('FIND_IN_SET(:postal_code_%s, %s.postalCode) > 0', $index, self::ALIAS));
+                $orx->add(sprintf(":postal_code_%s = ANY_OF(string_to_array(%s.postalCode, ','))", $index, self::ALIAS));
                 $qb->setParameter('postal_code_'.$index, $postalCode);
             }
 

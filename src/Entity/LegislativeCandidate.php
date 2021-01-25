@@ -33,7 +33,7 @@ class LegislativeCandidate implements EntityMediaInterface
     /**
      * @ORM\Column(type="smallint", options={"unsigned": true})
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

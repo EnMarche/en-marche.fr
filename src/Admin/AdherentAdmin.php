@@ -500,7 +500,7 @@ HELP
                     'query_builder' => function (EntityRepository $er) {
                         return $er
                             ->createQueryBuilder('tc')
-                            ->andWhere('tc.enabled = 1')
+                            ->andWhere('tc.enabled = true')
                             ;
                     },
                 ])
@@ -713,7 +713,7 @@ HELP
                         $provisionalCondition = '';
                         if (1 === \count($committeeMandates)
                             && \in_array(AdherentRoleEnum::COMMITTEE_PROVISIONAL_SUPERVISOR, $value['value'], true)) {
-                            $provisionalCondition = ' AND am.provisional = 1';
+                            $provisionalCondition = ' AND am.provisional = true';
                         }
                         $where->add('am.quality = :supervisor AND am.committee IS NOT NULL AND am.finishAt IS NULL'.$provisionalCondition);
 
@@ -801,7 +801,7 @@ HELP
 
                     // User
                     if (\in_array(AdherentRoleEnum::USER, $value['value'], true)) {
-                        $where->add(sprintf('%s.adherent = 0', $alias));
+                        $where->add(sprintf('%s.adherent = false', $alias));
                     }
 
                     // Citizen project holder
@@ -963,8 +963,8 @@ HELP
                         ->leftJoin(ElectedRepresentative::class, 'er', Expr\Join::WITH, sprintf('%s.id = er.adherent', $alias))
                         ->leftJoin('er.mandates', 'mandate')
                         ->andWhere('mandate.finishAt IS NULL')
-                        ->andWhere('mandate.onGoing = 1')
-                        ->andWhere('mandate.isElected = 1')
+                        ->andWhere('mandate.onGoing = true')
+                        ->andWhere('mandate.isElected = true')
                         ->andWhere('mandate.type IN (:types)')
                         ->setParameter('types', $value['value'])
                     ;
@@ -1040,7 +1040,7 @@ HELP
 
                     $qb
                         ->andWhere("$alias.committee IN (:committees)")
-                        ->andWhere("$alias.enableVote = 1")
+                        ->andWhere("$alias.enableVote = true")
                         ->setParameter('committees', $value['value'])
                     ;
 
@@ -1092,7 +1092,7 @@ HELP
                         $datagrid = $admin->getDatagrid();
                         $queryBuilder = $datagrid->getQuery();
                         $queryBuilder
-                            ->andWhere($queryBuilder->getRootAlias().'.isActive = 1')
+                            ->andWhere($queryBuilder->getRootAlias().'.isActive = true')
                             ->orderBy($queryBuilder->getRootAlias().'.name', 'ASC')
                         ;
                         $datagrid->setValue($property, null, $value);

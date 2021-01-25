@@ -57,7 +57,7 @@ class AbstractApplicationRequestAdmin extends AbstractAdmin
                         return false;
                     }
 
-                    $qb->andWhere("FIND_IN_SET(:inseeCode, $alias.favoriteCities) > 0");
+                    $qb->andWhere(":inseeCode = ANY_OF(string_to_array($alias.favoriteCities, ','))");
                     $qb->setParameter('inseeCode', $value['value']);
 
                     return true;

@@ -312,7 +312,7 @@ class ZoneRepository extends ServiceEntityRepository
         $qb = $this
             ->createQueryBuilder('zone')
             ->innerJoin('zone.geoData', 'geo_data')
-            ->where("ST_Within(ST_GeomFromText(CONCAT('POINT(',:longitude,' ',:latitude,')')), geo_data.geoShape) = 1")
+            ->where('ST_Within(ST_Point(:longitude, :latitude), geo_data.geoShape) = true')
             ->setParameter('latitude', $latitude)
             ->setParameter('longitude', $longitude)
         ;

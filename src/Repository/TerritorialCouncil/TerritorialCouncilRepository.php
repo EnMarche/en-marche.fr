@@ -80,7 +80,7 @@ class TerritorialCouncilRepository extends ServiceEntityRepository
             ->innerJoin(Committee::class, 'committee', Join::WITH, 'tag MEMBER OF committee.referentTags')
             ->innerJoin(CommitteeAdherentMandate::class, 'am', Join::WITH, 'committee = am.committee')
             ->where('am.adherent = :adherent')
-            ->andWhere('am.committee IS NOT NULL AND am.quality = :supervisor AND am.finishAt IS NULL AND am.provisional = 0')
+            ->andWhere('am.committee IS NOT NULL AND am.quality = :supervisor AND am.finishAt IS NULL AND am.provisional = false')
             ->setParameter('adherent', $adherent)
             ->setParameter('supervisor', CommitteeMandateQualityEnum::SUPERVISOR)
             ->getQuery()

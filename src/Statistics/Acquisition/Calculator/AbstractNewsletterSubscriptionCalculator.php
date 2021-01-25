@@ -59,7 +59,7 @@ abstract class AbstractNewsletterSubscriptionCalculator extends AbstractCalculat
         return $this->subscriptionHistoryRepository
             ->createQueryBuilder('history')
             ->select('SUM(CASE WHEN history.action = :action THEN 1 ELSE -1 END) AS total')
-            ->addSelect('YEAR_MONTH(history.date) AS date')
+            ->addSelect("DATE_FORMAT(history.date, 'YYYYMM') AS date")
             ->innerJoin('history.subscriptionType', 'st')
             ->innerJoin('history.referentTags', 'tags')
             ->where('history.date >= :start_date AND history.date <= :end_date')

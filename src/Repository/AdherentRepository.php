@@ -68,7 +68,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         return (int) $this
             ->createQueryBuilder('a')
             ->select('COUNT(a)')
-            ->andWhere('a.adherent = 1')
+            ->andWhere('a.adherent = true')
             ->getQuery()
             ->getSingleScalarResult()
         ;
@@ -242,7 +242,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
             ->createQueryBuilder('a')
             ->select('COUNT(a.uuid)')
             ->where('a.status = :status')
-            ->andWhere('a.adherent = 1')
+            ->andWhere('a.adherent = true')
             ->setParameter('status', Adherent::ENABLED)
             ->getQuery()
         ;
@@ -331,7 +331,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
             ->createQueryBuilder('a')
             ->innerJoin('a.coordinatorCitizenProjectArea', 'ccpa')
             ->where('ccpa.codes IS NOT NULL')
-            ->andWhere('FIND_IN_SET(:code, ccpa.codes) > 0')
+            ->andWhere(":code = ANY_OF(string_to_array(ccpa.codes, ','))")
             ->andWhere('LENGTH(ccpa.codes) > 0')
             ->orderBy('LOWER(ccpa.codes)', 'ASC')
             ->setParameter('code', CoordinatorManagedAreaUtils::getCodeFromCitizenProject($citizenProject))
@@ -572,7 +572,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
     {
         return $this->createQueryBuilder('a', 'a.gender')
             ->select('a.gender, COUNT(a) AS count')
-            ->where('a.adherent = 1')
+            ->where('a.adherent = true')
             ->andWhere('a.status = :status')
             ->setParameter('status', Adherent::ENABLED)
             ->groupBy('a.gender')
@@ -589,7 +589,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
             ->select('a.gender, COUNT(DISTINCT a) AS count')
             ->innerJoin('a.referentTags', 'tag')
             ->where('tag.id IN (:tags)')
-            ->andWhere('a.adherent = 1')
+            ->andWhere('a.adherent = true')
             ->andWhere('a.status = :status')
             ->setParameter('tags', $referent->getManagedArea()->getTags())
             ->setParameter('status', Adherent::ENABLED)
@@ -652,7 +652,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         $this->checkReferent($referent);
 
         $query = $this->createQueryBuilder('adherent', 'adherent.gender')
-            ->select('COUNT(DISTINCT adherent.id) AS count, YEAR_MONTH(event.beginAt) as yearmonth')
+            ->select("COUNT(DISTINCT adherent.id) AS count, DATE_FORMAT(event.beginAt, 'YYYYMM') as yearmonth")
             ->join('adherent.memberships', 'membership')
             ->join('membership.committee', 'committee')
             ->innerJoin('committee.referentTags', 'tag')
@@ -801,9 +801,9 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
     ): PaginatorInterface {
         $qb = $this
             ->createQueryBuilder('a')
-            ->where("FIND_IN_SET(SUBSTRING_INDEX(a.postAddress.city, '-', -1), :insee_codes) > 0")
-            ->andWhere('a.adherent = 1')
-            ->setParameter('insee_codes', implode(',', $inseeCodes))
+            ->where("SUBSTRING_INDEX(a.postAddress.city, '-', -1) = ANY_OF(:insee_codes)")
+            ->andWhere('a.adherent = true')
+            ->setParameter('insee_codes', $inseeCodes)
         ;
 
         return $this->configurePaginator($qb, $page, $maxItemPerPage);
@@ -1083,6 +1083,7 @@ SQL;
     {
         return (int) $this->createCommitteeHostsQueryBuilder($committee, $withoutSupervisors)
             ->select('COUNT(DISTINCT a.id)')
+            ->resetDQLPart('orderBy')
             ->getQuery()
             ->getSingleScalarResult()
         ;
@@ -1096,6 +1097,7 @@ SQL;
     {
         $result = (int) $this->createCommitteeHostsQueryBuilder($committee)
             ->select('COUNT(DISTINCT a.id)')
+            ->resetDQLPart('orderBy')
             ->andWhere('a.id = :adherent_id')
             ->setParameter('adherent_id', $adherent->getId())
             ->getQuery()

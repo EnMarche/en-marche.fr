@@ -129,14 +129,14 @@ class ManagedUserRepository extends ServiceEntityRepository
 
         foreach (array_values($filter->getInterests()) as $key => $interest) {
             $qb
-                ->andWhere(sprintf('FIND_IN_SET(:interest_%s, u.interests) > 0', $key))
+                ->andWhere(":interest_$key = ANY_OF(string_to_array(u.interests, ','))")
                 ->setParameter('interest_'.$key, $interest)
             ;
         }
 
         if ($committee = $filter->getCommittee()) {
             $qb
-                ->andWhere('FIND_IN_SET(:committee_uuid, u.committeeUuids) > 0')
+                ->andWhere(":committee_uuid = ANY_OF(string_to_array(u.committeeUuids, ','))")
                 ->setParameter('committee_uuid', $committee->getUuidAsString())
             ;
         }
@@ -147,7 +147,7 @@ class ManagedUserRepository extends ServiceEntityRepository
             $committeesExpression = $qb->expr()->orX();
 
             foreach ($committees as $key => $uuid) {
-                $committeesExpression->add("FIND_IN_SET(:committee_uuid_$key, u.committeeUuids) > 0");
+                $committeesExpression->add(":committee_uuid_$key = ANY_OF(string_to_array(u.committeeUuids, ','))");
                 $qb->setParameter("committee_uuid_$key", $uuid);
             }
 
@@ -190,15 +190,15 @@ class ManagedUserRepository extends ServiceEntityRepository
 
         // includes
         if (true === $filter->includeCommitteeHosts()) {
-            $typeExpression->add('u.isCommitteeHost = 1');
+            $typeExpression->add('u.isCommitteeHost = true');
         }
 
         if (true === $filter->includeCommitteeSupervisors()) {
-            $typeExpression->add('u.isCommitteeSupervisor = 1');
+            $typeExpression->add('u.isCommitteeSupervisor = true');
         }
 
         if (true === $filter->includeCommitteeProvisionalSupervisors()) {
-            $typeExpression->add('u.isCommitteeProvisionalSupervisor = 1');
+            $typeExpression->add('u.isCommitteeProvisionalSupervisor = true');
         }
 
         if (true === $filter->includeCitizenProjectHosts()) {
@@ -209,15 +209,15 @@ class ManagedUserRepository extends ServiceEntityRepository
 
         // excludes
         if (false === $filter->includeCommitteeHosts()) {
-            $qb->andWhere('u.isCommitteeHost = 0');
+            $qb->andWhere('u.isCommitteeHost = false');
         }
 
         if (false === $filter->includeCommitteeSupervisors()) {
-            $qb->andWhere('u.isCommitteeSupervisor = 0');
+            $qb->andWhere('u.isCommitteeSupervisor = false');
         }
 
         if (false === $filter->includeCommitteeProvisionalSupervisors()) {
-            $qb->andWhere('u.isCommitteeProvisionalSupervisor = 0');
+            $qb->andWhere('u.isCommitteeProvisionalSupervisor = false');
         }
 
         if (false === $filter->includeCitizenProjectHosts()) {
@@ -225,9 +225,9 @@ class ManagedUserRepository extends ServiceEntityRepository
         }
 
         if (null !== $filter->getEmailSubscription() && $filter->getSubscriptionType()) {
-            $subscriptionTypesCondition = 'FIND_IN_SET(:subscription_type, u.subscriptionTypes) > 0';
+            $subscriptionTypesCondition = ":subscription_type = ANY_OF(string_to_array(u.subscriptionTypes, ','))";
             if (false === $filter->getEmailSubscription()) {
-                $subscriptionTypesCondition = '(FIND_IN_SET(:subscription_type, u.subscriptionTypes) = 0 OR u.subscriptionTypes IS NULL)';
+                $subscriptionTypesCondition = "u.subscriptionTypes IS NULL OR NOT(:subscription_type = ANY_OF(string_to_array(u.subscriptionTypes, ',')))";
             }
 
             $qb
@@ -237,9 +237,9 @@ class ManagedUserRepository extends ServiceEntityRepository
         }
 
         if (null !== $filter->getSmsSubscription()) {
-            $subscriptionTypesCondition = 'FIND_IN_SET(:sms_subscription_type, u.subscriptionTypes) > 0';
+            $subscriptionTypesCondition = ":sms_subscription_type = ANY_OF(string_to_array(u.subscriptionTypes, ','))";
             if (false === $filter->getSmsSubscription()) {
-                $subscriptionTypesCondition = '(FIND_IN_SET(:sms_subscription_type, u.subscriptionTypes) = 0 OR u.subscriptionTypes IS NULL)';
+                $subscriptionTypesCondition = "u.subscriptionTypes IS NULL OR NOT(:sms_subscription_type = ANY_OF(string_to_array(u.subscriptionTypes, ',')))";
             }
 
             $qb

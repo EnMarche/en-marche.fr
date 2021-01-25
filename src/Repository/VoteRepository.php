@@ -22,11 +22,11 @@ class VoteRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this
             ->createQueryBuilder('vote')
-            ->addSelect('group_concat(vote.type) AS votes_types')
+            ->addSelect("STRING_AGG(vote.type, ',') AS votes_types")
             ->innerJoin('vote.idea', 'idea')
             ->andWhere('vote.author = :author')
             ->setParameter('author', $adherent)
-            ->groupBy('idea.id')
+            ->groupBy('idea.id, vote.id')
         ;
 
         return $this->configurePaginator($queryBuilder, $page, $limit);

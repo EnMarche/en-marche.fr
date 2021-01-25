@@ -167,7 +167,7 @@ class ElectedRepresentativeRepository extends ServiceEntityRepository
         if ($labels = $filter->getLabels()) {
             $qb
                 ->andWhere('label.name in (:labels)')
-                ->andWhere('label.onGoing = 1')
+                ->andWhere('label.onGoing = true')
                 ->andWhere('label.finishYear IS NULL')
                 ->setParameter('labels', $labels)
             ;
@@ -183,7 +183,7 @@ class ElectedRepresentativeRepository extends ServiceEntityRepository
         if ($politicalFunctions = $filter->getPoliticalFunctions()) {
             $qb
                 ->andWhere('politicalFunction.name in (:politicalFunctions)')
-                ->andWhere('politicalFunction.onGoing = 1')
+                ->andWhere('politicalFunction.onGoing = true')
                 ->andWhere('politicalFunction.finishAt IS NULL')
                 ->setParameter('politicalFunctions', $politicalFunctions)
             ;
@@ -238,8 +238,8 @@ class ElectedRepresentativeRepository extends ServiceEntityRepository
             ->leftJoin($alias.'.mandates', 'mandate')
             ->leftJoin('mandate.zone', 'zone')
             ->andWhere('mandate.finishAt IS NULL')
-            ->andWhere('mandate.onGoing = 1')
-            ->andWhere('mandate.isElected = 1')
+            ->andWhere('mandate.onGoing = true')
+            ->andWhere('mandate.isElected = true')
         ;
     }
 

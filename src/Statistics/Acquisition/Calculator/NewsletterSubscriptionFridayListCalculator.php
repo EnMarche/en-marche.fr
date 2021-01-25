@@ -54,7 +54,7 @@ class NewsletterSubscriptionFridayListCalculator extends AbstractCalculator
         $newByMonth = $this->newsletterSubscriptionRepository
             ->createQueryBuilder('newsletter')
             ->select('COUNT(1) AS total')
-            ->addSelect('YEAR_MONTH(newsletter.createdAt) AS date')
+            ->addSelect("DATE_FORMAT(newsletter.createdAt, 'YYYYMM') AS date")
             ->where('newsletter.createdAt >= :start_date AND newsletter.createdAt <= :end_date')
             ->andWhere('(newsletter.country IN (:tags) OR newsletter.postalCode IN (:tags))')
             ->setParameters([

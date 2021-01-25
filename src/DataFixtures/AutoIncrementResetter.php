@@ -8,6 +8,6 @@ class AutoIncrementResetter
 {
     public static function resetAutoIncrement(EntityManagerInterface $manager, string $tableName): void
     {
-        $manager->getConnection()->exec("ALTER TABLE $tableName AUTO_INCREMENT = 1;");
+        $manager->getConnection()->exec('ALTER SEQUENCE '.$tableName.'_id_seq RESTART;');
     }
 }

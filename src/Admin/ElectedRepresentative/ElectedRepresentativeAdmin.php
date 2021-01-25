@@ -356,11 +356,11 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
 
                     switch ($value['value']) {
                         case BooleanType::TYPE_YES:
-                            $qb->andWhere('mandate.onGoing = 1');
+                            $qb->andWhere('mandate.onGoing = true');
 
                             break;
                         case BooleanType::TYPE_NO:
-                            $qb->andWhere('mandate.onGoing = 0');
+                            $qb->andWhere('mandate.onGoing = false');
 
                             break;
                     }
@@ -404,11 +404,11 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
 
                     switch ($value['value']) {
                         case BooleanType::TYPE_YES:
-                            $qb->andWhere('politicalFunction.onGoing = 1');
+                            $qb->andWhere('politicalFunction.onGoing = true');
 
                             break;
                         case BooleanType::TYPE_NO:
-                            $qb->andWhere('politicalFunction.onGoing = 0');
+                            $qb->andWhere('politicalFunction.onGoing = false');
 
                             break;
                     }
@@ -437,7 +437,7 @@ class ElectedRepresentativeAdmin extends AbstractAdmin
                     }
 
                     $qb->andWhere($where);
-                    $qb->andWhere("$alias.onGoing = 1");
+                    $qb->andWhere("$alias.onGoing = true");
 
                     return true;
                 },

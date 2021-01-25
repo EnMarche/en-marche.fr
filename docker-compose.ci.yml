@@ -10,9 +10,6 @@ services:
                 - ${APP_DOCKER_IMAGE_NAME}:${APP_DOCKER_IMAGE_MD5}
                 - ${APP_DOCKER_IMAGE_NAME}:dev
 
-    db:
-        tmpfs: /var/lib/mysql
-
     selenium:
         ports:
             - 5900:5900

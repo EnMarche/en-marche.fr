@@ -1,6 +1,6 @@
 doctrine:
     dbal:
-        driver:           pdo_mysql
+        driver:           pdo_pgsql
         charset:          UTF8
         host:             "%env(DATABASE_HOST)%"
         port:             "%env(DATABASE_PORT)%"
@@ -8,17 +8,35 @@ doctrine:
         user:             "%env(DATABASE_USER)%"
         password:         "%env(DATABASE_PASSWORD)%"
         unix_socket:      "%env(DATABASE_SOCKET)%"
-        server_version:   5.7
-        options:
-            1002: "SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))"
-        schema_filter: '#^(?!ideas_workshop_idea_notification_dates)#'
+        schema_filter:    '#^(?!(public|topology|tiger))#'
+        server_version:   "13.1"
+        platform_service: App\Doctrine\DBAL\Platform\PostgreSQLPlatform
         types:
             uuid:           Ramsey\Uuid\Doctrine\UuidType
             phone_number:   Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
             geo_point:      App\Doctrine\DBAL\Types\GeoPointType
             geometry:       CrEOF\Spatial\DBAL\Types\GeometryType
+            point:          CrEOF\Spatial\DBAL\Types\Geometry\PointType
             polygon:        CrEOF\Spatial\DBAL\Types\Geometry\PolygonType
             multipolygon:   CrEOF\Spatial\DBAL\Types\Geometry\PolygonType
+            jsonb:          MartinGeorgiev\Doctrine\DBAL\Types\Jsonb
+            jsonb[]:        MartinGeorgiev\Doctrine\DBAL\Types\JsonbArray
+            smallint[]:     MartinGeorgiev\Doctrine\DBAL\Types\SmallIntArray
+            integer[]:      MartinGeorgiev\Doctrine\DBAL\Types\IntegerArray
+            bigint[]:       MartinGeorgiev\Doctrine\DBAL\Types\BigIntArray
+            text[]:         MartinGeorgiev\Doctrine\DBAL\Types\TextArray
+        mapping_types:
+            jsonb: jsonb
+            jsonb[]: jsonb[]
+            _jsonb: jsonb[]
+            smallint[]: smallint[]
+            _int2: smallint[]
+            integer[]: integer[]
+            _int4: integer[]
+            bigint[]: bigint[]
+            _int8: bigint[]
+            text[]: text[]
+            _text: text[]
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -40,29 +58,18 @@ doctrine:
                 enabled: true
 
         dql:
-            datetime_functions:
-                year_month: DoctrineExtensions\Query\Mysql\YearMonth
-                timestampdiff: DoctrineExtensions\Query\Mysql\TimestampDiff
-                convert_tz: DoctrineExtensions\Query\Mysql\ConvertTz
-                now: DoctrineExtensions\Query\Mysql\Now
-                date: DoctrineExtensions\Query\Mysql\Date
             numeric_functions:
-                acos: DoctrineExtensions\Query\Mysql\Acos
-                cos: DoctrineExtensions\Query\Mysql\Cos
-                radians: DoctrineExtensions\Query\Mysql\Radians
-                sin: DoctrineExtensions\Query\Mysql\Sin
-                st_geomfromtext: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\GeomFromText
-                st_within: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STWithin
-                point: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Point
+                st_distance_sphere: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STDistanceSphere
+                st_point: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STPoint
+                st_within: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STWithin
+                st_geomfromtext: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STGeomFromText
             string_functions:
-                json_contains: App\Query\Mysql\JsonContains
-                find_in_set: DoctrineExtensions\Query\Mysql\FindInSet
-                json_length: Syslogic\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonLength
-                substring_index: DoctrineExtensions\Query\Mysql\SubstringIndex
-                group_concat: DoctrineExtensions\Query\Mysql\GroupConcat
-                concat_ws: DoctrineExtensions\Query\Mysql\ConcatWs
-                replace: DoctrineExtensions\Query\Mysql\Replace
-                if: DoctrineExtensions\Query\Mysql\IfElse
-
+                IN_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray
+                ANY_OF: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any
+                STRING_TO_ARRAY: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\StringToArray
+                ILIKE: MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Ilike
+                UNACCENT: App\Doctrine\Query\Postgresql\Unaccent
+            datetime_functions:
+                DATE_FORMAT: DoctrineExtensions\Query\Postgresql\DateFormat
         hydrators:
             EventHydrator: App\Doctrine\Hydrators\EventHydrator

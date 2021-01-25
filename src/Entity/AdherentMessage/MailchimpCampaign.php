@@ -25,7 +25,7 @@ class MailchimpCampaign implements AdherentMessageSynchronizedObjectInterface
      *
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
 

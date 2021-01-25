@@ -23,7 +23,7 @@ abstract class BaseCandidacy implements CandidacyInterface, AlgoliaIndexedEntity
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

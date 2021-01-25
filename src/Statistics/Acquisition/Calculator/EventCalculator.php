@@ -28,7 +28,7 @@ class EventCalculator extends AbstractCalculator
         return $this->repository
             ->createQueryBuilder('event')
             ->select('COUNT(1) AS total')
-            ->addSelect('YEAR_MONTH(event.beginAt) AS date')
+            ->addSelect("DATE_FORMAT(event.beginAt, 'YYYYMM') AS date")
             ->innerJoin('event.referentTags', 'tags')
             ->where('event.beginAt >= :start_date AND event.beginAt <= :end_date')
             ->andWhere('event.status = :status')

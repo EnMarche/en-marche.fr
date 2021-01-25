@@ -68,12 +68,11 @@ rabbitmq-fabric: wait-for-rabbitmq
 ##---------------------------------------------------------------------------
 
 wait-for-db:
-	$(EXEC) php -r "set_time_limit(60);for(;;){if(@fsockopen('db',3306)){break;}echo \"Waiting for MySQL\n\";sleep(1);}"
+	$(EXEC) php -r "set_time_limit(60);for(;;){if(@fsockopen('db',5432)){break;}echo \"Waiting for PGSQL\n\";sleep(1);}"
 
 db: vendor wait-for-db                                                                                 ## Reset the database and load fixtures
 	$(CONSOLE) doctrine:database:drop --force --if-exists --no-debug
 	$(CONSOLE) doctrine:database:create --if-not-exists --no-debug
-	$(CONSOLE) doctrine:database:import -n --no-debug -- dump/dump-2020.sql
 	$(CONSOLE) doctrine:migrations:migrate -n --no-debug
 	$(CONSOLE) doctrine:fixtures:load -n
 
@@ -154,7 +153,6 @@ tfp-db: wait-for-db                                                             
 	$(EXEC) rm -rf /tmp/data.db || true
 	$(CONSOLE) doctrine:database:drop --force --if-exists --env=test --no-debug
 	$(CONSOLE) doctrine:database:create --env=test --no-debug
-	$(CONSOLE) doctrine:database:import --env=test -n --no-debug -- dump/dump-2020.sql
 	$(CONSOLE) doctrine:migration:migrate -n --no-debug --env=test
 	$(CONSOLE) doctrine:schema:validate --no-debug --env=test
 	$(CONSOLE) doctrine:fixtures:load --env=test -n

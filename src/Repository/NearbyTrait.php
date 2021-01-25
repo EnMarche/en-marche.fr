@@ -9,9 +9,12 @@ trait NearbyTrait
 {
     public function getNearbyExpression(): string
     {
-        return '(6371 * acos(cos(radians(:latitude)) * cos(radians(n.postAddress.latitude))
-            * cos(radians(n.postAddress.longitude) - radians(:longitude)) + sin(radians(:latitude)) *
-            sin(radians(n.postAddress.latitude))))';
+        return <<<'SQL'
+          ST_DistanceSphere(
+            ST_Point(n.postAddress.longitude, n.postAddress.latitude),
+            ST_Point(:longitude, :latitude)
+          )
+SQL;
     }
 
     /**

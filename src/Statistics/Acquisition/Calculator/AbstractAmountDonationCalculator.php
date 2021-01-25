@@ -45,7 +45,7 @@ abstract class AbstractAmountDonationCalculator extends AbstractDonationCalculat
         $qb = $this->repository
             ->createQueryBuilder('donation')
             ->select('SUM(donation.amount) AS total')
-            ->addSelect('YEAR_MONTH(donation.createdAt) AS date')
+            ->addSelect("DATE_FORMAT(donation.createdAt, 'YYYYMM') AS date")
             ->where('donation.createdAt >= :start_date AND donation.createdAt <= :end_date')
             ->andWhere('donation.status = :status')
             ->andWhere('donation.duration = :duration')

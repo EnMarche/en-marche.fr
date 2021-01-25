@@ -24,7 +24,7 @@ class DistrictRepository extends ServiceEntityRepository
             ->join('district.referentTag', 'referentTag')
             ->addSelect('referentTag')
             ->join('district.geoData', 'geoData')
-            ->where("ST_Within(ST_GeomFromText(CONCAT('POINT(',:longitude,' ',:latitude,')')), geoData.geoShape) = 1")
+            ->where('ST_Within(ST_Point(:longitude, :latitude), geoData.geoShape) = true')
             ->setParameter('latitude', $latitude)
             ->setParameter('longitude', $longitude)
             ->getQuery()

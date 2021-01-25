@@ -7,9 +7,10 @@ use App\Entity\Jecoute\Choice;
 use App\Entity\Jecoute\SuggestedQuestion;
 use App\Jecoute\SurveyQuestionTypeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadJecouteSuggestedQuestionData extends Fixture
+class LoadJecouteSuggestedQuestionData extends Fixture implements DependentFixtureInterface
 {
     const SUGGESTED_QUESTIONS = [
         'suggested-question-1' => [
@@ -41,7 +42,7 @@ class LoadJecouteSuggestedQuestionData extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        AutoIncrementResetter::resetAutoIncrement($manager, 'jecoute_suggested_question');
+        //AutoIncrementResetter::resetAutoIncrement($manager, 'jecoute_suggested_question');
 
         foreach (self::SUGGESTED_QUESTIONS as $code => $data) {
             $question = new SuggestedQuestion($data['content'], $data['type'], $data['published']);
@@ -57,5 +58,12 @@ class LoadJecouteSuggestedQuestionData extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            LoadJecouteQuestionData::class,
+        ];
     }
 }

@@ -20,7 +20,7 @@ class FileRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('f')
             ->where('f.type = :directory')
-            ->andWhere('f.displayed = 1')
+            ->andWhere('f.displayed = true')
             ->andWhere('LOWER(f.name) LIKE :search')
             ->setParameter('directory', FileTypeEnum::DIRECTORY)
             ->setParameter('search', '%'.$search.'%')

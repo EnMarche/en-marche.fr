@@ -7,7 +7,6 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\Adherent;
 use App\Entity\AuthorInterface;
 use App\Entity\Committee;
@@ -18,6 +17,7 @@ use App\Entity\Report\ReportableInterface;
 use App\Filter\ContributorsCountFilter;
 use App\Filter\IdeaStatusFilter;
 use App\Filter\OrTextSearchFilter;
+use App\Filter\SearchFilter;
 use App\Report\ReportType;
 use App\Validator\CommitteeMember;
 use App\Validator\MandatoryQuestion;
@@ -189,12 +189,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  *
  * @ApiFilter(SearchFilter::class, properties={
- *     "name": "partial",
- *     "themes.name": "exact",
- *     "authorCategory": "exact",
+ *     "name": "ipartial",
+ *     "themes.name": "iexact",
+ *     "authorCategory": "iexact",
  *     "author.uuid": "exact",
- *     "category.name": "exact",
- *     "needs.name": "exact"
+ *     "category.name": "iexact",
+ *     "needs.name": "iexact"
  * })
  * @ApiFilter(OrderFilter::class, properties={"publishedAt", "votesCount", "commentsCount"})
  * @ApiFilter(OrTextSearchFilter::class, properties={"name"})
@@ -227,7 +227,7 @@ class Idea implements AuthorInterface, ReportableInterface, EnabledInterface
      *
      * @ORM\Id
      * @ORM\Column(type="integer", options={"unsigned": true})
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
 

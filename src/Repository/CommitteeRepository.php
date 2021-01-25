@@ -355,7 +355,7 @@ class CommitteeRepository extends ServiceEntityRepository
             $qb = $this
                 ->createNearbyQueryBuilder($coordinates)
                 ->andWhere($this->getNearbyExpression().' < :distance_max')
-                ->setParameter('distance_max', $search->getRadius())
+                ->setParameter('distance_max', $search->getRadiusInMeters())
             ;
         } else {
             $qb = $this->createQueryBuilder('n');
@@ -591,7 +591,7 @@ class CommitteeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->innerJoin(District::class, 'd', Join::WITH, 'd.id = :district_id')
             ->innerJoin('d.geoData', 'gd')
-            ->where("ST_Within(ST_GeomFromText(CONCAT('POINT(',c.postAddress.longitude,' ',c.postAddress.latitude,')')), gd.geoShape) = 1")
+            ->where('ST_Within(ST_Point(c.postAddress.longitude, c.postAddress.latitude), gd.geoShape) = true')
             ->andWhere('c.status = :status')
             ->setParameter('district_id', $district->getId())
             ->setParameter('status', Committee::APPROVED)
@@ -631,8 +631,8 @@ class CommitteeRepository extends ServiceEntityRepository
     ): array {
         $this->checkReferent($referent);
 
-        $result = $this->createQueryBuilder('committee')
-            ->select('committee.name, COUNT(event) AS events, SUM(event.participantsCount) as participants')
+        return $this->createQueryBuilder('committee')
+            ->select('committee.name, COUNT(event) AS events, SUM(event.participantsCount) as HIDDEN participants')
             ->join(Event::class, 'event', Join::WITH, 'event.committee = committee.id')
             ->join('committee.referentTags', 'tag')
             ->where('tag.id IN (:tags)')
@@ -651,17 +651,6 @@ class CommitteeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult()
         ;
-
-        return $this->removeParticipantionsCountAndId($result);
-    }
-
-    private function removeParticipantionsCountAndId(array $committees): array
-    {
-        array_walk($committees, function (&$item) {
-            unset($item['participants']);
-        });
-
-        return $committees;
     }
 
     /**

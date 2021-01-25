@@ -197,7 +197,7 @@ Par défaut, si vous avez copié le `docker-compose.override.yml.dist` en `docke
 De plus vous devriez pouvoir accéder aux containers sur les ports suivants de votre machine locale :
 
 - `app`, HTTP sur le port 8000
-- `db`, MySQL sur le port 3306
+- `db`, PGSQL sur le port 5432
 - `pma`, HTTP sur le port 8080
 - `rabbitmq`, HTTP sur le port 15672
 
