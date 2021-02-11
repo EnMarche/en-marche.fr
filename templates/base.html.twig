@@ -109,6 +109,8 @@
 
         {% if app.environment == 'prod' %}
             <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/55827081e9c72c969a6fa0ea5/2dda2e483f425de60b6a36b99.js");</script>
+
+            {% include 'components/_facebook_pixel.html.twig' %}
         {% endif %}
     </head>
     <body>
