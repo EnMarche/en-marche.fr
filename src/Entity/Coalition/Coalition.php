@@ -5,9 +5,11 @@ namespace App\Entity\Coalition;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Entity\Adherent;
+use App\Entity\EntityFollowersTrait;
 use App\Entity\EntityIdentityTrait;
 use App\Entity\Event\CoalitionEvent;
 use App\Entity\ExposedImageOwnerInterface;
+use App\Entity\FollowedInterface;
 use App\Entity\ImageTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,23 +24,32 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource(
  *     attributes={
+ *         "normalization_context": {"groups": {"coalition_read", "image_owner_exposed", "followers_count"}},
  *         "pagination_client_items_per_page": true,
  *         "order": {"name": "ASC"}
  *     },
  *     collectionOperations={
- *         "get": {
- *             "path": "/coalitions",
- *             "normalization_context": {
- *                 "groups": {"coalition_read", "image_owner_exposed"}
- *             },
- *         },
+ *         "get": {"path": "/coalitions"},
  *     },
  *     itemOperations={
  *         "get": {
  *             "path": "/coalitions/{id}",
- *             "normalization_context": {"groups": {"coalition_read", "image_owner_exposed"}},
  *             "requirements": {"id": "%pattern_uuid%"}
- *         }
+ *         },
+ *         "follow": {
+ *             "method": "PUT",
+ *             "path": "/v3/coalitions/{id}/follow",
+ *             "access_control": "is_granted('ROLE_ADHERENT')",
+ *             "controller": "App\Controller\Api\Coalition\FollowController::follow",
+ *             "requirements": {"id": "%pattern_uuid%"}
+ *         },
+ *         "unfollow": {
+ *             "method": "PUT",
+ *             "path": "/v3/coalitions/{id}/unfollow",
+ *             "access_control": "is_granted('ROLE_ADHERENT')",
+ *             "controller": "App\Controller\Api\Coalition\FollowController::unfollow",
+ *             "requirements": {"id": "%pattern_uuid%"}
+ *         },
  *     },
  * )
  *
@@ -50,11 +61,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity
  */
-class Coalition implements ExposedImageOwnerInterface
+class Coalition implements ExposedImageOwnerInterface, FollowedInterface
 {
     use EntityIdentityTrait;
     use TimestampableEntity;
     use ImageTrait;
+    use EntityFollowersTrait;
 
     /**
      * @var UploadedFile|null
@@ -119,7 +131,7 @@ class Coalition implements ExposedImageOwnerInterface
      *     }
      * )
      */
-    protected $followers;
+    private $followers;
 
     /**
      * @var Cause[]|Collection
@@ -179,7 +191,6 @@ class Coalition implements ExposedImageOwnerInterface
     public function addEvent(CoalitionEvent $event): void
     {
         if (!$this->events->contains($event)) {
-            $event->setCoalition($this);
             $this->events->add($event);
         }
     }
@@ -187,23 +198,6 @@ class Coalition implements ExposedImageOwnerInterface
     public function removeEvent(CoalitionEvent $event): void
     {
         $this->events->removeElement($event);
-    }
-
-    public function getFollowers(): Collection
-    {
-        return $this->followers;
-    }
-
-    public function addFollower(Adherent $follower): void
-    {
-        if (!$this->followers->contains($follower)) {
-            $this->followers->add($follower);
-        }
-    }
-
-    public function removeFollower(Adherent $follower): void
-    {
-        $this->followers->remove($follower);
     }
 
     public function getCauses(): Collection

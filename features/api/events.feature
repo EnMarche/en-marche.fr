@@ -23,7 +23,7 @@ Feature:
     Then the response status code should be 401
 
     Examples:
-      | url                            |
+      | url                                       |
       | /api/statistics/events/count              |
       | /api/statistics/events/count-by-month     |
       | /api/statistics/events/count-participants |

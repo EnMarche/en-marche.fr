@@ -5,11 +5,12 @@ namespace App\DataFixtures\ORM;
 use App\Entity\Coalition\Coalition;
 use App\Image\ImageManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class LoadCoalitionData extends Fixture
+class LoadCoalitionData extends Fixture implements DependentFixtureInterface
 {
     public const COALITION_1_UUID = 'd5289058-2a35-4cf0-8f2f-a683d97d8315';
     public const COALITION_2_UUID = '09d700f8-8813-4c3c-9bee-ff18d2051bba';
@@ -63,8 +64,21 @@ class LoadCoalitionData extends Fixture
 
     public function load(ObjectManager $manager)
     {
+        $carl = $this->getReference('adherent-2');
+        $jacques = $this->getReference('adherent-3');
+        $lucie = $this->getReference('adherent-4');
+        $gisele = $this->getReference('adherent-5');
+
         foreach (self::NAMES as $key => $name) {
-            $coalition = $this->createCoalition(++$key, $name, true, 1 === $key);
+            if (0 === $key) {
+                $withImage = true;
+                $followers = [$carl, $jacques, $lucie, $gisele];
+            } else {
+                $withImage = false;
+                $followers = [];
+            }
+
+            $coalition = $this->createCoalition(++$key, $name, true, $withImage, $followers);
             $manager->persist($coalition);
         }
 
@@ -74,8 +88,13 @@ class LoadCoalitionData extends Fixture
         $manager->flush();
     }
 
-    public function createCoalition(int $id, string $name, bool $enabled = true, bool $withImage = false): Coalition
-    {
+    public function createCoalition(
+        int $id,
+        string $name,
+        bool $enabled = true,
+        bool $withImage = false,
+        array $followers = []
+    ): Coalition {
         $c = "COALITION_${id}_UUID";
         $uuid = Uuid::fromString(\constant('self::'.$c));
 
@@ -85,6 +104,7 @@ class LoadCoalitionData extends Fixture
             "Description de la coalition '$name'",
             $enabled
         );
+
         if ($withImage) {
             $coalition->setImage(new UploadedFile(
                 __DIR__.'/../coalitions/default.png',
@@ -97,8 +117,19 @@ class LoadCoalitionData extends Fixture
             $this->imageManager->saveImage($coalition);
         }
 
+        foreach ($followers as $follower) {
+            $coalition->addFollower($follower);
+        }
+
         $this->addReference(\sprintf('coalition-%s', mb_strtolower($name)), $coalition);
 
         return $coalition;
+    }
+
+    public function getDependencies()
+    {
+        return [
+            LoadAdherentData::class,
+        ];
     }
 }

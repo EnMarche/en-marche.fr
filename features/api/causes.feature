@@ -6,7 +6,9 @@ Feature:
 
   Background:
     Given the following fixtures are loaded:
-      | LoadCauseData |
+      | LoadAdherentData      |
+      | LoadClientData        |
+      | LoadCauseData         |
 
   Scenario: As a non logged-in user I can see first page of active causes
     Given I add "Accept" header equal to "application/json"
@@ -36,7 +38,8 @@ Feature:
           "name": "Cause pour l'education",
           "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
           "uuid": "fa6bd29c-48b7-490e-90fb-48ab5fb2ddf8",
-          "image_url": "http://test.enmarche.code/assets/images/causes/532c52e162feb2f6cfae99d5ed52d41f.png"
+          "image_url": "http://test.enmarche.code/assets/images/causes/532c52e162feb2f6cfae99d5ed52d41f.png",
+          "followers_count": 0
         },
         {
           "author": {
@@ -51,7 +54,8 @@ Feature:
           "name": "Cause pour la culture",
           "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
           "uuid": "55056e7c-2b5f-4ef6-880e-cde0511f79b2",
-          "image_url": "http://test.enmarche.code/assets/images/causes/644d1c64512ab5489ab8590a3b313517.png"
+          "image_url": "http://test.enmarche.code/assets/images/causes/644d1c64512ab5489ab8590a3b313517.png",
+          "followers_count": 3
         }
       ]
     }
@@ -86,7 +90,8 @@ Feature:
                   "first_name": "Michelle",
                   "last_name_initial": "D."
               },
-              "image_url": "http://test.enmarche.code/assets/images/causes/73a6283e0b639cbeb50b9b28d401eaca.png"
+              "image_url": "http://test.enmarche.code/assets/images/causes/73a6283e0b639cbeb50b9b28d401eaca.png",
+              "followers_count": 0
           },
           {
               "name": "Cause pour la culture 3",
@@ -101,7 +106,8 @@ Feature:
                   "first_name": "Michelle",
                   "last_name_initial": "D."
               },
-              "image_url": null
+              "image_url": null,
+              "followers_count": 0
           }
       ]
     }
@@ -136,7 +142,8 @@ Feature:
                   "first_name": "Jacques",
                   "last_name_initial": "P."
               },
-              "image_url": "http://test.enmarche.code/assets/images/causes/532c52e162feb2f6cfae99d5ed52d41f.png"
+              "image_url": "http://test.enmarche.code/assets/images/causes/532c52e162feb2f6cfae99d5ed52d41f.png",
+              "followers_count": 0
           },
           {
               "name": "Cause pour la culture",
@@ -151,7 +158,8 @@ Feature:
                   "first_name": "Michelle",
                   "last_name_initial": "D."
               },
-              "image_url": "http://test.enmarche.code/assets/images/causes/644d1c64512ab5489ab8590a3b313517.png"
+              "image_url": "http://test.enmarche.code/assets/images/causes/644d1c64512ab5489ab8590a3b313517.png",
+              "followers_count": 3
           },
           {
               "name": "Cause pour la culture 2",
@@ -166,7 +174,8 @@ Feature:
                   "first_name": "Michelle",
                   "last_name_initial": "D."
               },
-              "image_url": "http://test.enmarche.code/assets/images/causes/73a6283e0b639cbeb50b9b28d401eaca.png"
+              "image_url": "http://test.enmarche.code/assets/images/causes/73a6283e0b639cbeb50b9b28d401eaca.png",
+              "followers_count": 0
           },
           {
               "name": "Cause pour la culture 3",
@@ -181,7 +190,8 @@ Feature:
                   "first_name": "Michelle",
                   "last_name_initial": "D."
               },
-              "image_url": null
+              "image_url": null,
+              "followers_count": 0
           },
           {
               "name": "Cause pour la justice",
@@ -196,7 +206,8 @@ Feature:
                   "first_name": "Jacques",
                   "last_name_initial": "P."
               },
-              "image_url": null
+              "image_url": null,
+              "followers_count": 0
           }
       ]
     }
@@ -222,7 +233,8 @@ Feature:
         "name": "Cause pour l'education",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "uuid": "fa6bd29c-48b7-490e-90fb-48ab5fb2ddf8",
-        "image_url": "http://test.enmarche.code/assets/images/causes/532c52e162feb2f6cfae99d5ed52d41f.png"
+        "image_url": "http://test.enmarche.code/assets/images/causes/532c52e162feb2f6cfae99d5ed52d41f.png",
+        "followers_count": 0
       }
     """
 
@@ -260,7 +272,8 @@ Feature:
                     "first_name": "Michelle",
                     "last_name_initial": "D."
                 },
-                "image_url": "http://test.enmarche.code/assets/images/causes/644d1c64512ab5489ab8590a3b313517.png"
+                "image_url": "http://test.enmarche.code/assets/images/causes/644d1c64512ab5489ab8590a3b313517.png",
+                "followers_count": 3
             },
             {
                 "name": "Cause pour la culture 2",
@@ -275,7 +288,8 @@ Feature:
                     "first_name": "Michelle",
                     "last_name_initial": "D."
                 },
-                "image_url": "http://test.enmarche.code/assets/images/causes/73a6283e0b639cbeb50b9b28d401eaca.png"
+                "image_url": "http://test.enmarche.code/assets/images/causes/73a6283e0b639cbeb50b9b28d401eaca.png",
+                "followers_count": 0
             }
         ]
     }
@@ -310,8 +324,84 @@ Feature:
                     "first_name": "Michelle",
                     "last_name_initial": "D."
                 },
-                "image_url": null
+                "image_url": null,
+                "followers_count": 0
             }
         ]
+    }
+    """
+
+  Scenario Outline: As a non logged-in user I can not follow/unfollow a cause
+    Given I add "Accept" header equal to "application/json"
+    When I send a "PUT" request to "<url>"
+    Then the response status code should be 401
+    Examples:
+      | url                                                               |
+      | /api/v3/causes/55056e7c-2b5f-4ef6-880e-cde0511f79b2/follow    |
+      | /api/v3/causes/55056e7c-2b5f-4ef6-880e-cde0511f79b2/unfollow  |
+
+  Scenario: As a logged-in user I can follow a cause
+    Given I add "Accept" header equal to "application/json"
+    And I send a "POST" request to "/oauth/v2/token" with parameters:
+      | key           | value                                 |
+      | client_id     | 138140b3-1dd2-11b2-ad7e-2348ad4fef66  |
+      | client_secret | Ca1#79T6s^kCxqLc9sp$WbtqdOOsdf1iQ     |
+      | grant_type    | password                              |
+      | username      | gisele-berthoux@caramail.com          |
+      | password      | secret!12345                          |
+    And I add the access token to the Authorization header
+    When I send a "PUT" request to "/api/v3/causes/55056e7c-2b5f-4ef6-880e-cde0511f79b2/follow"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the JSON should be equal to:
+    """
+    {
+        "name": "Cause pour la culture",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "coalition": {
+            "name": "Culture",
+            "uuid": "d5289058-2a35-4cf0-8f2f-a683d97d8315"
+        },
+        "uuid": "55056e7c-2b5f-4ef6-880e-cde0511f79b2",
+        "author": {
+            "uuid": "313bd28f-efc8-57c9-8ab7-2106c8be9697",
+            "first_name": "Michelle",
+            "last_name_initial": "D."
+        },
+        "image_url": "http://test.enmarche.code/assets/images/causes/644d1c64512ab5489ab8590a3b313517.png",
+        "followers_count": 4
+    }
+    """
+
+  Scenario: As a logged-in user I can unfollow a cause
+    Given I add "Accept" header equal to "application/json"
+    And I send a "POST" request to "/oauth/v2/token" with parameters:
+      | key           | value                                 |
+      | client_id     | 138140b3-1dd2-11b2-ad7e-2348ad4fef66  |
+      | client_secret | Ca1#79T6s^kCxqLc9sp$WbtqdOOsdf1iQ     |
+      | grant_type    | password                              |
+      | username      | gisele-berthoux@caramail.com          |
+      | password      | secret!12345                          |
+    And I add the access token to the Authorization header
+    When I send a "PUT" request to "/api/v3/causes/55056e7c-2b5f-4ef6-880e-cde0511f79b2/unfollow"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the JSON should be equal to:
+    """
+    {
+        "name": "Cause pour la culture",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "coalition": {
+            "name": "Culture",
+            "uuid": "d5289058-2a35-4cf0-8f2f-a683d97d8315"
+        },
+        "uuid": "55056e7c-2b5f-4ef6-880e-cde0511f79b2",
+        "author": {
+            "uuid": "313bd28f-efc8-57c9-8ab7-2106c8be9697",
+            "first_name": "Michelle",
+            "last_name_initial": "D."
+        },
+        "image_url": "http://test.enmarche.code/assets/images/causes/644d1c64512ab5489ab8590a3b313517.png",
+        "followers_count": 3
     }
     """

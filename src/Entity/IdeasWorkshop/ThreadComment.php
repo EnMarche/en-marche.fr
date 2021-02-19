@@ -56,7 +56,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *             "path": "/ideas-workshop/thread_comments/{id}/approve",
  *             "requirements": {"id": "%pattern_uuid%"},
  *             "access_control": "object.getIdeaAuthor() == user",
- *             "controller": "App\Controller\Api\IdeasWorkshop\ApproveThreadCommentController:approve",
+ *             "controller": "App\Controller\Api\IdeasWorkshop\ApproveThreadCommentController::approve",
  *             "swagger_context": {
  *                 "parameters": {
  *                     {
@@ -74,7 +74,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *             "path": "/ideas-workshop/thread_comments/{id}/disapprove",
  *             "requirements": {"id": "%pattern_uuid%"},
  *             "access_control": "object.getIdeaAuthor() == user",
- *             "controller": "App\Controller\Api\IdeasWorkshop\ApproveThreadCommentController:disapprove",
+ *             "controller": "App\Controller\Api\IdeasWorkshop\ApproveThreadCommentController::disapprove",
  *             "swagger_context": {
  *                 "parameters": {
  *                     {

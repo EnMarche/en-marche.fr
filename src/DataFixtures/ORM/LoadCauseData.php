@@ -29,6 +29,10 @@ class LoadCauseData extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        $carl = $this->getReference('adherent-2');
+        $jacques = $this->getReference('adherent-3');
+        $referent = $this->getReference('adherent-8');
+
         $causeCulture1 = $this->createCause(
             self::CAUSE_1_UUID,
             'Cause pour la culture',
@@ -37,6 +41,9 @@ class LoadCauseData extends Fixture implements DependentFixtureInterface
             $this->getReference('adherent-1'),
             true
         );
+        $causeCulture1->addFollower($jacques);
+        $causeCulture1->addFollower($carl);
+        $causeCulture1->addFollower($referent);
 
         $causeCulture2 = $this->createCause(
             self::CAUSE_2_UUID,
