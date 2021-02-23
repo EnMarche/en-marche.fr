@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 
-interface FollowedInterface extends ImageOwnerInterface
+interface FollowedInterface
 {
     public function getFollowers(): Collection;
 

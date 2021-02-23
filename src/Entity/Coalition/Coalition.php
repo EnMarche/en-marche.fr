@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ApiResource(
  *     attributes={
- *         "normalization_context": {"groups": {"coalition_read", "image_owner_exposed", "followers_count"}},
+ *         "normalization_context": {"groups": {"coalition_read", "image_owner_exposed"}},
  *         "pagination_client_items_per_page": true,
  *         "order": {"name": "ASC"}
  *     },
@@ -120,7 +120,7 @@ class Coalition implements ExposedImageOwnerInterface, FollowedInterface
     /**
      * @var Collection|Adherent[]
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Adherent")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Adherent", fetch="EXTRA_LAZY")
      * @ORM\JoinTable(
      *     name="coalition_follower",
      *     joinColumns={
@@ -216,5 +216,13 @@ class Coalition implements ExposedImageOwnerInterface, FollowedInterface
     public function removeCause(Cause $cause): void
     {
         $this->causes->removeElement($cause);
+    }
+
+    /**
+     * @SymfonySerializer\Groups({"coalition_read"})
+     */
+    public function getFollowersCount(): int
+    {
+        return $this->followers->count();
     }
 }
