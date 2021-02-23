@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 
 trait EntityFollowersTrait
 {
@@ -16,15 +17,26 @@ trait EntityFollowersTrait
         return $this->followers;
     }
 
-    public function addFollower(Adherent $follower): void
+    public function removeFollower(Adherent $adherent): void
     {
-        if (!$this->followers->contains($follower)) {
-            $this->followers->add($follower);
+        if ($follower = $this->getFollower($adherent)) {
+            $this->followers->removeElement($follower);
         }
     }
 
-    public function removeFollower(Adherent $follower): void
+    public function hasFollower(Adherent $adherent): bool
     {
-        $this->followers->removeElement($follower);
+        return (bool) $this->getFollower($adherent);
+    }
+
+    public function getFollower(Adherent $adherent): ?FollowerInterface
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('adherent', $adherent))
+        ;
+
+        return $this->followers->matching($criteria)->count() > 0
+            ? $this->followers->matching($criteria)->first()
+            : null;
     }
 }

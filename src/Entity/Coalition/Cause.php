@@ -109,18 +109,9 @@ class Cause implements ExposedImageOwnerInterface, AuthoredInterface, FollowedIn
     private $description;
 
     /**
-     * @var Collection|Adherent[]
+     * @var Collection|CauseFollower[]
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Adherent", fetch="EXTRA_LAZY")
-     * @ORM\JoinTable(
-     *     name="cause_follower",
-     *     joinColumns={
-     *         @ORM\JoinColumn(name="cause_id", referencedColumnName="id", onDelete="CASCADE")
-     *     },
-     *     inverseJoinColumns={
-     *         @ORM\JoinColumn(name="adherent_id", referencedColumnName="id", onDelete="CASCADE")
-     *     }
-     * )
+     * @ORM\OneToMany(targetEntity="App\Entity\Coalition\CauseFollower", mappedBy="cause", fetch="EXTRA_LAZY", cascade={"all"})
      */
     private $followers;
 
@@ -183,6 +174,14 @@ class Cause implements ExposedImageOwnerInterface, AuthoredInterface, FollowedIn
     public function setCoalition(Coalition $coalition): void
     {
         $this->coalition = $coalition;
+    }
+
+    public function addFollower(Adherent $adherent): void
+    {
+        if (!$this->hasFollower($adherent)) {
+            $follower = new CauseFollower($this, $adherent);
+            $this->followers->add($follower);
+        }
     }
 
     /**
