@@ -18,7 +18,8 @@ class CandidacyInvitation extends BaseCandidacyInvitation
     /**
      * @var Candidacy
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\TerritorialCouncil\Candidacy", mappedBy="invitation", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\TerritorialCouncil\Candidacy", inversedBy="invitations")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $candidacy;
 

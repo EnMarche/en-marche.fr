@@ -7,6 +7,7 @@ use App\Entity\VotingPlatform\Designation\BaseCandidacy;
 use App\Entity\VotingPlatform\Designation\CandidacyInterface;
 use App\Entity\VotingPlatform\Designation\ElectionEntityInterface;
 use App\VotingPlatform\Designation\DesignationTypeEnum;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -42,14 +43,13 @@ class CommitteeCandidacy extends BaseCandidacy
     private $type;
 
     /**
-     * @var CommitteeCandidacyInvitation|null
+     * @var CommitteeCandidacyInvitation[]|Collection
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\CommitteeCandidacyInvitation", inversedBy="candidacy", cascade={"all"})
-     * @ORM\JoinColumn(onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity="App\Entity\CommitteeCandidacyInvitation", mappedBy="candidacy", cascade={"all"})
      *
      * @Assert\Valid(groups={"invitation_edit"})
      */
-    protected $invitation;
+    protected $invitations;
 
     /**
      * @var Candidacy|null
@@ -118,7 +118,7 @@ class CommitteeCandidacy extends BaseCandidacy
     public function isValidForConfirmation(): bool
     {
         return DesignationTypeEnum::COMMITTEE_SUPERVISOR !== $this->type
-            || ($this->binome && $this->binome->getInvitation() && $this->binome->isDraft())
+            || ($this->binome && $this->binome->hasInvitation() && $this->binome->isDraft())
         ;
     }
 

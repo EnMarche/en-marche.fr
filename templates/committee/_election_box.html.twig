@@ -88,7 +88,7 @@
                             {% if candidacy.hasPendingInvitation %}
                                 <p class="font-roboto text--bold b__nudge--bottom-large b__nudge--top-large elections-icon-container">
                                     <img class="elections-icon" src="{{ asset('images/icons/election-box/icn_on-waiting.svg') }}" alt="waiting-logo" />
-                                    {{ candidacy.invitation.membership.fullName }} doit accepter votre demande pour que votre candidature soit confirmée
+                                    {{ candidacy.getFirstInvitation().membership.fullName }} doit accepter votre demande pour que votre candidature soit confirmée
                                 </p>
 
                                 <a href="{{ path('app_committee_candidature_select_pair_candidate', {slug: committee.slug}) }}" class="btn btn--ghosting--pink btn--no-wrap b__nudge--right box-el">Modifier ma demande de binôme</a>

@@ -1,29 +1,46 @@
+{% set designation = election.getDesignation() %}
+
+{% if designation.type == constant('App\\VotingPlatform\\Designation\\DesignationTypeEnum::COPOL') %}
+    {% set instance_title = 'Conseil territorial' %}
+    {% set candidate_button_label = 'Je candidate en binôme' %}
+{% else %}
+    {% set instance_title = 'Conseil national' %}
+    {% set candidate_button_label = 'Je candidate en trinôme' %}
+{% endif %}
+
 <section class="instance__elections-box b__nudge--bottom-larger">
     <div class="l__row">
-        <h2 class="text--medium box-el">Désignation des binômes paritaires siégeant au Comité politique</h2>
+        <h2 class="text--medium box-el">{{ designation.getTitle() }}</h2>
     </div>
 
-    <div class="text--body text--dark b__nudge--top b__nudge--bottom-large instance__elections-box--text">
-        La désignation des 5 binômes paritaires siégeant au comité politique aura lieu lors du premier Conseil territorial.
-        Tous les animateurs locaux, adhérents désignés au sein des comités locaux, conseillers municipaux, départementaux et
-        régionaux peuvent candidater avec un binôme paritaire de leur choix qui siège au Conseil territorial avec la même qualité.
-    </div>
+    {% if designation.type == constant('App\\VotingPlatform\\Designation\\DesignationTypeEnum::COPOL') %}
+        <div class="text--body text--dark b__nudge--top b__nudge--bottom-large instance__elections-box--text">
+            La désignation des 5 binômes paritaires siégeant au comité politique aura lieu lors du premier Conseil territorial.
+            Tous les animateurs locaux, adhérents désignés au sein des comités locaux, conseillers municipaux, départementaux et
+            régionaux peuvent candidater avec un binôme paritaire de leur choix qui siège au Conseil territorial avec la même qualité.
+        </div>
+    {% else %}
+        <div class="text--body text--dark b__nudge--top b__nudge--bottom-large instance__elections-box--text">
+            La désignation ...
+        </div>
+    {% endif %}
 
-    <p class="text--body text--bold b__nudge--bottom-large b__nudge--top-0">
-        {% if election.voteStartDate is null %}
-            La date du Conseil territorial n'a pas encore été fixée par votre référent
+    {% if election.voteStartDate is null %}
+        <p class="text--body text--bold b__nudge--bottom-large b__nudge--top-0">
+            La date du {{ instance_title }} n'a pas encore été fixée par votre référent
+        </p>
+    {% else %}
+        <p class="text--body b__nudge--bottom-large b__nudge--top-0">
+        {% if election.isOnlineMode %}
+            Le {{ instance_title }} se tiendra en ligne du <span class="text--bold">{{ election.meetingStartDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }}</span> au
+            <span class="text--bold">{{ election.meetingEndDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }}</span>. <a href="{{ election.meetingUrl }}" class="link--no-decor text--blue--dark text--normal" target="_blank">Rejoindre la réunion</a>.
         {% else %}
-            {% if election.isOnlineMode %}
-                Le Conseil territorial se tiendra en ligne du {{ election.meetingStartDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }} au
-                {{ election.meetingEndDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }}. <a href="{{ election.meetingUrl }}" class="link--no-decor text--blue--dark text--normal" target="_blank">Rejoindre la réunion</a>.
-            {% else %}
-                Le Conseil territorial se tiendra le {{ election.meetingStartDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }} au
-                <a href="https://www.google.fr/maps/place/'{{ election.address }},+{{ election.postalCode }}+{{ election.cityName }}'" class="link--no-decor text--blue--dark text--normal">{{ election.inlineFormattedAddress }}</a>.
-            {% endif %}
-
-            Le vote sera ouvert du {{ election.voteStartDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }} au {{ election.voteEndDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }}.
+            Le Conseil territorial se tiendra le <span class="text--bold">{{ election.meetingStartDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }}</span> au
+            <a href="https://www.google.fr/maps/place/'{{ election.address }},+{{ election.postalCode }}+{{ election.cityName }}'" class="link--no-decor text--blue--dark text--normal">{{ election.inlineFormattedAddress }}</a>.
         {% endif %}
-    </p>
+
+        Le vote sera ouvert du <span class="text--bold">{{ election.voteStartDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }}</span> au <span class="text--bold">{{ election.voteEndDate|localizeddate('none', 'none', 'fr_FR', null, "dd/MM/y à HH'h'mm") }}</span>.
+    {% endif %}
 
     <hr/>
 
@@ -36,7 +53,7 @@
                     {% if candidacy.isConfirmed %}
                         {% if candidacy.binome %}
                             <p class="font-roboto text--bold b__nudge--bottom-large b__nudge--top-large elections-icon-container">
-                                <img class="elections-icon" src="{{ asset('images/icons/election-box/icn_confirmed.svg') }}" />
+                                <img class="elections-icon" src="{{ asset('images/icons/election-box/icn_confirmed.svg') }}" alt="elections-icon"/>
                                 Vous êtes maintenant candidat{{ candidacy.isFemale ? 'e' }} en binôme avec {{ candidacy.binome.membership.fullName }}.<br />
                                 Vous ne pouvez plus retirer votre candidature.
                             </p>
@@ -51,7 +68,7 @@
                     {% elseif candidacy.hasPendingInvitation %}
                         <p class="font-roboto text--bold b__nudge--bottom-large b__nudge--top-large elections-icon-container">
                             <img class="elections-icon" src="{{ asset('images/icons/election-box/icn_on-waiting.svg') }}" />
-                            {{ candidacy.invitation.membership.fullName }} doit accepter votre demande pour que votre candidature soit confirmée
+                            {{ candidacy.getFirstInvitation().membership.fullName }} doit accepter votre demande pour que votre candidature soit confirmée
                         </p>
 
                         <a href="{{ path('app_territorial_council_candidature_select_pair_candidate') }}" class="btn btn--ghosting--pink btn--no-wrap b__nudge--right box-el">Modifier ma demande de binôme</a>
@@ -64,7 +81,7 @@
                     {% if app.user.isOtherGender() %}
                         <a href="#" class="btn btn--pink b__nudge--right btn--no-wrap box-el em-modal--trigger"
                            data-content-element="#candidacy-gender-choice-content"
-                        >Je candidate en binôme</a>
+                        >{{ candidate_button_label }}</a>
 
                         <div class="hidden" id="candidacy-gender-choice-content">
                             <div class="text--center font-roboto">
@@ -79,11 +96,11 @@
                             </div>
                         </div>
                     {% else %}
-                        <a href="{{ path('app_territorial_council_candidature_edit') }}" class="btn btn--pink b__nudge--right btn--no-wrap box-el">Je candidate en binôme</a>
+                        <a href="{{ path('app_territorial_council_candidature_edit') }}" class="btn btn--pink b__nudge--right btn--no-wrap box-el">{{ candidate_button_label }}</a>
                     {% endif %}
                 {% endif %}
             {% else %}
-                <span class="btn btn--ghosting--pink btn--no-wrap box-el b__nudge--right btn--disabled">Je candidate en binôme</span>
+                <span class="btn btn--ghosting--pink btn--no-wrap box-el b__nudge--right btn--disabled">{{ candidate_button_label }}</span>
             {% endif %}
         {% elseif not election.isVotePeriodStarted %}
             <div class="em-countdown-clock l__col--full" data-event-timestamp="{{ election.voteStartDate.timestamp }}" data-now-timestamp="{{ date().timestamp }}">

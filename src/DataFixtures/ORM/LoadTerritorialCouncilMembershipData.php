@@ -89,6 +89,22 @@ class LoadTerritorialCouncilMembershipData extends Fixture implements DependentF
         $membership->addQuality(new TerritorialCouncilQuality(TerritorialCouncilQualityEnum::CITY_COUNCILOR, 'Chatillon'));
         $manager->persist($membership);
 
+        /** @var TerritorialCouncil $coTerr59 */
+        $coTerr59 = $this->getReference('coTerr_59');
+
+        for ($i = 30; $i <= 40; ++$i) {
+            $manager->persist($membership = new TerritorialCouncilMembership($coTerr59, $this->getReference('adherent-'.$i), new \DateTime(sprintf('- %d days', $i))));
+
+            if (0 === $i % 4) {
+                $membership->addQuality(new TerritorialCouncilQuality(TerritorialCouncilQualityEnum::CITY_COUNCILOR, 'Lille'));
+                $membership->addQuality(new TerritorialCouncilQuality(TerritorialCouncilQualityEnum::REGIONAL_COUNCILOR, 'Nord'));
+            } elseif (0 === $i % 3) {
+                $membership->addQuality(new TerritorialCouncilQuality(TerritorialCouncilQualityEnum::ELECTED_CANDIDATE_ADHERENT, 'Lille'));
+            } elseif (0 === $i % 2) {
+                $membership->addQuality(new TerritorialCouncilQuality(TerritorialCouncilQualityEnum::COMMITTEE_SUPERVISOR, 'Comité de Lille'));
+            }
+        }
+
         $manager->flush();
     }
 

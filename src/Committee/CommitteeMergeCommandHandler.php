@@ -227,7 +227,7 @@ class CommitteeMergeCommandHandler
 
                     /** @var CommitteeCandidacyInvitation $invitation */
                     if (
-                        ($invitation = $candidacy->getInvitation())
+                        ($invitation = $candidacy->getFirstInvitation())
                         && ($newInvitedMembership = $invitation->getMembership()->getAdherent()->getMembershipFor($destinationCommittee))
                     ) {
                         $invitation->setMembership($newInvitedMembership);

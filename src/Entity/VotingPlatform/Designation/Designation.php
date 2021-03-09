@@ -337,7 +337,7 @@ class Designation
 
         return
             ($this->isCommitteeType() && !empty($this->zones))
-            || (DesignationTypeEnum::COPOL === $this->type && !$this->referentTags->isEmpty())
+            || ($this->isCopolType() && !$this->referentTags->isEmpty())
         ;
     }
 
@@ -409,6 +409,11 @@ class Designation
     public function isCommitteeType(): bool
     {
         return \in_array($this->type, [DesignationTypeEnum::COMMITTEE_ADHERENT, DesignationTypeEnum::COMMITTEE_SUPERVISOR], true);
+    }
+
+    public function isCopolType(): bool
+    {
+        return \in_array($this->type, [DesignationTypeEnum::COPOL, DesignationTypeEnum::NATIONAL_COUNCIL], true);
     }
 
     public function isBinomeDesignation(): bool

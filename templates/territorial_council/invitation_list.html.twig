@@ -16,7 +16,7 @@
             <div class="b__nudge--top-40 b__nudge--bottom-huge">
                 {% if candidacy %}
                     {% if candidacy.hasPendingInvitation %}
-                        {% set adherent = candidacy.invitation.membership.adherent %}
+                        {% set adherent = candidacy.getFirstInvitation().membership.adherent %}
 
                         <p class="text--body text--dark b__nudge--bottom-60">
                             {{ adherent.fullName }} a bien reçu votre demande de binôme,

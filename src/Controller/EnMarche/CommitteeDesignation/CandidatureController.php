@@ -147,11 +147,13 @@ class CandidatureController extends AbstractController
         $this->denyAccessUnlessGranted(CommitteeElectionVoter::PERMISSION_ABLE_TO_CANDIDATE, $committee);
 
         if ($candidacy->hasInvitation()) {
-            if ($candidacy->getInvitation()->isAccepted()) {
+            $invitation = $candidacy->getFirstInvitation();
+
+            if ($invitation->isAccepted()) {
                 return $this->redirectToRoute('app_committee_show', ['slug' => $committee->getSlug()]);
             }
 
-            $previouslyInvitedMembership = $candidacy->getInvitation()->getMembership();
+            $previouslyInvitedMembership = $invitation->getMembership();
         }
 
         $form = $this
@@ -161,7 +163,7 @@ class CandidatureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->candidatureManager->updateInvitation(
-                $candidacy->getInvitation(),
+                $candidacy->getFirstInvitation(),
                 $candidacy,
                 $previouslyInvitedMembership ?? null
             );
@@ -173,7 +175,7 @@ class CandidatureController extends AbstractController
 
         return $this->render('committee/candidacy/candidacy_invitation.html.twig', [
             'form' => $form->createView(),
-            'invitation' => $candidacy->getInvitation(),
+            'invitation' => $candidacy->getFirstInvitation(),
             'committee' => $committee,
         ]);
     }
@@ -189,7 +191,7 @@ class CandidatureController extends AbstractController
             return $this->redirectToRoute('app_committee_show', ['slug' => $committee->getSlug()]);
         }
 
-        if (!($candidacy = $this->candidatureManager->getCandidacy($adherent, $committee)) || !($invitation = $candidacy->getInvitation())) {
+        if (!($candidacy = $this->candidatureManager->getCandidacy($adherent, $committee)) || !($invitation = $candidacy->getFirstInvitation())) {
             return $this->redirectToRoute('app_committee_show', ['slug' => $committee->getSlug()]);
         }
 

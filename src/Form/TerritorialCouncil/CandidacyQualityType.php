@@ -22,14 +22,14 @@ class CandidacyQualityType extends AbstractType
                     return 'territorial_council.membership.quality.'.$choice;
                 },
             ])
-            ->add('invitation', CandidacyInvitationType::class)
+            ->add('invitations', CandidacyInvitationType::class)
             ->add('save', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /** @var Candidacy $model */
                 $model = $event->getData();
 
-                if (!$model->getInvitation()->getMembership() && $model->isCouncilor()) {
-                    $model->setInvitation(null);
+                if (($invitation = $model->getFirstInvitation()) && !$invitation->getMembership() && $model->isCouncilor()) {
+                    $model->removeInvitation($invitation);
                 }
             })
         ;

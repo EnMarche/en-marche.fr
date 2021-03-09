@@ -22,7 +22,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class CloseElectionCommand extends Command
 {
-    protected static $defaultName = 'app:voting-platform:close-election';
+    protected static $defaultName = 'app:voting-platform:step-3:close-election';
 
     /** @var SymfonyStyle */
     private $io;
@@ -43,7 +43,7 @@ class CloseElectionCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Voting Platform: close election');
+        $this->setDescription('Voting Platform: step 3: close election');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)

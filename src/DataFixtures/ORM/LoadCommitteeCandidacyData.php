@@ -132,7 +132,7 @@ class LoadCommitteeCandidacyData extends Fixture implements DependentFixtureInte
 
                 /** @var Adherent $invited */
                 $invited = $this->getReference($row['binome']);
-                $candidacy->setInvitation($invitation = new CommitteeCandidacyInvitation());
+                $candidacy->addInvitation($invitation = new CommitteeCandidacyInvitation());
                 $invitation->setMembership($invited->getMembershipFor($committee));
 
                 if (!empty($row['confirmed'])) {

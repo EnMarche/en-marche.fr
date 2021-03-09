@@ -148,11 +148,13 @@ class CandidatureController extends AbstractController
         }
 
         if ($candidacy->hasInvitation()) {
-            if ($candidacy->getInvitation()->isAccepted()) {
+            $invitation = $candidacy->getFirstInvitation();
+
+            if ($invitation->isAccepted()) {
                 return $this->redirectToRoute('app_territorial_council_index');
             }
 
-            $previouslyInvitedMembership = $candidacy->getInvitation()->getMembership();
+            $previouslyInvitedMembership = $invitation->getMembership();
         }
 
         $form = $this
@@ -165,7 +167,7 @@ class CandidatureController extends AbstractController
         ;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($invitation = $candidacy->getInvitation()) {
+            if ($invitation = $candidacy->getFirstInvitation()) {
                 $this->manager->updateInvitation($invitation, $candidacy, $previouslyInvitedMembership ?? null);
 
                 $this->addFlash('info', 'Votre invitation a bien été envoyée');
@@ -182,7 +184,7 @@ class CandidatureController extends AbstractController
 
         return $this->render('territorial_council/candidacy_step2_invitation.html.twig', [
             'form' => $form->createView(),
-            'invitation' => $candidacy->getInvitation(),
+            'invitation' => $candidacy->getFirstInvitation(),
         ]);
     }
 
@@ -201,7 +203,7 @@ class CandidatureController extends AbstractController
             return $this->redirectToRoute('app_territorial_council_index');
         }
 
-        if (!($candidacy = $membership->getCandidacyForElection($election)) || !($invitation = $candidacy->getInvitation())) {
+        if (!($candidacy = $membership->getCandidacyForElection($election)) || !($invitation = $candidacy->getFirstInvitation())) {
             return $this->redirectToRoute('app_territorial_council_candidature_edit');
         }
 

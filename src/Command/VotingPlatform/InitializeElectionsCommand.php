@@ -10,7 +10,6 @@ use App\Entity\VotingPlatform\Designation\Designation;
 use App\Repository\CommitteeRepository;
 use App\Repository\TerritorialCouncil\TerritorialCouncilRepository;
 use App\Repository\VotingPlatform\DesignationRepository;
-use App\VotingPlatform\Designation\DesignationTypeEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -53,7 +52,7 @@ class InitializeElectionsCommand extends Command
         foreach ($designations as $designation) {
             if ($designation->isCommitteeType()) {
                 $this->configureCommitteeElections($designation);
-            } elseif (DesignationTypeEnum::COPOL === $designation->getType()) {
+            } elseif ($designation->isCopolType()) {
                 $this->configureTerritorialCouncilElections($designation);
             } else {
                 $this->io->error(sprintf('Unhandled designation type "%s"', $designation->getType()));
@@ -61,6 +60,8 @@ class InitializeElectionsCommand extends Command
         }
 
         $this->io->progressFinish();
+
+        return 0;
     }
 
     private function configureCommitteeElections(Designation $designation): void

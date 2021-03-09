@@ -911,6 +911,7 @@ adherent_certification_history.action.uncertify: Annulation de certification
 voting_platform.designation.type_committee_adherent: Comités-Adhérents
 voting_platform.designation.type_committee_supervisor: Comités-Animateurs
 voting_platform.designation.type_copol: Comité politique
+voting_platform.designation.type_copol_trinom: Comité national
 voting_platform.designation.zone_fr: France
 voting_platform.designation.zone_fde: FDE
 voting_platform.designation.zone_outre_mer: Outre-Mer

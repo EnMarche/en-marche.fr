@@ -24,6 +24,11 @@ class LoadTerritorialCouncilElectionData extends Fixture implements DependentFix
         $coTerr->setCurrentElection($election = new Election($this->getReference('designation-7')));
         $election->setElectionMode(DesignationVoteModeEnum::VOTE_MODE_ONLINE);
 
+        /** @var TerritorialCouncil $coTerr */
+        $coTerr = $this->getReference('coTerr_59');
+        $coTerr->setCurrentElection($election = new Election($this->getReference('designation-10')));
+        $election->setElectionMode(DesignationVoteModeEnum::VOTE_MODE_ONLINE);
+
         $manager->flush();
     }
 

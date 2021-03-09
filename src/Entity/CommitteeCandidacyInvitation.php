@@ -14,7 +14,8 @@ class CommitteeCandidacyInvitation extends BaseCandidacyInvitation
     /**
      * @var CommitteeCandidacy
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\CommitteeCandidacy", mappedBy="invitation", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\CommitteeCandidacy", inversedBy="invitations")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $candidacy;
 

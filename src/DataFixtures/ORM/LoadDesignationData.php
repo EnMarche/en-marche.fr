@@ -121,6 +121,19 @@ class LoadDesignationData extends Fixture implements DependentFixtureInterface
         $this->setReference('designation-9', $designation);
         $manager->persist($designation);
 
+        // NATIONAL_COUNCIL designation with started candidature period
+        $designation = new Designation('Désignation Conseil national avec les candidatures');
+        $designation->setType(DesignationTypeEnum::NATIONAL_COUNCIL);
+        $designation->addReferentTag($this->getReference('referent_tag_59'));
+        $designation->setCandidacyStartDate(new \DateTime('-1 month'));
+//        $designation->setCandidacyEndDate(new \DateTime('-2 hours'));
+//        $designation->setVoteStartDate(new \DateTime('-1 hour'));
+//        $designation->setVoteEndDate(new \DateTime('+4 week'));
+//        $designation->markAsLimited();
+
+        $this->setReference('designation-10', $designation);
+        $manager->persist($designation);
+
         $manager->flush();
     }
 

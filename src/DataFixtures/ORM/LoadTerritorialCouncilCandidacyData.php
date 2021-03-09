@@ -45,8 +45,10 @@ class LoadTerritorialCouncilCandidacyData extends Fixture implements DependentFi
             TerritorialCouncilQualityEnum::DEPARTMENT_COUNCILOR,
             __DIR__.'/../../../app/data/dist/avatar_homme_01.jpg'
         );
-        $invitation = $candidacy->getInvitation();
-        $invitation->accept();
+
+        foreach ($candidacy->getInvitations() as $invitation) {
+            $invitation->accept();
+        }
 
         $invitedCandidate = $this->createCandidacy(
             $manager,
@@ -76,8 +78,10 @@ class LoadTerritorialCouncilCandidacyData extends Fixture implements DependentFi
             TerritorialCouncilQualityEnum::DEPARTMENT_COUNCILOR,
             __DIR__.'/../../../app/data/dist/avatar_femme_01.jpg'
         );
-        $invitation = $candidacy->getInvitation();
-        $invitation->accept();
+
+        foreach ($candidacy->getInvitations() as $invitation) {
+            $invitation->accept();
+        }
 
         $invitedCandidate = $this->createCandidacy(
             $manager,
@@ -133,7 +137,7 @@ class LoadTerritorialCouncilCandidacyData extends Fixture implements DependentFi
          ));
 
         if ($invited) {
-            $candidacy->setInvitation($invitation = new CandidacyInvitation());
+            $candidacy->addInvitation($invitation = new CandidacyInvitation());
             $invitation->setMembership($invited->getTerritorialCouncilMembership());
         }
 

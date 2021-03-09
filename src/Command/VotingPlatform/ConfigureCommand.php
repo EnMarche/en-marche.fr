@@ -36,7 +36,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ConfigureCommand extends Command
 {
-    protected static $defaultName = 'app:voting-platform:configure';
+    protected static $defaultName = 'app:voting-platform:step-2:configure';
 
     /** @var DesignationRepository */
     private $designationRepository;
@@ -64,7 +64,7 @@ class ConfigureCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Configure Voting Platform: create Election and voters/candidates lists')
+            ->setDescription('Voting Platform: step 2: create Election and voters/candidates lists')
             ->addOption('interval', null, InputOption::VALUE_REQUIRED, 'Interval in minutes for designation selection (1 min by default)', 1)
         ;
     }

@@ -6,6 +6,8 @@ use App\Entity\AlgoliaIndexedEntityInterface;
 use App\Entity\EntityTimestampableTrait;
 use App\Entity\ImageTrait;
 use App\ValueObject\Genders;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -82,9 +84,9 @@ abstract class BaseCandidacy implements CandidacyInterface, AlgoliaIndexedEntity
     private $removeImage = false;
 
     /**
-     * @var CandidacyInvitationInterface|null
+     * @var CandidacyInvitationInterface[]|Collection
      */
-    protected $invitation;
+    protected $invitations;
 
     /**
      * @var CandidacyInterface|null
@@ -102,6 +104,8 @@ abstract class BaseCandidacy implements CandidacyInterface, AlgoliaIndexedEntity
     {
         $this->uuid = $uuid ?? Uuid::uuid4();
         $this->gender = $gender;
+
+        $this->invitations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,26 +228,44 @@ abstract class BaseCandidacy implements CandidacyInterface, AlgoliaIndexedEntity
 
     public function hasInvitation(): bool
     {
-        return null !== $this->invitation;
+        return !$this->invitations->isEmpty();
     }
 
     public function hasPendingInvitation(): bool
     {
-        return null !== $this->invitation && $this->invitation->isPending();
-    }
-
-    public function getInvitation(): ?CandidacyInvitationInterface
-    {
-        return $this->invitation;
-    }
-
-    public function setInvitation(?CandidacyInvitationInterface $invitation): void
-    {
-        $this->invitation = $invitation;
-
-        if ($invitation) {
-            $invitation->setCandidacy($this);
+        foreach ($this->invitations as $invitation) {
+            if ($invitation->isPending()) {
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    public function getFirstInvitation(): ?CandidacyInvitationInterface
+    {
+        return !$this->invitations->isEmpty() ? $this->invitations->first() : null;
+    }
+
+    /**
+     * @return CandidacyInvitationInterface[]
+     */
+    public function getInvitations(): array
+    {
+        return $this->invitations->toArray();
+    }
+
+    public function addInvitation(CandidacyInvitationInterface $invitation): void
+    {
+        if (!$this->invitations->contains($invitation)) {
+            $invitation->setCandidacy($this);
+            $this->invitations->add($invitation);
+        }
+    }
+
+    public function removeInvitation(CandidacyInvitationInterface $invitation): void
+    {
+        $this->invitations->removeElement($invitation);
     }
 
     public function getBinome(): ?CandidacyInterface
