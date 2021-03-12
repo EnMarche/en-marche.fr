@@ -24,6 +24,10 @@ class CandidatureVoter extends Voter
             return false;
         }
 
+        if (!$membership->getAvailableForCandidacyQualityNames()) {
+            return false;
+        }
+
         if ($membership->hasForbiddenForCandidacyQuality()) {
             return false;
         }

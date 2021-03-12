@@ -7,10 +7,7 @@ use App\Form\DoubleNewlineTextareaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -40,23 +37,6 @@ class TerritorialCouncilCandidacyType extends AbstractType
                 'required' => false,
             ])
         ;
-
-        if ($options['with_accept']) {
-            $builder
-                ->add('accept', CheckboxType::class, [
-                    'constraints' => [new IsTrue(['message' => 'Vous devez cocher la case pour continuer'])],
-                    'mapped' => false,
-                    'required' => true,
-                ])
-                ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-                    $candidacy = $event->getData();
-                    // Pre check `Accept` checkbox if update of candidature
-                    if ($candidacy instanceof Candidacy && $candidacy->getId()) {
-                        $event->getForm()->get('accept')->setData(true);
-                    }
-                })
-            ;
-        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -64,10 +44,7 @@ class TerritorialCouncilCandidacyType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => Candidacy::class,
-                'with_accept' => true,
             ])
-            ->setDefined('with_accept')
-            ->setAllowedTypes('with_accept', ['bool'])
         ;
     }
 }

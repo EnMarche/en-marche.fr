@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Loader from './Loader';
 import ReqwestApiClient from '../services/api/ReqwestApiClient';
 
-export default class TerritorialCouncilCandidacyWidget extends React.Component {
+export default class NationalCouncilCandidacyWidget extends React.Component {
     constructor(props) {
         super(props);
 
@@ -41,20 +41,8 @@ export default class TerritorialCouncilCandidacyWidget extends React.Component {
             content = <p className={'text--body text--gray text--small text--center'}>
                 {this.state.error}
             </p>;
-            if (
-                this.state.success
-                && 0 === this.state.memberships.length
-                && (
-                    -1 !== ['department_councilor', 'regional_councilor'].indexOf(this.state.quality)
-                    || ('city_councilor' === this.state.quality
-                        && 0 === this.state.quality_zones[this.state.quality].indexOf('Paris '))
-                )
-            ) {
-                this.submitButton.innerText = 'Candidater seul à titre dérogatoire';
-                show(this.submitButton);
-            } else {
-                hide(this.submitButton);
-            }
+
+            hide(this.submitButton);
         } else {
             show(this.submitButton);
 
@@ -164,7 +152,7 @@ export default class TerritorialCouncilCandidacyWidget extends React.Component {
     }
 }
 
-TerritorialCouncilCandidacyWidget.propTypes = {
+NationalCouncilCandidacyWidget.propTypes = {
     api: PropTypes.instanceOf(ReqwestApiClient).isRequired,
     qualityFieldSelector: PropTypes.string.isRequired,
     submitButtonSelector: PropTypes.string.isRequired,

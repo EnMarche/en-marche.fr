@@ -11,6 +11,18 @@
 {% block territorial_council_content %}
     {% set election = territorial_council.currentElection %}
 
+    {% if election.getDesignationType() == constant('App\\VotingPlatform\\Designation\\DesignationTypeEnum::COPOL') %}
+        {% set button_label = 'binôme' %}
+        {% set projet_help = 'Rédigez votre projet avec votre binôme pour motiver votre candidature. Ce texte, éditable par les deux membres,
+                ne sera visible par l\'ensemble des membres du Conseil territorial qu\'une fois la case « Publier notre projet »
+                cochée ou les candidatures closes.' %}
+    {% else %}
+        {% set button_label = 'trinôme' %}
+        {% set projet_help = 'Rédigez votre projet avec votre trinôme pour motiver votre candidature. Ce texte, éditable par les trois membres,
+                ne sera visible par l\'ensemble des membres du Conseil territorial qu\'une fois la case « Publier notre projet »
+                cochée ou les candidatures closes.' %}
+    {% endif %}
+
     <div class="territorial-council l__wrapper b__nudge--bottom-huge">
         <div>
             <a href="{{ path('app_territorial_council_index') }}" class="text--body link--no-decor link--blue--dark">⟵ Retour</a>
@@ -21,7 +33,7 @@
 
             <p class="text--body text--dark b__nudge--bottom-50">
                 Ajoutez une photo de vous et un texte de présentation à votre candidature. Ces informations ne
-                seront visibles que lorsque votre binôme sera constitué et resteront modifiables jusqu'à la
+                seront visibles que lorsque votre {{ button_label }} sera constitué et resteront modifiables jusqu'à la
                 clôture des candidatures.
             </p>
 
@@ -84,11 +96,7 @@
 
             <h2 class="font-roboto text--medium b__nudge--bottom-large b__nudge--top-50">Notre projet</h2>
 
-            <p class="text--body text--dark b__nudge--bottom-50">
-                Rédigez votre projet avec votre binôme pour motiver votre candidature. Ce texte, éditable par les deux membres,
-                ne sera visible par l'ensemble des membres du Conseil territorial qu'une fois la case « Publier notre projet »
-                cochée ou les candidatures closes.
-            </p>
+            <p class="text--body text--dark b__nudge--bottom-50">{{ projet_help }}</p>
 
             <div class="em-form__group">
                 {{ form_errors(form.faithStatement) }}
@@ -106,20 +114,8 @@
                 </div>
             </div>
 
-            {% if form.accept is defined %}
-                <div class="em-form__group">
-                    {{ form_errors(form.accept) }}
-
-                    <div class="form__checkbox">
-                        {{ form_widget(form.accept) }}
-
-                        <label class="form form__label" for="{{ form.accept.vars.id }}">Je m’engage à remettre au conseil territorial mon mandat au sein du comité politique territorial dans le mois suivant la proclamation des résultats des élections des animateurs locaux, conseillers – Départementaux / Régionaux – afin de permettre au Conseil d’organiser des élections intégrant les nouveaux élus.</label>
-                    </div>
-                </div>
-            {% endif %}
-
             <div>
-                {{ form_row(form.save, {label: invitation is defined ? 'Accepter et enregistrer' : (candidacy and (candidacy.hasInvitation or candidacy.isConfirmed) ? 'Enregistrer' : 'Enregistrer et choisir mon binôme'), attr: {class: 'btn btn--blue btn--large-and-full b__nudge--top-15'}}) }}
+                {{ form_row(form.save, {label: invitation is defined ? 'Accepter et enregistrer' : (candidacy and (candidacy.hasInvitation or candidacy.isConfirmed) ? 'Enregistrer' : 'Enregistrer et choisir mon ' ~ button_label), attr: {class: 'btn btn--blue btn--large-and-full b__nudge--top-15'}}) }}
             </div>
 
             {{ form_end(form) }}

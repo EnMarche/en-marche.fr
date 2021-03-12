@@ -5,6 +5,7 @@ namespace App\Form\TerritorialCouncil;
 use App\Entity\TerritorialCouncil\Candidacy;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -22,7 +23,9 @@ class CandidacyQualityType extends AbstractType
                     return 'territorial_council.membership.quality.'.$choice;
                 },
             ])
-            ->add('invitations', CandidacyInvitationType::class)
+            ->add('invitations', CollectionType::class, [
+                'entry_type' => CandidacyInvitationType::class,
+            ])
             ->add('save', SubmitType::class)
             ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /** @var Candidacy $model */

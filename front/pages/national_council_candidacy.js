@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import TerritorialCouncilCandidacyWidget from '../components/TerritorialCouncilCandidacyWidget';
+import NationalCouncilCandidacyWidget from '../components/NationalCouncilCandidacyWidget';
 
 export default (api, qualityFieldSelector, submitButtonSelector, wrapperSelector) => {
     render(
-        <TerritorialCouncilCandidacyWidget
+        <NationalCouncilCandidacyWidget
             api={api}
             qualityFieldSelector={qualityFieldSelector}
             submitButtonSelector={submitButtonSelector}

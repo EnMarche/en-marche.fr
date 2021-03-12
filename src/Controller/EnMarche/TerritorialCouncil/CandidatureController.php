@@ -70,15 +70,7 @@ class CandidatureController extends AbstractController
         }
 
         $form = $this
-            ->createForm(
-                TerritorialCouncilCandidacyType::class,
-                $candidacy,
-                [
-                    'with_accept' => !$membership->containsQualities(
-                        [TerritorialCouncilQualityEnum::ELECTED_CANDIDATE_ADHERENT, TerritorialCouncilQualityEnum::CITY_COUNCILOR]
-                    ),
-                ]
-            )
+            ->createForm(TerritorialCouncilCandidacyType::class, $candidacy)
             ->handleRequest($request)
         ;
 
@@ -185,6 +177,7 @@ class CandidatureController extends AbstractController
         return $this->render('territorial_council/candidacy_step2_invitation.html.twig', [
             'form' => $form->createView(),
             'invitation' => $candidacy->getFirstInvitation(),
+            'election' => $election,
         ]);
     }
 
@@ -271,12 +264,7 @@ class CandidatureController extends AbstractController
             ->createForm(
                 TerritorialCouncilCandidacyType::class,
                 $acceptedBy,
-                [
-                    'validation_groups' => ['Default', 'accept_invitation'],
-                    'with_accept' => !$membership->containsQualities(
-                        [TerritorialCouncilQualityEnum::ELECTED_CANDIDATE_ADHERENT, TerritorialCouncilQualityEnum::CITY_COUNCILOR]
-                    ),
-                ]
+                ['validation_groups' => ['Default', 'accept_invitation']]
             )
             ->handleRequest($request)
         ;

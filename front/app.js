@@ -353,9 +353,15 @@ class App {
         });
     }
 
-    runTerritorialCouncilCandidacy(qualityFieldSelector, membershipFieldSelector, submitButtonSelector, wrapperSelector) {
+    runTerritorialCouncilCandidacy(qualityFieldSelector, submitButtonSelector, wrapperSelector) {
         System.import('pages/territorial_council_candidacy').catch((error) => { throw error; }).then((module) => {
-            module.default(this.get('api'), qualityFieldSelector, membershipFieldSelector, submitButtonSelector, wrapperSelector);
+            module.default(this.get('api'), qualityFieldSelector, submitButtonSelector, wrapperSelector);
+        });
+    }
+
+    runNationalCouncilCandidacy(qualityFieldSelector, submitButtonSelector, wrapperSelector) {
+        System.import('pages/national_council_candidacy').catch((error) => { throw error; }).then((module) => {
+            module.default(this.get('api'), qualityFieldSelector, submitButtonSelector, wrapperSelector);
         });
     }
 
