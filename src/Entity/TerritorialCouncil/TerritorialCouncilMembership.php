@@ -52,6 +52,8 @@ class TerritorialCouncilMembership implements UuidEntityInterface
      *     mappedBy="territorialCouncilMembership",
      *     orphanRemoval=true
      * )
+     *
+     * @Groups({"api_candidacy_read"})
      */
     private $qualities;
 

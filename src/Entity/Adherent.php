@@ -134,6 +134,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      * @ORM\Column(length=6, nullable=true)
      *
      * @JMS\Groups({"adherent_change_diff"})
+     * @SymfonySerializer\Groups({"api_candidacy_read"})
      */
     private $gender;
 

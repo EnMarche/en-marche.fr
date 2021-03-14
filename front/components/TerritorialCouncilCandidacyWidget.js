@@ -59,12 +59,12 @@ export default class TerritorialCouncilCandidacyWidget extends React.Component {
             show(this.submitButton);
 
             content = (
-                <div id="membership-container">
+                <div className="membership-container">
                     {this.state.memberships.map((membership, key) => (
                         <div className="form__radio" key={key}>
                             <input
                                 type="radio"
-                                name={'candidacy_quality[invitation][membership]'}
+                                name={'candidacy_quality[invitations][membership]'}
                                 required="required" id={`membership_${membership.uuid}`} value={membership.uuid} />
 
                             <label className="form form__label required" htmlFor={`membership_${membership.uuid}`}>

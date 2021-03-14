@@ -30,7 +30,7 @@
             </div>
 
             <div class="em-form__group">
-                {{ form_label(form.invitations, 'Sélectionnez un membre pour composer votre binôme', {label_attr: {class: 'em-form__label'}}) }}
+                {{ form_label(form.invitations, 'Sélectionnez deux autres membres pour composer votre trinôme', {label_attr: {class: 'em-form__label'}}) }}
 
                 {{ form_widget(form.invitations) }}
 
@@ -53,12 +53,30 @@
 {% endblock %}
 
 {% block javascripts %}
+    {% set invitations = [] %}
+
+    {% for invite in form.invitations.vars.value %}
+        {% set invitations = invitations|merge([{
+            uuid: invite.getMembership().getUuid().toString(),
+            adherent: {
+                full_name: invite.getMembership().getAdherent().getFullName(),
+                gender: invite.getMembership().getAdherent().getGender(),
+                initials: invite.getMembership().getAdherent().getInitials(),
+            },
+            qualities: invite.getMembership().getQualities()|map(quality => {name: quality.getName()})
+        }]) %}
+    {% endfor %}
+
     <script type="text/javascript">
         Kernel.onLoad(function() {
             App.runNationalCouncilCandidacy(
                 '#{{ form.quality.vars.id }}',
                 '#{{ form.save.vars.id }}',
-                '.membership-widget-wrapper'
+                '.membership-widget-wrapper',
+                {{ constant('App\\Entity\\TerritorialCouncil\\TerritorialCouncilQualityEnum::ABLE_TO_CANDIDATE')|map((value, key) => {key: value, label: ('territorial_council.membership.quality.' ~ value)|trans})|json_encode|raw }},
+                {{ get_available_genders_for_candidacy(candidacy)|json_encode|raw }},
+                {{ get_needed_qualities_for_candidacy(candidacy)|json_encode|raw }},
+                {{ invitations|json_encode|raw }}
             );
         });
     </script>

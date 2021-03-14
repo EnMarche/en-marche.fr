@@ -15,6 +15,7 @@ use App\Repository\UuidEntityRepositoryTrait;
 use App\TerritorialCouncil\Candidacy\SearchAvailableMembershipFilter;
 use App\TerritorialCouncil\Filter\MembersListFilter;
 use App\ValueObject\Genders;
+use App\VotingPlatform\Designation\DesignationTypeEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -45,30 +46,47 @@ class TerritorialCouncilMembershipRepository extends ServiceEntityRepository
             ->leftJoin('membership.candidacies', 'candidacy', Join::WITH, 'candidacy.membership = membership AND candidacy.election = :election')
             ->where('membership.territorialCouncil = :council')
             ->andWhere('candidacy IS NULL OR candidacy.status = :candidacy_draft_status')
-            ->andWhere('quality.name = :quality')
             ->andWhere('membership.id != :membership_id')
             ->andWhere(sprintf('membership.id NOT IN (%s)',
                 $this->createQueryBuilder('t1')
                     ->select('t1.id')
                     ->innerJoin('t1.qualities', 't2')
                     ->where('t1.territorialCouncil = :council')
-                    ->andWhere('t2.name IN (:qualities)')
+                    ->andWhere('t2.name IN (:forbidden_qualities)')
                     ->getDQL()
             ))
-            ->andWhere('adherent.gender = :gender AND adherent.status = :adherent_status')
+            ->andWhere('adherent.status = :adherent_status')
             ->setParameters([
                 'candidacy_draft_status' => CandidacyInterface::STATUS_DRAFT,
                 'election' => $candidacy->getElection(),
-                'council' => $membership->getTerritorialCouncil(),
-                'quality' => $filter->getQuality(),
+                'council' => $coTerr = $membership->getTerritorialCouncil(),
                 'membership_id' => $membership->getId(),
-                'gender' => $candidacy->isFemale() ? Genders::MALE : Genders::FEMALE,
-                'qualities' => TerritorialCouncilQualityEnum::FORBIDDEN_TO_CANDIDATE,
+                'forbidden_qualities' => TerritorialCouncilQualityEnum::FORBIDDEN_TO_CANDIDATE,
                 'adherent_status' => Adherent::ENABLED,
             ])
             ->orderBy('adherent.lastName')
             ->addOrderBy('adherent.firstName')
         ;
+
+        if (DesignationTypeEnum::COPOL === $candidacy->getElection()->getDesignationType()) {
+            $qb
+                ->andWhere('adherent.gender = :gender AND quality.name = :quality')
+                ->setParameter('quality', $filter->getQuality())
+                ->setParameter('gender', $candidacy->isFemale() ? Genders::MALE : Genders::FEMALE)
+            ;
+        } else {
+            if (($president = $coTerr->getMemberships()->getPresident()) && $president->getAdherent()->getGender() === $candidacy->getGender()) {
+                $qb
+                    ->andWhere('adherent.gender = :gender')
+                    ->setParameter('gender', $candidacy->isFemale() ? Genders::MALE : Genders::FEMALE)
+                ;
+            }
+
+            $qb
+                ->andWhere('quality.name IN (:qualities)')
+                ->setParameter('qualities', array_diff(TerritorialCouncilQualityEnum::ABLE_TO_CANDIDATE, [$filter->getQuality()]))
+            ;
+        }
 
         if ($filter->getQuery()) {
             $qb

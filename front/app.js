@@ -359,9 +359,9 @@ class App {
         });
     }
 
-    runNationalCouncilCandidacy(qualityFieldSelector, submitButtonSelector, wrapperSelector) {
+    runNationalCouncilCandidacy(qualityFieldSelector, submitButtonSelector, wrapperSelector, messages, availableGenders, neededQualities, invitations) {
         System.import('pages/national_council_candidacy').catch((error) => { throw error; }).then((module) => {
-            module.default(this.get('api'), qualityFieldSelector, submitButtonSelector, wrapperSelector);
+            module.default(this.get('api'), qualityFieldSelector, submitButtonSelector, wrapperSelector, messages, availableGenders, neededQualities, invitations);
         });
     }
 

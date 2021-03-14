@@ -5,6 +5,7 @@ namespace App\Entity\TerritorialCouncil;
 use App\TerritorialCouncil\Exception\TerritorialCouncilQualityException;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -35,6 +36,8 @@ class TerritorialCouncilQuality
      *
      * @Assert\NotBlank
      * @Assert\Length(max=255)
+     *
+     * @Serializer\Groups({"api_candidacy_read"})
      */
     private $name;
 

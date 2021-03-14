@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class ValidTerritorialCouncilCandidacyInvitation extends Constraint
+class ValidTerritorialCouncilCandidacyForCopolInvitation extends Constraint
 {
     public $messageInvalidGender = 'territorial_council.candidacy.invitation.invalid_gender';
     public $messageMembershipAlreadyCandidate = 'territorial_council.candidacy.invitation.membership_already_candidate';

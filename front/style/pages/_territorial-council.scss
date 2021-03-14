@@ -309,6 +309,71 @@
             }
         }
     }
+
+    .national-council-candidacy--container {
+        .selected-memberships--row {
+            & > .l__col--half {
+                & > .cursor--pointer {
+                    border: 2px solid $gray--light;
+                    border-radius: 4px;
+                    margin: 0 20px;
+                    padding: 30px;
+                    text-align: center;
+                    min-height: 120px;
+
+                    &:hover {
+                        box-shadow: 0 15px 45px 0 rgba(32, 142, 115, 0.30);
+                    }
+
+                    .check-img,
+                    .nok-img {
+                        display: none;
+                        position: absolute;
+                        top: -15px;
+                        right: 7px;
+                        color: $green--territory;
+                        background: white;
+                    }
+
+                    .nok-img {
+                        color: $error;
+                    }
+
+                    &.is-valid,
+                    &.is-error {
+                        position: relative;
+                    }
+
+                    &.is-valid .check-img {
+                        display: inherit;
+                    }
+
+                    &.is-error {
+                        border-color: $error;
+
+                        .nok-img {
+                            display: inherit;
+                        }
+                    }
+
+                    .identity {
+                        span.quality {
+                            display: block;
+
+                            &.active {
+                                color: $green--territory;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+
+                    &.active {
+                        border-color: $green--territory;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .quality-title {

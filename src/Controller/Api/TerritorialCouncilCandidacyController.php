@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class TerritorialCouncilCandidacyController extends AbstractController
 {
     /**
-     * @Route("territorial-council/candidacy/available-memberships", name="api_territorial_council_candidacy_available_memberships_get", methods={"GET"})
+     * @Route("/territorial-council/candidacy/available-memberships", name="api_territorial_council_candidacy_available_memberships_get", methods={"GET"})
      *
      * @Security("is_granted('ABLE_TO_BECOME_TERRITORIAL_COUNCIL_CANDIDATE', user)")
      *

@@ -6,13 +6,14 @@ use App\Entity\TerritorialCouncil\CandidacyInvitation;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class ValidTerritorialCouncilCandidacyInvitationValidator extends ConstraintValidator
+class ValidTerritorialCouncilCandidacyForCopolInvitationValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
-        if (!$constraint instanceof ValidTerritorialCouncilCandidacyInvitation) {
-            throw new UnexpectedTypeException($constraint, ValidTerritorialCouncilCandidacyInvitation::class);
+        if (!$constraint instanceof ValidTerritorialCouncilCandidacyForCopolInvitation) {
+            throw new UnexpectedTypeException($constraint, ValidTerritorialCouncilCandidacyForCopolInvitation::class);
         }
 
         if (null === $value) {
@@ -20,7 +21,7 @@ class ValidTerritorialCouncilCandidacyInvitationValidator extends ConstraintVali
         }
 
         if (!$value instanceof CandidacyInvitation) {
-            throw new UnexpectedTypeException($value, CandidacyInvitation::class);
+            throw new UnexpectedValueException($value, CandidacyInvitation::class);
         }
 
         if (!$invitedMembership = $value->getMembership()) {

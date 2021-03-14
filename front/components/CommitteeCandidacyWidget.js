@@ -38,7 +38,7 @@ export default class CommitteeCandidacyWidget extends React.Component {
             }
 
             content = (
-                <div id="membership-container">
+                <div className="membership-container">
                     {this.state.memberships.map((membership, key) => (
                         <div className="form__radio" key={key}>
                             <input

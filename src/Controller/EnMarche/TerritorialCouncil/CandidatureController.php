@@ -6,7 +6,6 @@ use App\Entity\Adherent;
 use App\Entity\TerritorialCouncil\Candidacy;
 use App\Entity\TerritorialCouncil\CandidacyInvitation;
 use App\Entity\TerritorialCouncil\Election;
-use App\Entity\TerritorialCouncil\TerritorialCouncilQualityEnum;
 use App\Form\TerritorialCouncil\CandidacyQualityType;
 use App\Form\VotingPlatform\Candidacy\TerritorialCouncilCandidacyType;
 use App\Repository\TerritorialCouncil\CandidacyInvitationRepository;
@@ -177,6 +176,7 @@ class CandidatureController extends AbstractController
         return $this->render('territorial_council/candidacy_step2_invitation.html.twig', [
             'form' => $form->createView(),
             'invitation' => $candidacy->getFirstInvitation(),
+            'candidacy' => $candidacy,
             'election' => $election,
         ]);
     }
