@@ -127,13 +127,8 @@ jobs:
             - *start_containers
             - run: |
                 set -x
-
-                mkdir -p ./phpunit
                 make tfp-rabbitmq tfp-db
-
-                $DOCKER_COMPOSE exec app ./vendor/bin/phpunit -v --log-junit ./phpunit/junit.xml
-            - store_test_results:
-                path: ./phpunit
+                $DOCKER_COMPOSE exec app ./vendor/bin/paratest tests
 
     behat:
         <<: *working_directory
