@@ -3,7 +3,9 @@
 namespace App\Form\VotingPlatform\Candidacy;
 
 use App\Entity\VotingPlatform\Designation\BaseCandidacy;
+use App\Form\CroppedImageType;
 use App\Form\DoubleNewlineTextareaType;
+use Imagine\Filter\Basic\Crop;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -20,13 +22,7 @@ class BaseCandidacyBiographyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('image', FileType::class, [
-                'required' => false,
-            ])
-            ->add('croppedImage', HiddenType::class, [
-                'mapped' => false,
-                'required' => false,
-            ])
+            ->add('image', CroppedImageType::class, ['label' => false])
             ->add('biography', DoubleNewlineTextareaType::class, [
                 'required' => false,
                 'with_character_count' => true,
@@ -41,29 +37,6 @@ class BaseCandidacyBiographyType extends AbstractType
 
             if (isset($data['skip'])) {
                 unset($data['croppedImage'], $data['biography'], $data['image']);
-            } elseif (!empty($data['croppedImage'])) {
-                if (false !== strpos($data['croppedImage'], 'base64,')) {
-                    $imageData = explode('base64,', $data['croppedImage'], 2);
-                    $content = $imageData[1];
-                    $tmpFile = tempnam(sys_get_temp_dir(), uniqid());
-                    file_put_contents($tmpFile, base64_decode($content));
-
-                    $data['image'] = new UploadedFile(
-                        $tmpFile,
-                        Uuid::uuid4()->toString().'.png',
-                        str_replace([';', 'data:'], '', $imageData[0]),
-                        null,
-                        null,
-                        true
-                    );
-
-                    unset($data['croppedImage']);
-                } elseif (-1 == $data['croppedImage']) {
-                    unset($data['croppedImage'], $data['image']);
-                    /** @var BaseCandidacy $model */
-                    $model = $event->getForm()->getData();
-                    $model->setRemoveImage(true);
-                }
             }
 
             $event->setData($data);

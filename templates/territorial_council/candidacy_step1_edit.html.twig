@@ -42,7 +42,7 @@
             {{ form_errors(form) }}
 
             <div class="em-form__group">
-                <label for="{{ form.image.vars.id }}" class="em-form__label">Ajouter une photo</label>
+                <label for="{{ form.image.image.vars.id }}" class="em-form__label">Ajouter une photo</label>
 
                 <div class="text--body text--dark b__nudge--bottom-small">
                     Elle permettra aux autres membres de mieux vous reconnaître.
@@ -55,11 +55,11 @@
                 {% endif %}
 
                 <div class="em-form__file">
-                    {{ form_widget(form.image, {attr: {class: 'em-form__file--area', accept: 'image/*'}}) }}
+                    {{ form_widget(form.image.image, {attr: {class: 'em-form__file--area', accept: 'image/*'}}) }}
 
                     <div>
                         <div class="image-uploader--label {{ image_url is defined ? 'hidden' }}">
-                            {{ form_label(form.image, 'Télécharger une photo', {label_attr: {class: 'text--blue--dark em-form__file--label'}}) }}
+                            {{ form_label(form.image.image, 'Télécharger une photo', {label_attr: {class: 'text--blue--dark em-form__file--label'}}) }}
                             <div class="em-form__file--name custom-file-label">Aucun fichier sélectionné</div>
                         </div>
 
@@ -69,7 +69,7 @@
                             </div>
 
                             <div>
-                                <label for="{{ form.image.vars.id }}">Modifier</label>
+                                <label for="{{ form.image.image.vars.id }}">Modifier</label>
                                 <span class="separtor"><strong>·</strong></span>
                                 <a href="#" class="link--no-decor link--blue delete-profile-image--trigger">Supprimer</a>
                             </div>
@@ -132,8 +132,8 @@
 
     <script type="text/javascript">
         Kernel.onLoad(function () {
-            var inputFile = dom('#' + '{{ form.image.vars.id }}');
-            var inputCroppedImage = dom('#' + '{{ form.croppedImage.vars.id }}');
+            var inputFile = dom('#' + '{{ form.image.image.vars.id }}');
+            var inputCroppedImage = dom('#' + '{{ form.image.croppedImage.vars.id }}');
 
             on(inputFile, 'change', function () {
                 App.runImageCropper(inputFile, inputCroppedImage);
@@ -143,7 +143,7 @@
                 event.preventDefault();
 
                 inputFile.value = '';
-                dom('#' + '{{ form.croppedImage.vars.id }}').value = {{ candidacy and candidacy.id ? -1 : "''" }};
+                inputCroppedImage.value = {{ candidacy and candidacy.id ? -1 : "''" }};
 
                 show(dom('.image-uploader--label'));
                 hide(dom('.image-uploader--preview'));

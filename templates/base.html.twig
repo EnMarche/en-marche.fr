@@ -116,6 +116,9 @@
         {% endif %}
     </head>
     <body>
+        <script>
+            window.listeners = [];
+        </script>
         {% if app.environment == 'prod' %}
             <!-- Google Tag Manager (noscript) -->
             <noscript>
@@ -169,6 +172,27 @@
 
         {% block content '' %}
 
+        <script>
+            window.listeners.push(function () {
+                var inputFile = dom('#' + '{{ form.image.image.vars.id }}');
+                var inputCroppedImage = dom('#' + '{{ form.image.croppedImage.vars.id }}');
+
+                on(inputFile, 'change', function () {
+                    App.runImageCropper(inputFile, inputCroppedImage);
+                });
+
+                on(dom('.delete-profile-image--trigger'), 'click', function (event) {
+                    event.preventDefault();
+
+                    inputFile.value = '';
+                    inputCroppedImage.value = {{ candidacy and candidacy.id ? -1 : "''" }};
+
+                    show(dom('.image-uploader--label'));
+                    hide(dom('.image-uploader--preview'));
+                })
+            });
+        </script>
+
         {% block footer %}
             {{ include('components/_footer.html.twig') }}
         {% endblock %}
@@ -208,6 +232,10 @@
                     {{ algolia_api_key ? ('\''~algolia_api_key|e('js')~'\'')|raw : 'null' }},
                     '{{ algolia_blacklist|base64_encode }}'
                 );
+
+                window.listeners.forEach(function (listener) {
+                    Kernel.onLoad(listener);
+                });
 
                 Kernel.onLoad(function() {
                     findAll(document, '.em-dropdown--trigger').forEach(function(wrapper) {
