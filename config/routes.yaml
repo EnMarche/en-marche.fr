@@ -38,9 +38,6 @@ app_api:
     defaults:
         _format: 'json'
 
-api_login_check:
-    path: "%api_path_prefix%/login_check"
-
 #
 # API Platform
 #
