@@ -77,7 +77,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *             "denormalization_context": {"api_allow_update": false},
  *             "path": "/v3/causes/{id}/follower",
  *             "controller": "App\Controller\Api\FollowController::follower",
- *             "requirements": {"id": "%pattern_uuid%"}
+ *             "requirements": {"id": "%pattern_uuid%"},
+ *             "deserialize": false,
  *         },
  *         "update_image": {
  *             "method": "POST",

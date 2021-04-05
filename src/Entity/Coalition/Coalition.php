@@ -42,7 +42,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *             "path": "/v3/coalitions/{id}/follower",
  *             "denormalization_context": {"api_allow_update": false},
  *             "controller": "App\Controller\Api\FollowController::follower",
- *             "requirements": {"id": "%pattern_uuid%"}
+ *             "requirements": {"id": "%pattern_uuid%"},
+ *             "deserialize": false,
  *         },
  *     },
  * )

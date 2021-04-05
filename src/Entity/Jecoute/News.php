@@ -193,7 +193,7 @@ class News implements AuthoredInterface
      *
      * @ORM\Column(type="boolean", options={"default": 1})
      */
-    private $published = true;
+    private $published;
 
     /**
      * @var string|null
