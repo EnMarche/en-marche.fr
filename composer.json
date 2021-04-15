@@ -30,7 +30,7 @@
         "ext-zip": "*",
         "a2lix/translation-form-bundle": "^2.1",
         "algolia/search-bundle": "^4.1",
-        "api-platform/core": "2.2.10",
+        "api-platform/core": "^2.6",
         "beberlei/doctrineextensions": "^1.2",
         "cakephp/chronos": "^2.1",
         "cocur/slugify": "^4.0",

@@ -37,6 +37,8 @@ class ItemNormalizerDecorator implements NormalizerInterface, DenormalizerInterf
 
     public function normalize($object, $format = null, array $context = [])
     {
+        $context['iri'] = true;
+
         return $this->decorated->normalize($object, $format, $context);
     }
 
