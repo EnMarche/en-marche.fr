@@ -58,7 +58,7 @@ class ThematicCommunityMembershipRepository extends ServiceEntityRepository
 
         if ('lastName' === $sort) {
             $qb
-                ->addSelect('IF(a.lastName IS NULL, c.lastName, a.lastName) as HIDDEN name')
+                ->addSelect('CASE WHEN a.lastName IS NULL THEN c.lastName ELSE a.lastName END as HIDDEN name')
                 ->orderBy('name', $order)
             ;
         } else {
@@ -231,7 +231,7 @@ class ThematicCommunityMembershipRepository extends ServiceEntityRepository
         if ($motivations = $filter->getMotivations()) {
             $or = $qb->expr()->orX();
             foreach ($motivations as $i => $motivation) {
-                $or->add("FIND_IN_SET(:motivation_$i, tcm.motivations) > 0");
+                $or->add(":motivation_$i = ANY_OF(string_to_array(tcm.motivations, ','))");
                 $qb->setParameter("motivation_$i", $motivation);
             }
             $qb->andWhere($or);

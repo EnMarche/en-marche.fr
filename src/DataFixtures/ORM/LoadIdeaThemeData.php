@@ -5,7 +5,7 @@ namespace App\DataFixtures\ORM;
 use App\DataFixtures\AutoIncrementResetter;
 use App\Entity\IdeasWorkshop\Theme;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadIdeaThemeData extends Fixture
 {

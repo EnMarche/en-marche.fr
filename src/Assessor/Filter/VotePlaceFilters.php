@@ -55,13 +55,13 @@ class VotePlaceFilters extends AssessorFilters
         if ($this->getCity()) {
             if (is_numeric($this->getCity())) {
                 $qb
-                    ->andWhere("FIND_IN_SET(:postalCode, $alias.postalCode) > 0")
+                    ->andWhere(":postalCode = ANY_OF(string_to_array($alias.postalCode, ','))")
                     ->setParameter('postalCode', $this->getCity())
                 ;
             } else {
                 $qb
                     ->andWhere("LOWER($alias.city) LIKE :city")
-                    ->setParameter('city', '%'.strtolower($this->getCity()).'%')
+                    ->setParameter('city', '%'.mb_strtolower($this->getCity()).'%')
                 ;
             }
         }
@@ -81,8 +81,8 @@ class VotePlaceFilters extends AssessorFilters
                 ;
             } else {
                 $qb
-                    ->andWhere("$alias.name LIKE :name")
-                    ->setParameter('name', '%'.strtolower($this->getVotePlace()).'%')
+                    ->andWhere("ILIKE($alias.name, :name) = true")
+                    ->setParameter('name', '%'.$this->getVotePlace().'%')
                 ;
             }
         }

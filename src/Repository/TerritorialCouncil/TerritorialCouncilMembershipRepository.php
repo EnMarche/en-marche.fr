@@ -64,7 +64,7 @@ class TerritorialCouncilMembershipRepository extends ServiceEntityRepository
                     ->leftJoin('t5.adherentMandates', 't6', Join::WITH, 't6.committee IS NOT NULL AND t6.quality IS NULL AND t6.finishAt IS NULL')
                     ->where('t3.territorialCouncil = :council')
                     ->andWhere('t6.id IS NULL')
-                    ->having('GROUP_CONCAT(t4.name) = :ad_quality')
+                    ->having('STRING_AGG(t4.name, \',\') = :ad_quality')
                     ->groupBy('t3.id')
                     ->getDQL()
             ))
@@ -76,7 +76,7 @@ class TerritorialCouncilMembershipRepository extends ServiceEntityRepository
                     ->leftJoin('t9.adherentMandates', 't10', Join::WITH, 't10.committee IS NOT NULL AND t10.quality = :al_mandate_quality AND t10.finishAt IS NULL')
                     ->where('t7.territorialCouncil = :council')
                     ->andWhere('t10.id IS NULL')
-                    ->having('GROUP_CONCAT(t8.name) = :al_quality')
+                    ->having('STRING_AGG(t8.name, \',\') = :al_quality')
                     ->groupBy('t7.id')
                     ->getDQL()
             ))
@@ -118,7 +118,7 @@ class TerritorialCouncilMembershipRepository extends ServiceEntityRepository
 
         if ($filter->getQuery()) {
             $qb
-                ->andWhere('(adherent.firstName LIKE :query OR adherent.lastName LIKE :query)')
+                ->andWhere('(ILIKE(adherent.firstName, :query) = true OR ILIKE(adherent.lastName, :query) = true)')
                 ->setParameter('query', sprintf('%s%%', $filter->getQuery()))
             ;
         }
@@ -210,14 +210,14 @@ class TerritorialCouncilMembershipRepository extends ServiceEntityRepository
 
         if ($lastName = $filter->getLastName()) {
             $qb
-                ->andWhere('adherent.lastName LIKE :last_name')
+                ->andWhere('ILIKE(adherent.lastName, :last_name) = true')
                 ->setParameter('last_name', '%'.$lastName.'%')
             ;
         }
 
         if ($firstName = $filter->getFirstName()) {
             $qb
-                ->andWhere('adherent.firstName LIKE :first_name')
+                ->andWhere('ILIKE(adherent.firstName, :first_name) = true')
                 ->setParameter('first_name', '%'.$firstName.'%')
             ;
         }
@@ -305,20 +305,24 @@ class TerritorialCouncilMembershipRepository extends ServiceEntityRepository
         }
 
         if (null !== $filter->getEmailSubscription() && $filter->getSubscriptionType()) {
-            $qb
-                ->leftJoin('adherent.subscriptionTypes', 'subscriptionType')
-                ->addSelect('GROUP_CONCAT(subscriptionType.code) AS HIDDEN st_codes')
-                ->groupBy('adherent.id')
+            $subQuery = $this
+                ->createQueryBuilder('tcm2')
+                ->innerJoin('tcm2.adherent', 'a2')
+                ->select('a2.id')
+                ->innerJoin('a2.subscriptionTypes', 's2')
+                ->andWhere('s2.code = :subscription_code')
+                ->andWhere('tcm2.territorialCouncil = tcm.territorialCouncil')
+                ->getDQL()
             ;
 
-            $subscriptionCondition = 'st_codes LIKE :subscription_code';
             if (false === $filter->getEmailSubscription()) {
-                $subscriptionCondition = 'st_codes IS NULL OR st_codes NOT LIKE :subscription_code';
+                $qb->andWhere($qb->expr()->notIn('adherent.id', $subQuery));
+            } else {
+                $qb->andWhere($qb->expr()->in('adherent.id', $subQuery));
             }
 
             $qb
-                ->having($subscriptionCondition)
-                ->setParameter('subscription_code', '%'.$filter->getSubscriptionType().'%')
+                ->setParameter('subscription_code', $filter->getSubscriptionType())
             ;
         }
 

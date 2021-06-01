@@ -430,18 +430,18 @@ class ReferentControllerTest extends WebTestCase
         $crawlerOptions = $crawler->filter('#referent_filter_referentTags option');
 
         self::assertCount(7, $crawlerOptions);
-        self::assertSame('Département 13', $crawlerOptions->getNode(0)->nodeValue);
-        self::assertSame('Département 59', $crawlerOptions->getNode(1)->nodeValue);
-        self::assertSame('Département 76', $crawlerOptions->getNode(2)->nodeValue);
-        self::assertSame('Département 77', $crawlerOptions->getNode(3)->nodeValue);
-        self::assertSame('Département 92', $crawlerOptions->getNode(4)->nodeValue);
-        self::assertSame('Espagne', $crawlerOptions->getNode(5)->nodeValue);
-        self::assertSame('Suisse', $crawlerOptions->getNode(6)->nodeValue);
+        self::assertSame('Suisse', $crawlerOptions->getNode(0)->nodeValue);
+        self::assertSame('Espagne', $crawlerOptions->getNode(1)->nodeValue);
+        self::assertSame('Département 92', $crawlerOptions->getNode(2)->nodeValue);
+        self::assertSame('Département 76', $crawlerOptions->getNode(3)->nodeValue);
+        self::assertSame('Département 77', $crawlerOptions->getNode(4)->nodeValue);
+        self::assertSame('Département 13', $crawlerOptions->getNode(5)->nodeValue);
+        self::assertSame('Département 59', $crawlerOptions->getNode(6)->nodeValue);
 
         $crawler = $this->client->submit(
             $crawler->selectButton('Filtrer')->form([
                 'referent_filter' => [
-                    'referentTags' => 16,
+                    'referentTags' => 13,
                 ],
             ])
         );

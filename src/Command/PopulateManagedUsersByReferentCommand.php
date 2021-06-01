@@ -40,10 +40,10 @@ class PopulateManagedUsersByReferentCommand extends Command
             a.address_country,
             a.first_name,
             a.last_name,
-            TIMESTAMPDIFF(YEAR, a.birthdate, CURDATE()) AS age,
+            EXTRACT(YEAR FROM AGE(a.birthdate, NOW())) AS age,
             a.phone,
             (
-                SELECT GROUP_CONCAT(c.name SEPARATOR '|')
+                SELECT STRING_AGG(c.name, '|')
                 FROM committees_memberships cm
                 LEFT JOIN committees c ON cm.committee_id = c.id
                 WHERE cm.adherent_id = a.id
@@ -74,14 +74,14 @@ class PopulateManagedUsersByReferentCommand extends Command
                 LIMIT 1
             ),
             (
-                SELECT GROUP_CONCAT(tag.code SEPARATOR ',')
+                SELECT STRING_AGG(tag.code, ',')
                 FROM referent_tags tag
                 INNER JOIN adherent_referent_tag adherent_tag ON adherent_tag.referent_tag_id = tag.id
                 WHERE adherent_tag.adherent_id = a.id
                 GROUP BY a.id
             ),
             (
-                SELECT GROUP_CONCAT(st.code SEPARATOR  ',')
+                SELECT STRING_AGG(st.code, ',')
                 FROM subscription_type st
                 JOIN adherent_subscription_type ast ON ast.subscription_type_id = st.id
                 WHERE ast.adherent_id = a.id
@@ -91,7 +91,7 @@ class PopulateManagedUsersByReferentCommand extends Command
             a.gender,
             a.interests,
             (
-                SELECT GROUP_CONCAT(rt.code SEPARATOR ',')
+                SELECT STRING_AGG(rt.code, ',')
                 FROM committees c
                 INNER JOIN committees_memberships cm ON cm.committee_id = c.id
                 INNER JOIN committee_referent_tag crt ON crt.committee_id = c.id
@@ -103,13 +103,13 @@ class PopulateManagedUsersByReferentCommand extends Command
                     CAST(
                         CONCAT(
                             '{',
-                            GROUP_CONCAT(
+                            STRING_AGG(
                                 CONCAT(
                                     JSON_QUOTE(cp.slug),
                                     ':',
                                     JSON_QUOTE(cp.name)
-                                )
-                                SEPARATOR ','
+                                ),
+                                ','
                             ),
                             '}'
                         )
@@ -123,13 +123,13 @@ class PopulateManagedUsersByReferentCommand extends Command
                     CAST(
                         CONCAT(
                             '{',
-                            GROUP_CONCAT(
+                            STRING_AGG(
                                 CONCAT(
                                     JSON_QUOTE(cp.slug),
                                     ':',
                                     JSON_QUOTE(cp.name)
-                                )
-                                SEPARATOR ','
+                                ),
+                                ','
                             ),
                             '}'
                         )

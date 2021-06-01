@@ -113,8 +113,9 @@ class EventRegistrationRepository extends ServiceEntityRepository
     ): PaginatorInterface {
         $queryBuilder = $this->createAdherentEventRegistrationQueryBuilder($adherent->getUuidAsString())
             ->andWhere('e.published = true')
-            ->andWhere('e.beginAt >= CONVERT_TZ(NOW(), \'Europe/Paris\', e.timeZone)')
+            ->andWhere('e.beginAt >= AT_TIME_ZONE(:now, e.timeZone)')
             ->orderBy('e.beginAt', 'ASC')
+            ->setParameter('now', new \DateTime())
         ;
 
         return $this->configurePaginator($queryBuilder, $page, $limit);
@@ -154,8 +155,9 @@ class EventRegistrationRepository extends ServiceEntityRepository
         $queryBuilder = $this
             ->createAdherentEventRegistrationQueryBuilder($adherent->getUuidAsString())
             ->andWhere('e.published = true')
-            ->andWhere('e.finishAt < CONVERT_TZ(NOW(), \'Europe/Paris\', e.timeZone)')
+            ->andWhere('e.finishAt < AT_TIME_ZONE(:now, e.timeZone)')
             ->orderBy('e.finishAt', 'DESC')
+            ->setParameter('now', new \DateTime())
         ;
 
         return $this->configurePaginator($queryBuilder, $page, $limit);
@@ -166,10 +168,11 @@ class EventRegistrationRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('r');
 
         $qb->update()
-            ->set('r.adherentUuid', $qb->expr()->literal(null))
+            ->set('r.adherentUuid', ':null')
             ->set('r.firstName', $qb->expr()->literal('Anonyme'))
             ->set('r.emailAddress', $qb->expr()->literal(null))
             ->where('r.adherentUuid = :uuid')
+            ->setParameter('null', null)
             ->setParameter(':uuid', $adherent->getUuid()->toString())
             ->getQuery()
             ->execute()
@@ -234,7 +237,7 @@ class EventRegistrationRepository extends ServiceEntityRepository
         int $months
     ): QueryBuilder {
         return $this->createQueryBuilder('eventRegistrations')
-            ->select('DISTINCT eventRegistrations.emailAddress, COUNT(DISTINCT eventRegistrations) AS count, YEAR_MONTH(event.beginAt) as yearmonth')
+            ->select("eventRegistrations.emailAddress, COUNT(DISTINCT eventRegistrations) AS count, TO_CHAR(event.beginAt, 'YYYYMM') as yearmonth")
             ->join(CommitteeEvent::class, 'event', Join::WITH, 'eventRegistrations.event = event.id')
             ->join('event.referentTags', 'tag')
             ->where('tag IN (:tags)')
@@ -246,6 +249,7 @@ class EventRegistrationRepository extends ServiceEntityRepository
             ->setParameter('until', (new Chronos('now'))->setTime(23, 59, 59, 999))
             ->setParameter('from', (new Chronos("first day of -$months months"))->setTime(0, 0, 0, 000))
             ->groupBy('yearmonth')
+            ->addGroupBy('eventRegistrations.emailAddress')
         ;
     }
 

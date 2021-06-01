@@ -47,7 +47,7 @@ class CityRepository extends ServiceEntityRepository
 
         if ($name = $filter->getName()) {
             $qb
-                ->andWhere(self::ALIAS.'.name LIKE :name')
+                ->andWhere('ILIKE('.self::ALIAS.'.name, :name) = true')
                 ->setParameter('name', sprintf('%%%s%%', $name))
             ;
         }
@@ -81,21 +81,21 @@ class CityRepository extends ServiceEntityRepository
 
             if ($municipalManagerFirstName) {
                 $qb
-                    ->andWhere('municipal_manager.firstName LIKE :municipal_manager_first_name')
+                    ->andWhere('ILIKE(municipal_manager.firstName, :municipal_manager_first_name) = true')
                     ->setParameter('municipal_manager_first_name', sprintf('%%%s%%', $municipalManagerFirstName))
                 ;
             }
 
             if ($municipalManagerLastName) {
                 $qb
-                    ->andWhere('municipal_manager.lastName LIKE :municipal_manager_last_name')
+                    ->andWhere('ILIKE(municipal_manager.lastName, :municipal_manager_last_name) = true')
                     ->setParameter('municipal_manager_last_name', sprintf('%%%s%%', $municipalManagerLastName))
                 ;
             }
 
             if ($municipalManagerEmail) {
                 $qb
-                    ->andWhere('municipal_manager.emailAddress LIKE :municipal_manager_email')
+                    ->andWhere(' ILIKE(municipal_manager.emailAddress, :municipal_manager_email) = true')
                     ->setParameter('municipal_manager_email', sprintf('%%%s%%', $municipalManagerEmail))
                 ;
             }

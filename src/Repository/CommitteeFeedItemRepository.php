@@ -64,8 +64,7 @@ class CommitteeFeedItemRepository extends ServiceEntityRepository
         if (CommitteeFeedItem::EVENT === $type) {
             $qb
                 ->addSelect('e')
-                ->leftJoin('i.event', 'e')
-                ->having('e.published = :published_event')
+                ->leftJoin('i.event', 'e', Join::WITH, 'e.published = :published_event')
                 ->setParameter('published_event', true)
             ;
         }

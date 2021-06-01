@@ -164,7 +164,7 @@ class CitizenProjectRepository extends AbstractGroupRepository
             $qb = $this
                 ->createNearbyQueryBuilder($coordinates)
                 ->andWhere($this->getNearbyExpression().' < :distance_max')
-                ->setParameter('distance_max', $search->getRadius())
+                ->setParameter('distance_max', $search->getRadiusInMeters())
             ;
         } else {
             $qb = $this->createQueryBuilder('n');

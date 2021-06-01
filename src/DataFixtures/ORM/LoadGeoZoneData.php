@@ -4,9 +4,9 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\Geo\Zone;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadGeoZoneData extends Fixture
 {
@@ -30,7 +30,7 @@ class LoadGeoZoneData extends Fixture
     {
         if (null === static::$zoneCache) {
             $file = fopen(__DIR__.'/../geo/geo-zones.csv', 'rb');
-            $header = $row = fgetcsv($file, 0, ';');
+            $header = fgetcsv($file, 0, ';');
             static::$zoneCache = [];
 
             while ($row = fgetcsv($file, 0, ';')) {

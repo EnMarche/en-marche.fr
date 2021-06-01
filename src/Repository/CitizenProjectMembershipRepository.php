@@ -194,7 +194,7 @@ class CitizenProjectMembershipRepository extends ServiceEntityRepository
             ->where('LOWER(a.firstName) LIKE :firstName')
             ->andWhere('cpm.privilege = :privilege')
             ->setParameters([
-                'firstName' => '%'.strtolower($firstName).'%',
+                'firstName' => '%'.mb_strtolower($firstName).'%',
                 'privilege' => CitizenProjectMembership::CITIZEN_PROJECT_ADMINISTRATOR,
             ])
             ->getQuery()
@@ -219,7 +219,7 @@ class CitizenProjectMembershipRepository extends ServiceEntityRepository
             ->where('LOWER(a.lastName) LIKE :lastName')
             ->andWhere('cpm.privilege = :privilege')
             ->setParameters([
-                'lastName' => '%'.strtolower($lastName).'%',
+                'lastName' => '%'.mb_strtolower($lastName).'%',
                 'privilege' => CitizenProjectMembership::CITIZEN_PROJECT_ADMINISTRATOR,
             ])
             ->getQuery()
@@ -244,7 +244,7 @@ class CitizenProjectMembershipRepository extends ServiceEntityRepository
             ->where('LOWER(a.emailAddress) LIKE :emailAddress')
             ->andWhere('cpm.privilege = :privilege')
             ->setParameters([
-                'emailAddress' => '%'.strtolower($emailAddress).'%',
+                'emailAddress' => '%'.mb_strtolower($emailAddress).'%',
                 'privilege' => CitizenProjectMembership::CITIZEN_PROJECT_ADMINISTRATOR,
             ])
             ->getQuery()

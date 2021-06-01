@@ -6,7 +6,7 @@ use App\Content\MediaFactory;
 use App\Content\PageFactory;
 use App\Entity\Page;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
 

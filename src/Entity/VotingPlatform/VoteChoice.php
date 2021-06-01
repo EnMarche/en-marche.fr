@@ -11,13 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class VoteChoice
 {
-    public const BLANK_VOTE_VALUE = -1;
+    public const BLANK_VOTE_VALUE = '-1';
 
     /**
      * @var int|null
      *
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
     private $id;

@@ -282,8 +282,8 @@ class ElectionRepository extends ServiceEntityRepository
     private function getElectionStatsSelectParts(): array
     {
         return [
-            'SUM(IF(candidate.gender = :female, 1, 0)) as woman_count',
-            'SUM(IF(candidate.gender = :male, 1, 0)) as man_count',
+            'SUM(CASE WHEN candidate.gender = :female THEN 1 ELSE 0 END) as woman_count',
+            'SUM(CASE WHEN candidate.gender = :male THEN 1 ELSE 0 END) as man_count',
             sprintf(
                 '(SELECT COUNT(1) FROM %s AS voter
                 INNER JOIN voter.votersLists AS voters_list

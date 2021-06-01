@@ -14,7 +14,7 @@ use App\Entity\ChezVous\Region;
 use Cocur\Slugify\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadChezVousData extends Fixture implements DependentFixtureInterface
 {

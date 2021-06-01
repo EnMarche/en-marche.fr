@@ -6,7 +6,7 @@ use App\Entity\TerritorialCouncil\TerritorialCouncil;
 use App\Repository\ReferentTagRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadTerritorialCouncilData extends Fixture implements DependentFixtureInterface
 {

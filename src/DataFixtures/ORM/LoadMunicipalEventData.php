@@ -7,7 +7,7 @@ use App\Entity\PostAddress;
 use Cake\Chronos\Chronos;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class LoadMunicipalEventData extends Fixture implements DependentFixtureInterface

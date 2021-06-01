@@ -63,7 +63,7 @@ class TimelineThemeAdmin extends AbstractAdmin
 
                     $qb
                         ->join("$alias.translations", 'translations')
-                        ->andWhere('translations.title LIKE :title')
+                        ->andWhere('ILIKE(translations.title, :title) = true')
                         ->setParameter('title', '%'.$value['value'].'%')
                     ;
 
@@ -81,7 +81,7 @@ class TimelineThemeAdmin extends AbstractAdmin
 
                     $qb
                         ->join("$alias.translations", 'translations')
-                        ->andWhere('translations.slug LIKE :slug')
+                        ->andWhere('ILIKE(translations.slug, :slug) = true')
                         ->setParameter('slug', '%'.$value['value'].'%')
                     ;
 
@@ -99,7 +99,7 @@ class TimelineThemeAdmin extends AbstractAdmin
 
                     $qb
                         ->join("$alias.translations", 'translations')
-                        ->andWhere('translations.description LIKE :description')
+                        ->andWhere('ILIKE(translations.description, :description) = true')
                         ->setParameter('description', '%'.$value['value'].'%')
                     ;
 

@@ -24,7 +24,7 @@ class ProcurationRequestRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('pr')
             ->where('LOWER(pr.emailAddress) = :emailAddress')
-            ->setParameter('emailAddress', mb_strtolower($emailAddress))
+            ->setParameter('emailAddress', mb_strtolower(trim($emailAddress)))
             ->getQuery()
             ->getResult()
         ;
@@ -52,7 +52,7 @@ class ProcurationRequestRepository extends ServiceEntityRepository
                 'pr.voteCity AS request_voteCity',
                 'pr.voteCityName AS request_voteCityName',
                 'pr.voteCountry AS request_voteCountry',
-                'GROUP_CONCAT(er.label SEPARATOR \'\\n\') AS request_electionRounds',
+                'STRING_AGG(er.label, \'\\n\') AS request_electionRounds',
                 'pr.reason AS request_reason',
                 'pr.processedAt AS request_processedAt',
 
@@ -125,6 +125,7 @@ class ProcurationRequestRepository extends ServiceEntityRepository
 
         return (int) $this->addAndWhereManagedBy($qb, $manager)
             ->select('COUNT(DISTINCT pr.id)')
+            ->resetDQLPart('orderBy')
             ->getQuery()
             ->getSingleScalarResult()
         ;
@@ -144,7 +145,7 @@ class ProcurationRequestRepository extends ServiceEntityRepository
         $qb
             ->select('COUNT(DISTINCT pp.id)')
             ->from('App:ProcurationProxy', 'pp')
-            ->andWhere('pp.disabled = 0')
+            ->andWhere('pp.disabled = false')
             ->andWhere('pp.reliability >= 0')
         ;
 
@@ -193,10 +194,10 @@ class ProcurationRequestRepository extends ServiceEntityRepository
             ->join('pr.foundProxy', 'pp')
             ->leftJoin('pr.foundBy', 'a')
             ->leftJoin('pr.electionRounds', 'er')
-            ->where('er.date < :next_round')
-            ->setParameter('next_round', new \DateTime('+3 days'))
+            ->where('er.date <= :next_round')
+            ->setParameter('next_round', (new \DateTime('+3 days'))->format('Y-m-d'))
             ->andWhere('er.date > :now')
-            ->setParameter('now', new \DateTime())
+            ->setParameter('now', (new \DateTime())->format('Y-m-d'))
             ->andWhere('pr.processed = true')
             ->andWhere('pr.reminded = 0')
             ->andWhere('pr.processedAt <= :matchDate')

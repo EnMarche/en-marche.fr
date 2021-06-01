@@ -6,7 +6,7 @@ use App\Entity\TurnkeyProject;
 use App\Entity\TurnkeyProjectFile;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadTurnkeyProjectData extends Fixture implements DependentFixtureInterface
 {

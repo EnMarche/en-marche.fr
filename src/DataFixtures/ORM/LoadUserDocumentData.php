@@ -4,7 +4,7 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\UserDocument;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class LoadUserDocumentData extends Fixture

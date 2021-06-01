@@ -9,7 +9,7 @@ use App\Entity\CommitteeCandidacyInvitation;
 use App\Image\ImageManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LoadCommitteeCandidacyData extends Fixture implements DependentFixtureInterface

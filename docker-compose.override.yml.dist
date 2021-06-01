@@ -49,20 +49,9 @@ version: "3.2"
 #            - VIRTUAL_HOST=rabbitmq.enmarche.code
 #            - VIRTUAL_PORT=15672
 
-#    pma:
-#        image: phpmyadmin/phpmyadmin
-#        depends_on:
-#            - db
-#        environment:
-#            PMA_HOST: db
-#            PMA_USER: root
-#            PMA_PASSWORD: root
-#            VIRTUAL_HOST: pma.enmarche.code
-#            VIRTUAL_PORT: 80
-
 #    db:
 #        ports:
-#            - "3306:3306"
+#            - "5432:5432"
 
 #    blackfire:
 #        image: blackfire/blackfire

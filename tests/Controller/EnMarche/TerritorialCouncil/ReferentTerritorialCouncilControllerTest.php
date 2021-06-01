@@ -100,20 +100,20 @@ class ReferentTerritorialCouncilControllerTest extends WebTestCase
         // by territorial council
         $form['f[ageMin]'] = '';
         $form['f[ageMax]'] = '';
-        $form['f[referentTags]'] = [100];
+        $form['f[referentTags]'] = [97];
 
         $crawler = $this->client->submit($form);
 
         $this->assertCount(8, $crawler->filter('tbody tr.referent__item'));
 
-        $form['f[referentTags]'] = [102];
+        $form['f[referentTags]'] = [99];
 
         $crawler = $this->client->submit($form);
 
         $this->assertCount(0, $crawler->filter('tbody tr.referent__item'));
 
         // filter by qualities
-        $form['f[referentTags]'] = [100, 102];
+        $form['f[referentTags]'] = [97, 99];
         $form['f[qualities]'] = ['mayor', 'committee_supervisor'];
 
         $crawler = $this->client->submit($form);

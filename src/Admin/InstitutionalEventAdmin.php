@@ -210,7 +210,7 @@ class InstitutionalEventAdmin extends AbstractAdmin
                     }
 
                     $qb->andWhere(sprintf('LOWER(%s.postAddress.cityName)', $alias).' LIKE :cityName');
-                    $qb->setParameter('cityName', '%'.strtolower($value['value']).'%');
+                    $qb->setParameter('cityName', '%'.mb_strtolower($value['value']).'%');
 
                     return true;
                 },

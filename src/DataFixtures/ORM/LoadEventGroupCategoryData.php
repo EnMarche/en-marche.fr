@@ -5,7 +5,7 @@ namespace App\DataFixtures\ORM;
 use App\Entity\Event\EventCategory;
 use App\Entity\Event\EventGroupCategory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadEventGroupCategoryData extends Fixture
 {

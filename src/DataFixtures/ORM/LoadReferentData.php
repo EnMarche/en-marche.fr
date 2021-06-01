@@ -6,7 +6,7 @@ use App\Entity\Referent;
 use App\Entity\ReferentArea;
 use App\ValueObject\Genders;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadReferentData extends Fixture
 {

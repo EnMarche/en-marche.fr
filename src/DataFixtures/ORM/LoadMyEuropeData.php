@@ -4,7 +4,7 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\MyEuropeChoice;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class LoadMyEuropeData extends Fixture

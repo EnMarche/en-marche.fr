@@ -48,6 +48,7 @@ class LocalSurveyRepository extends ServiceEntityRepository
             ->where('(zone IN (:zones) OR parent IN (:zones) OR child IN (:zones))')
             ->setParameter('zones', $zones)
             ->orderBy('survey.createdAt', 'DESC')
+            ->addOrderBy('survey.id', 'ASC')
             ->getQuery()
             ->getResult()
         ;

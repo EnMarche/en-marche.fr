@@ -8,7 +8,7 @@ use App\Entity\Formation\Module;
 use App\Entity\Formation\Path;
 use App\Entity\Media;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;

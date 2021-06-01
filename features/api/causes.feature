@@ -17,8 +17,8 @@ Feature:
     And the JSON should be equal to:
     """
     {
-      "total": "6",
-      "total_followers": "5"
+      "total": 6,
+      "total_followers": 5
     }
     """
 
@@ -97,7 +97,6 @@ Feature:
       "items": [
         {
           "name": "Cause pour la culture 2",
-          "slug": "cause-pour-la-culture-2",
           "description": "Description de la cause pour la culture 2",
           "coalition": {
             "name": "Culture",
@@ -105,6 +104,8 @@ Feature:
             "followers_count": 4
           },
           "second_coalition": null,
+          "followers_count": 0,
+          "slug": "cause-pour-la-culture-2",
           "uuid": "017491f9-1953-482e-b491-20418235af1f",
           "author": {
             "uuid": "313bd28f-efc8-57c9-8ab7-2106c8be9697",
@@ -112,7 +113,6 @@ Feature:
             "last_name": "Dufour",
             "last_name_initial": "D."
           },
-          "followers_count": 0,
           "image_url": "http://test.enmarche.code/assets/images/causes/73a6283e0b639cbeb50b9b28d401eaca.png"
         },
         {

@@ -8,7 +8,7 @@ use App\Entity\TerritorialCouncil\PoliticalCommitteeQuality;
 use App\Entity\TerritorialCouncil\TerritorialCouncilQualityEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadPoliticalCommitteeMembershipData extends Fixture implements DependentFixtureInterface
 {

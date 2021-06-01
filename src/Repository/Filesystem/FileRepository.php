@@ -20,10 +20,10 @@ class FileRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('f')
             ->where('f.type = :directory')
-            ->andWhere('f.displayed = 1')
+            ->andWhere('f.displayed = true')
             ->andWhere('LOWER(f.name) LIKE :search')
             ->setParameter('directory', FileTypeEnum::DIRECTORY)
-            ->setParameter('search', '%'.$search.'%')
+            ->setParameter('search', '%'.mb_strtolower($search).'%')
             ->setMaxResults(20)
             ->getQuery()
             ->getResult()
@@ -52,7 +52,7 @@ class FileRepository extends ServiceEntityRepository
         string $order = 'a'
     ): array {
         $qb = $this->createWithPermissionsQueryBuilder($permissions)
-            ->andWhere('file.displayed = 1 ')
+            ->andWhere('file.displayed = true')
             ->orderBy('file.name', 'd' === $order ? 'DESC' : 'ASC')
         ;
 
@@ -62,9 +62,7 @@ class FileRepository extends ServiceEntityRepository
                 ->setParameter('directory', $directory)
             ;
         } else {
-            $qb
-                ->andWhere('file.parent IS NULL')
-            ;
+            $qb->andWhere('file.parent IS NULL');
         }
 
         return $qb->getQuery()->getResult();

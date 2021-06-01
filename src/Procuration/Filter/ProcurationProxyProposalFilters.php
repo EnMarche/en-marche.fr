@@ -43,16 +43,16 @@ class ProcurationProxyProposalFilters extends ProcurationFilters
             $qb
                 ->andWhere(
                     $qb->expr()->orX(
-                        "$alias.frenchRequestAvailable != 0",
-                        "$alias.foreignRequestAvailable != 0"
+                        "$alias.frenchRequestAvailable != false",
+                        "$alias.foreignRequestAvailable != false"
                     )
                 )
                 ->setParameter('disabled', false)
              ;
         } elseif (self::ASSOCIATED === $status) {
             $qb
-                ->andWhere("$alias.frenchRequestAvailable = 0")
-                ->andWhere("$alias.foreignRequestAvailable = 0")
+                ->andWhere("$alias.frenchRequestAvailable = false")
+                ->andWhere("$alias.foreignRequestAvailable = false")
                 ->setParameter('disabled', false)
             ;
         } elseif (self::DISABLED === $status) {

@@ -33,7 +33,7 @@ class ProcurationManagerTest extends WebTestCase
     public function testGetMatchingProcurationProxies(string $requestEmail, array $expectedMatchingProxies): void
     {
         /** @var ProcurationRequest $request */
-        $request = $this->procurationRequestRepository->findOneBy(['emailAddress' => $requestEmail]);
+        $request = $this->procurationRequestRepository->findByEmailAddress($requestEmail)[0];
 
         $matchingProxies = $this->procurationManager->getMatchingProcurationProxies($request);
 

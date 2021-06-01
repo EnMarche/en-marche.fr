@@ -29,7 +29,7 @@ class ReportRepository extends ServiceEntityRepository
             ->from($class, 'report')
             ->select('report.id')
             ->join('report.subject', 'subject')
-            ->andWhere('subject.name LIKE :name')
+            ->andWhere('ILIKE(subject.name, :name) = true')
             ->setParameter('name', sprintf('%%%s%%', $name))
             ->getQuery()
             ->getScalarResult()

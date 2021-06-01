@@ -92,8 +92,8 @@ class AssessorRequestFilters extends AssessorFilters
                 ;
             } else {
                 $qb
-                    ->andWhere("LOWER($alias.assessorCity) LIKE :assessorCity")
-                    ->setParameter('assessorCity', '%'.strtolower($this->getCity()).'%')
+                    ->andWhere("ILIKE($alias.assessorCity, :assessorCity) = true")
+                    ->setParameter('assessorCity', '%'.$this->getCity().'%')
                 ;
             }
         }
@@ -122,8 +122,8 @@ class AssessorRequestFilters extends AssessorFilters
                 ;
             } else {
                 $qb
-                    ->andWhere('vp.name LIKE :name')
-                    ->setParameter('name', '%'.strtolower($this->getVotePlace()).'%')
+                    ->andWhere('ILIKE(vp.name, :name) = true')
+                    ->setParameter('name', '%'.mb_strtolower($this->getVotePlace()).'%')
                 ;
             }
         }

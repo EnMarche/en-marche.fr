@@ -18,7 +18,7 @@ use App\Entity\ElectedRepresentative\SocialNetworkLink;
 use App\Utils\PhoneNumberUtils;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class LoadElectedRepresentativeData extends Fixture implements DependentFixtureInterface

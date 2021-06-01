@@ -7,7 +7,7 @@ use App\Entity\Timeline\Measure;
 use App\Entity\Timeline\Profile;
 use App\Entity\Timeline\Theme;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadTimelineData extends Fixture
 {

@@ -7,7 +7,7 @@ use App\DataFixtures\AutoIncrementResetter;
 use App\Entity\NullablePostAddress;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use League\Flysystem\FilesystemInterface;
 
 class LoadCitizenProjectData extends Fixture implements DependentFixtureInterface

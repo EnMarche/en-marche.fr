@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\MemberSummary\JobExperienceRepository")
  * @ORM\Table(name="member_summary_job_experiences")
  */
 class JobExperience implements SummaryItemPositionableInterface

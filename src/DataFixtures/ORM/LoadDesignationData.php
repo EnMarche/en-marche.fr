@@ -7,7 +7,7 @@ use App\VotingPlatform\Designation\DesignationTypeEnum;
 use App\VotingPlatform\Designation\DesignationZoneEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadDesignationData extends Fixture implements DependentFixtureInterface
 {

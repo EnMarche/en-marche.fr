@@ -6,7 +6,7 @@ use App\Entity\LegislativeCandidate;
 use App\Entity\LegislativeDistrictZone;
 use App\ValueObject\Genders;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * @see https://fr.wikipedia.org/wiki/Liste_des_circonscriptions_l%C3%A9gislatives_de_la_France

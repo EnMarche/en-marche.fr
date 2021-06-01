@@ -57,6 +57,7 @@ class VotePlaceRepository extends AbstractAssessorRepository
 
         return (int) $qb
             ->select('COUNT(DISTINCT vp.id)')
+            ->resetDQLPart('orderBy')
             ->getQuery()
             ->getSingleScalarResult()
         ;
@@ -142,7 +143,7 @@ class VotePlaceRepository extends AbstractAssessorRepository
     {
         return $this
             ->createQueryBuilder('votePlace')
-            ->andWhere('FIND_IN_SET(:postalCode, votePlace.postalCode) > 0')
+            ->andWhere(":postalCode = ANY_OF(string_to_array(votePlace.postalCode, ','))")
             ->andWhere('votePlace.enabled = :true')
             ->setParameters([
                 'postalCode' => $postalCode,
@@ -177,7 +178,7 @@ class VotePlaceRepository extends AbstractAssessorRepository
 
         if ($inseeCodes = $filter->getInseeCodes()) {
             $qb
-                ->andWhere('SUBSTRING_INDEX('.self::ALIAS.'.code, \'_\', 1) IN (:insee_codes)')
+                ->andWhere('SUBSTRING('.self::ALIAS.'.code, POSITION(\'_\' IN '.self::ALIAS.'.code) + 1) IN (:insee_codes)')
                 ->setParameter('insee_codes', $inseeCodes)
             ;
         }
@@ -186,7 +187,7 @@ class VotePlaceRepository extends AbstractAssessorRepository
             $orx = new Orx();
 
             foreach ($postalCodes as $index => $postalCode) {
-                $orx->add(sprintf('FIND_IN_SET(:postal_code_%s, %s.postalCode) > 0', $index, self::ALIAS));
+                $orx->add(sprintf(":postal_code_%s = ANY_OF(string_to_array(%s.postalCode, ','))", $index, self::ALIAS));
                 $qb->setParameter('postal_code_'.$index, $postalCode);
             }
 
@@ -195,7 +196,7 @@ class VotePlaceRepository extends AbstractAssessorRepository
 
         if ($city = $filter->getCity()) {
             $qb
-                ->andWhere(self::ALIAS.'.city LIKE :city')
+                ->andWhere('ILIKE('.self::ALIAS.'.city, :city) = true')
                 ->setParameter('city', sprintf('%s%%', $city))
             ;
         }
@@ -209,7 +210,7 @@ class VotePlaceRepository extends AbstractAssessorRepository
 
         if ($name = $filter->getName()) {
             $qb
-                ->andWhere(sprintf('%s.name LIKE :name OR %s.alias LIKE :name', self::ALIAS, self::ALIAS))
+                ->andWhere(sprintf('ILIKE(%s.name, :name) = true OR ILIKE(%s.alias, :name) = true', self::ALIAS, self::ALIAS))
                 ->setParameter('name', sprintf('%%%s%%', $name))
             ;
         }
@@ -225,7 +226,7 @@ class VotePlaceRepository extends AbstractAssessorRepository
     public function findLastByCodePrefix(string $codePrefix): ?VotePlace
     {
         return $this->createQueryBuilder('vp')
-            ->where('vp.code LIKE :code')
+            ->where('ILIKE(vp.code, :code) = true')
             ->setParameter('code', $codePrefix.'_%')
             ->setMaxResults(1)
             ->orderBy('vp.code', 'DESC')

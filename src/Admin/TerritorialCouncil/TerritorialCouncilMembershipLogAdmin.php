@@ -71,8 +71,8 @@ class TerritorialCouncilMembershipLogAdmin extends AbstractAdmin
                         return;
                     }
 
-                    $qb->andWhere(sprintf('%s.description LIKE :text', $alias));
-                    $qb->setParameter('text', '%'.strtolower($value['value']).'%');
+                    $qb->andWhere(sprintf('ILIKE(%s.description, :text) = true', $alias));
+                    $qb->setParameter('text', '%'.mb_strtolower($value['value']).'%');
 
                     return true;
                 },

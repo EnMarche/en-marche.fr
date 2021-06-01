@@ -41,7 +41,7 @@ class ElectionRepository extends ServiceEntityRepository
             ->addSelect('round')
             ->innerJoin('e.rounds', 'round')
             ->setParameter('now', new \DateTime())
-            ->orderBy('ABS(TIMESTAMPDIFF(SECOND, round.date, :now))', 'ASC')
+            ->orderBy('ABS(SECOND((round.date - CAST(:now AS datetime))))', 'ASC')
             ->getQuery()
             ->setMaxResults(1)
             ->getOneOrNullResult()
@@ -64,7 +64,7 @@ class ElectionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->addSelect('r')
             ->leftJoin('e.rounds', 'r')
-            ->where("year_month(r.date) = '201403'")
+            ->where("TO_CHAR(r.date, 'YYYYMM') = '201403'")
             ->getQuery()
             ->getOneOrNullResult()
         ;

@@ -5,7 +5,7 @@ namespace App\DataFixtures\ORM;
 use App\DataFixtures\AutoIncrementResetter;
 use App\Entity\IdeasWorkshop\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadIdeaCategoryData extends Fixture
 {

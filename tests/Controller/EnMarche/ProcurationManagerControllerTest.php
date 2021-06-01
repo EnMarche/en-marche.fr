@@ -242,11 +242,11 @@ class ProcurationManagerControllerTest extends WebTestCase
 
         $this->assertCount(1, $crawler->filter('.datagrid__table-manager tbody tr'));
 
-        $crawler = $this->client->submit($form, array_merge($formValues, [ProcurationRequestFilters::PARAMETER_ELECTION_ROUND => 9]));
+        $crawler = $this->client->submit($form, array_merge($formValues, [ProcurationRequestFilters::PARAMETER_ELECTION_ROUND => 5]));
 
         $this->assertCount(4, $crawler->filter('.datagrid__table-manager tbody tr'));
 
-        $crawler = $this->client->submit($form, array_merge($formValues, [ProcurationRequestFilters::PARAMETER_LAST_NAME => 'Amoitie']));
+        $crawler = $this->client->submit($form, array_merge($formValues, [ProcurationRequestFilters::PARAMETER_LAST_NAME => 'Amoitié']));
 
         $this->assertCount(1, $crawler->filter('.datagrid__table-manager tbody tr'));
 
@@ -318,7 +318,7 @@ class ProcurationManagerControllerTest extends WebTestCase
 
         $this->assertCount(1, $crawler->filter('.datagrid__table-manager tbody tr'));
 
-        $crawler = $this->client->submit($form, array_merge($formValues, [ProcurationProxyProposalFilters::PARAMETER_ELECTION_ROUND => 10]));
+        $crawler = $this->client->submit($form, array_merge($formValues, [ProcurationProxyProposalFilters::PARAMETER_ELECTION_ROUND => 6]));
 
         $this->assertCount(2, $crawler->filter('.datagrid__table-manager tbody tr'));
 

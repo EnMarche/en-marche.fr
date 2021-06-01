@@ -4,7 +4,7 @@ namespace App\DataFixtures\ORM;
 
 use App\Admin\AdministratorFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadAdminData extends Fixture
 {

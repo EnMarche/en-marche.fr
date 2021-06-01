@@ -5,7 +5,7 @@ namespace App\DataFixtures\ORM;
 use App\Newsletter\NewsletterSubscriptionFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadNewsletterSubscriptionData extends Fixture implements OrderedFixtureInterface
 {

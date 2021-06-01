@@ -7,7 +7,7 @@ use App\Entity\ElectionRound;
 use App\Entity\VotePlace;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadVotePlaceResultData extends Fixture implements DependentFixtureInterface
 {

@@ -7,7 +7,7 @@ use App\Entity\TerritorialCouncil\TerritorialCouncil;
 use App\TerritorialCouncil\Designation\DesignationVoteModeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadTerritorialCouncilElectionData extends Fixture implements DependentFixtureInterface
 {

@@ -37,12 +37,12 @@ class ProcurationRequestFilters extends ProcurationFilters
         if ($this->matchUnprocessedRequests()) {
             $qb
                 ->andWhere("$alias.processed = :flag AND $alias.processedAt IS NULL")
-                ->setParameter('flag', 0)
+                ->setParameter('flag', false)
             ;
         } else {
             $qb
                 ->andWhere("$alias.processed = :flag AND $alias.processedAt IS NOT NULL")
-                ->setParameter('flag', 1)
+                ->setParameter('flag', true)
             ;
         }
 

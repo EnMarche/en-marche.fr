@@ -6,7 +6,7 @@ use App\Entity\Adherent;
 use App\Entity\EmailTemplate\EmailTemplate;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class LoadEmailTemplateData extends Fixture implements DependentFixtureInterface

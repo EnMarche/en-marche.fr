@@ -129,6 +129,7 @@ class AssessorRequestRepository extends AbstractAssessorRepository
 
         return (int) $qb
             ->select('COUNT(DISTINCT '.self::ALIAS.'.id)')
+            ->resetDQLPart('orderBy')
             ->getQuery()
             ->getSingleScalarResult()
         ;

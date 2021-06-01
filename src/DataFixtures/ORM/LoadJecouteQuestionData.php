@@ -7,7 +7,7 @@ use App\Entity\Jecoute\Choice;
 use App\Entity\Jecoute\Question;
 use App\Jecoute\SurveyQuestionTypeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadJecouteQuestionData extends Fixture
 {

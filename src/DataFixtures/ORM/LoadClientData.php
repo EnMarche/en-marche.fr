@@ -6,7 +6,7 @@ use App\Entity\OAuth\Client;
 use App\OAuth\Model\GrantTypeEnum;
 use App\OAuth\Model\Scope;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class LoadClientData extends Fixture

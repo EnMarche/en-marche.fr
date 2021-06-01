@@ -5,7 +5,7 @@ namespace App\DataFixtures\ORM;
 use App\Content\CustomSearchResultFactory;
 use App\Content\MediaFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
 

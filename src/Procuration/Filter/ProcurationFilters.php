@@ -167,7 +167,7 @@ abstract class ProcurationFilters
             } else {
                 $qb
                     ->andWhere("LOWER($alias.voteCityName) LIKE :filterVoteCity")
-                    ->setParameter('filterVoteCity', '%'.strtolower($this->city).'%')
+                    ->setParameter('filterVoteCity', '%'.mb_strtolower($this->city).'%')
                 ;
             }
         }
@@ -186,8 +186,8 @@ abstract class ProcurationFilters
 
         if ($this->lastName) {
             $qb
-                ->andWhere("$alias.lastName LIKE :last_name")
-                ->setParameter('last_name', '%'.strtolower($this->lastName).'%')
+                ->andWhere("ILIKE($alias.lastName, :last_name) = true")
+                ->setParameter('last_name', '%'.mb_strtolower($this->lastName).'%')
             ;
         }
 

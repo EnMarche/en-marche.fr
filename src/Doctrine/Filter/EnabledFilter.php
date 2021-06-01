@@ -14,6 +14,6 @@ class EnabledFilter extends SQLFilter
             return '';
         }
 
-        return $targetTableAlias.'.enabled = 1';
+        return $targetTableAlias.'.enabled = true';
     }
 }

@@ -5,7 +5,7 @@ namespace App\DataFixtures\ORM;
 use App\Entity\ProgrammaticFoundation\Measure;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadApproachMeasureData extends Fixture implements DependentFixtureInterface
 {

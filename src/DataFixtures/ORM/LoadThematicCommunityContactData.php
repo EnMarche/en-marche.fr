@@ -8,7 +8,7 @@ use App\Entity\ThematicCommunity\Contact;
 use App\Jecoute\GenderEnum;
 use App\Utils\PhoneNumberUtils;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadThematicCommunityContactData extends Fixture
 {

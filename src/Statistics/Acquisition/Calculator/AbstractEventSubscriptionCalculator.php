@@ -55,7 +55,7 @@ abstract class AbstractEventSubscriptionCalculator extends AbstractCalculator
         return $this->repository
             ->createQueryBuilder('event_registration')
             ->select('COUNT(1) AS total')
-            ->addSelect('YEAR_MONTH(event_registration.createdAt) AS date')
+            ->addSelect("TO_CHAR(event_registration.createdAt, 'YYYYMM') AS date")
             ->innerJoin(CommitteeEvent::class, 'event', Join::WITH, 'event_registration.event = event')
             ->innerJoin('event.referentTags', 'tags')
             ->where('event_registration.createdAt >= :start_date AND event_registration.createdAt <= :end_date')

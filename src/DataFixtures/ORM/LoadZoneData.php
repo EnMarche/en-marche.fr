@@ -6,7 +6,7 @@ use App\DataFixtures\AutoIncrementResetter;
 use App\Entity\ElectedRepresentative\Zone;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadZoneData extends Fixture implements DependentFixtureInterface
 {

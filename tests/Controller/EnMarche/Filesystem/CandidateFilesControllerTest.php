@@ -72,8 +72,8 @@ class CandidateFilesControllerTest extends WebTestCase
         $files = $crawler->filter('tbody tr');
 
         self::assertSame(2, $files->count());
-        self::assertStringContainsString('external link for regional candidates', $files->eq(0)->text());
-        self::assertStringContainsString('PDF for all.pdf', $files->eq(1)->text());
+        self::assertStringContainsString('PDF for all.pdf', $files->eq(0)->text());
+        self::assertStringContainsString('external link for regional candidates', $files->eq(1)->text());
 
         $crawler = $this->client->request(Request::METHOD_GET, '/espace-candidat/documents/images');
 
@@ -112,8 +112,8 @@ class CandidateFilesControllerTest extends WebTestCase
         $files = $crawler->filter('tbody tr');
 
         self::assertSame(2, $files->count());
-        self::assertStringContainsString('external link for regional candidates', $files->eq(0)->text());
-        self::assertStringContainsString('PDF for all.pdf', $files->eq(1)->text());
+        self::assertStringContainsString('PDF for all.pdf', $files->eq(0)->text());
+        self::assertStringContainsString('external link for regional candidates', $files->eq(1)->text());
 
         $crawler = $this->client->request(Request::METHOD_GET, '/espace-candidat/documents/images');
 
@@ -155,8 +155,8 @@ class CandidateFilesControllerTest extends WebTestCase
         $files = $crawler->filter('tbody tr');
 
         self::assertSame(2, $files->count());
-        self::assertStringContainsString('external link for regional candidates', $files->eq(0)->text());
-        self::assertStringContainsString('PDF for all.pdf', $files->eq(1)->text());
+        self::assertStringContainsString('PDF for all.pdf', $files->eq(0)->text());
+        self::assertStringContainsString('external link for regional candidates', $files->eq(1)->text());
 
         $crawler = $this->client->request(Request::METHOD_GET, '/espace-candidat/documents/images');
 

@@ -10,12 +10,12 @@ services:
                 - ${APP_DOCKER_IMAGE_NAME}:${APP_DOCKER_IMAGE_MD5}
                 - ${APP_DOCKER_IMAGE_NAME}:dev
 
-    db:
-        tmpfs: /var/lib/mysql
-
     selenium:
         ports:
             - 5900:5900
+
+    db:
+        tmpfs: /var/lib/postgresql/data:rw
 
     rabbitmq:
         image: rabbitmq:3.8.3-alpine

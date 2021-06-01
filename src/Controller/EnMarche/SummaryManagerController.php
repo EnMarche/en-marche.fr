@@ -11,6 +11,9 @@ use App\Form\LanguageType;
 use App\Form\SummaryType;
 use App\Form\TrainingType;
 use App\Membership\MemberActivityTracker;
+use App\Repository\MemberSummary\JobExperienceRepository;
+use App\Repository\MemberSummary\LanguageRepository;
+use App\Repository\MemberSummary\TrainingRepository;
 use App\Repository\SkillRepository;
 use App\Summary\SummaryManager;
 use Cocur\Slugify\SlugifyInterface;
@@ -64,10 +67,18 @@ class SummaryManagerController extends AbstractController
     }
 
     /**
-     * @Route("/experience/{id}", defaults={"id": ""}, name="app_summary_manager_handle_experience", methods={"GET", "POST"})
+     * @Route("/experience/{id}", defaults={"id": null}, name="app_summary_manager_handle_experience", methods={"GET", "POST"})
      */
-    public function handleExperienceAction(Request $request, ?JobExperience $experience): Response
+    public function handleExperienceAction(Request $request, JobExperienceRepository $repository, ?int $id): Response
     {
+        $experience = null;
+
+        if ($id) {
+            if (!$experience = $repository->find($id)) {
+                throw $this->createNotFoundException();
+            }
+        }
+
         $summary = $this->summaryManager->getForAdherent($this->getUser());
         $form = $this->createForm(JobExperienceType::class, $experience, [
             'summary' => $summary,
@@ -106,10 +117,18 @@ class SummaryManagerController extends AbstractController
     }
 
     /**
-     * @Route("/formation/{id}", defaults={"id": ""}, name="app_summary_manager_handle_training", methods={"GET", "POST"})
+     * @Route("/formation/{id}", defaults={"id": null}, name="app_summary_manager_handle_training", methods={"GET", "POST"})
      */
-    public function handleTrainingAction(Request $request, ?Training $training): Response
+    public function handleTrainingAction(Request $request, TrainingRepository $repository, ?int $id): Response
     {
+        $training = null;
+
+        if ($id) {
+            if (!$training = $repository->find($id)) {
+                throw $this->createNotFoundException();
+            }
+        }
+
         $summary = $this->summaryManager->getForAdherent($this->getUser());
         $form = $this->createForm(TrainingType::class, $training, [
             'summary' => $summary,
@@ -148,10 +167,18 @@ class SummaryManagerController extends AbstractController
     }
 
     /**
-     * @Route("/langue/{id}", defaults={"id": ""}, name="app_summary_manager_handle_language", methods={"GET", "POST"})
+     * @Route("/langue/{id}", defaults={"id": null}, name="app_summary_manager_handle_language", methods={"GET", "POST"})
      */
-    public function handleLanguageAction(Request $request, ?Language $language): Response
+    public function handleLanguageAction(Request $request, LanguageRepository $repository, ?int $id): Response
     {
+        $language = null;
+
+        if ($id) {
+            if (!$language = $repository->find($id)) {
+                throw $this->createNotFoundException();
+            }
+        }
+
         $form = $this->createForm(LanguageType::class, $language);
 
         if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {

@@ -28,7 +28,7 @@ RUN apt-get update -q && \
         nginx \
         git \
         graphviz \
-        mysql-client \
+        postgresql-client \
         php7.3 \
         php7.3-bcmath \
         php7.3-common \
@@ -40,7 +40,7 @@ RUN apt-get update -q && \
         php7.3-intl \
         php7.3-json \
         php7.3-mbstring \
-        php7.3-mysql \
+        php7.3-pgsql \
         php7.3-pdo \
         php7.3-phar \
         php7.3-sqlite \

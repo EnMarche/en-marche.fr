@@ -5,7 +5,7 @@ namespace App\DataFixtures\ORM;
 use App\Entity\RepublicanSilence;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadRepublicanSilenceData extends Fixture implements DependentFixtureInterface
 {

@@ -53,7 +53,7 @@ final class EventsZipCodeFilter extends AbstractContextAwareFilter
             'zones',
             'z2',
             function (QueryBuilder $zoneQueryBuilder, string $entityClassAlias) {
-                $zoneQueryBuilder->andWhere(sprintf('%s.published = 1', $entityClassAlias));
+                $zoneQueryBuilder->andWhere(sprintf('%s.published = true', $entityClassAlias));
             }
         );
     }

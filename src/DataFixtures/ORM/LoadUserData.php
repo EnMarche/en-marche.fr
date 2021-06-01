@@ -8,7 +8,7 @@ use App\Entity\AdherentResetPasswordToken;
 use App\Entity\PostAddress;
 use App\Membership\AdherentFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadUserData extends Fixture
 {

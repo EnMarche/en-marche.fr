@@ -203,7 +203,7 @@ class EventRepository extends ServiceEntityRepository
             ->innerJoin(District::class, 'd', Join::WITH, 'd.id = :district_id')
             ->innerJoin('d.geoData', 'gd')
             ->where('e.published = :published')
-            ->andWhere("ST_Within(ST_GeomFromText(CONCAT('POINT(',e.postAddress.longitude,' ',e.postAddress.latitude,')')), gd.geoShape) = 1")
+            ->andWhere('ST_Within(ST_Point(e.postAddress.longitude, e.postAddress.latitude), gd.geoShape) = true')
             ->setParameter('district_id', $district->getId())
             ->orderBy('e.beginAt', 'DESC')
             ->addOrderBy('e.name', 'ASC')
@@ -232,6 +232,7 @@ class EventRepository extends ServiceEntityRepository
         return (int) $this
             ->createUpcomingEventsQueryBuilder()
             ->select('COUNT(e.id)')
+            ->resetDQLPart('orderBy')
             ->getQuery()
             ->getSingleScalarResult()
         ;
@@ -386,7 +387,7 @@ events.created_at AS event_created_at, events.participants_count AS event_partic
 events.type AS event_type, events.address_address AS event_address_address, 
 events.address_country AS event_address_country, events.address_city_name AS event_address_city_name, 
 events.address_city_insee AS event_address_city_insee, events.address_postal_code AS event_address_postal_code, 
-events.address_latitude AS event_address_latitude, events.address_longitude AS event_address_longitude, events.time_zone AS timeZone,
+events.address_latitude AS event_address_latitude, events.address_longitude AS event_address_longitude, events.time_zone AS timezone,
 event_category.name AS event_category_name, 
 committees.uuid AS committee_uuid, committees.name AS committee_name, committees.slug AS committee_slug, 
 committees.description AS committee_description, committees.created_by AS committee_created_by, 
@@ -401,7 +402,10 @@ adherents.address_address AS adherent_address_address, adherents.address_country
 adherents.address_city_name AS adherent_address_city_name, adherents.address_city_insee AS adherent_address_city_insee, 
 adherents.address_postal_code AS adherent_address_postal_code, adherents.address_latitude AS adherent_address_latitude, 
 adherents.address_longitude AS adherent_address_longitude, adherents.position AS adherent_position,
-(6371 * ACOS(COS(RADIANS(:latitude)) * COS(RADIANS(events.address_latitude)) * COS(RADIANS(events.address_longitude) - RADIANS(:longitude)) + SIN(RADIANS(:latitude)) * SIN(RADIANS(events.address_latitude)))) AS distance 
+ST_DistanceSphere(
+    ST_Point(events.address_longitude, events.address_latitude),
+    ST_Point(:longitude, :latitude)
+) AS distance
 FROM events 
 LEFT JOIN adherents ON adherents.id = events.organizer_id
 LEFT JOIN committees ON committees.id = events.committee_id
@@ -409,9 +413,12 @@ LEFT JOIN events_categories AS event_category ON event_category.id = events.cate
 LEFT JOIN citizen_action_categories AS citizen_action_category ON citizen_action_category.id = events.category_id AND events.type = :citizen_action_event_type
 WHERE (events.address_latitude IS NOT NULL 
     AND events.address_longitude IS NOT NULL 
-    AND (6371 * ACOS(COS(RADIANS(:latitude)) * COS(RADIANS(events.address_latitude)) * COS(RADIANS(events.address_longitude) - RADIANS(:longitude)) + SIN(RADIANS(:latitude)) * SIN(RADIANS(events.address_latitude)))) < :distance_max 
+    AND ST_DistanceSphere(
+        ST_Point(events.address_longitude, events.address_latitude),
+        ST_Point(:longitude, :latitude)
+    ) < :distance_max
     AND events.begin_at > :today 
-    AND events.published = :published
+    AND events.published = true
     AND events.status = :scheduled
     AND (event_category.id IS NOT NULL OR citizen_action_category.id IS NOT NULL)
     )
@@ -459,7 +466,7 @@ SQL;
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
         if ($search->getCityCoordinates()) {
-            $query->setParameter('distance_max', $search->getRadius());
+            $query->setParameter('distance_max', $search->getRadiusInMeters());
             $query->setParameter('today', new \DateTime('now - 1 hour'));
         }
 
@@ -477,7 +484,6 @@ SQL;
 
         $query->setParameter('latitude', $search->getCityCoordinates()->getLatitude());
         $query->setParameter('longitude', $search->getCityCoordinates()->getLongitude());
-        $query->setParameter('published', 1, \PDO::PARAM_INT);
         $query->setParameter('scheduled', BaseEvent::STATUS_SCHEDULED);
         $query->setParameter('base_event_types', [EventTypeEnum::TYPE_COMMITTEE, EventTypeEnum::TYPE_DEFAULT]);
         $query->setParameter('citizen_action_event_type', EventTypeEnum::TYPE_CITIZEN_ACTION);
@@ -547,7 +553,7 @@ SQL;
 
         if ($value) {
             $qb
-                ->andWhere('event.postAddress.cityName LIKE :searchedCityName')
+                ->andWhere('ILIKE(event.postAddress.cityName, :searchedCityName) = true')
                 ->setParameter('searchedCityName', $value.'%')
             ;
         }
@@ -558,7 +564,7 @@ SQL;
     public function queryCountByMonth(Adherent $referent, int $months = 5): QueryBuilder
     {
         return $this->createQueryBuilder('event')
-            ->select('COUNT(DISTINCT event.id) AS count, YEAR_MONTH(event.beginAt) AS yearmonth')
+            ->select("COUNT(DISTINCT event.id) AS count, TO_CHAR(event.beginAt, 'YYYYMM') AS yearmonth")
             ->innerJoin('event.referentTags', 'tag')
             ->where('tag IN (:tags)')
             ->setParameter('tags', $referent->getManagedArea()->getTags())
@@ -568,31 +574,6 @@ SQL;
             ->setParameter('until', (new Chronos('now'))->setTime(23, 59, 59, 999))
             ->groupBy('yearmonth')
         ;
-    }
-
-    public function countParticipantsInReferentManagedAreaByMonthForTheLastSixMonths(Adherent $referent): array
-    {
-        $this->checkReferent($referent);
-
-        $eventsCount = $this->createQueryBuilder('event')
-            ->select('YEAR_MONTH(event.beginAt) AS yearmonth, event.participantsCount as count')
-            ->innerJoin('event.referentTags', 'tag')
-            ->where('tag IN (:tags)')
-            ->andWhere('event.committee IS NOT NULL')
-            ->andWhere("event.status = '".BaseEvent::STATUS_SCHEDULED."'")
-            ->andWhere('event.participantsCount > 0')
-            ->andWhere('event.beginAt >= :from')
-            ->andWhere('event.beginAt <= :until')
-            ->setParameter('from', (new Chronos('first day of -5 months'))->setTime(0, 0, 0, 000))
-            ->setParameter('until', (new Chronos('now'))->setTime(23, 59, 59, 999))
-            ->setParameter('tags', $referent->getManagedArea()->getTags())
-            ->groupBy('event.id')
-            ->getQuery()
-            ->useResultCache(true, 3600)
-            ->getArrayResult()
-        ;
-
-        return RepositoryUtils::aggregateCountByMonth($eventsCount);
     }
 
     public function countParticipantsInReferentManagedArea(Adherent $referent): int

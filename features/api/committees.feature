@@ -78,14 +78,14 @@ Feature:
     """
     {
       "most_active": [
-        {"name":"En Marche Dammarie-les-Lys","events":"1"},
-        {"name":"Antenne En Marche de Fontainebleau","events":"1"},
-        {"name":"En Marche - Suisse","events":"1"}
+        {"name":"En Marche Dammarie-les-Lys","events":1},
+        {"name":"Antenne En Marche de Fontainebleau","events":1},
+        {"name":"En Marche - Suisse","events":1}
       ],
       "least_active": [
-        {"name":"En Marche - Suisse","events":"1"},
-        {"name":"Antenne En Marche de Fontainebleau","events":"1"},
-        {"name":"En Marche Dammarie-les-Lys","events":"1"}
+        {"name":"En Marche - Suisse","events":1},
+        {"name":"Antenne En Marche de Fontainebleau","events":1},
+        {"name":"En Marche Dammarie-les-Lys","events":1}
       ]
     }
     """

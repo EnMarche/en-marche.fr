@@ -18,7 +18,7 @@ class JecouteNewsExtension implements ContextAwareQueryCollectionExtensionInterf
     ) {
         if (News::class === $resourceClass) {
             $queryBuilder
-                ->andWhere(sprintf('%1$s.published = 1 AND %1$s.createdAt >= :date', $queryBuilder->getRootAliases()[0]))
+                ->andWhere(sprintf('%1$s.published = true AND %1$s.createdAt >= :date', $queryBuilder->getRootAliases()[0]))
                 ->setParameter('date', (new \DateTime('-60 days'))->setTime(0, 0))
             ;
         }

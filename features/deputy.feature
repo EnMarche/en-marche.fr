@@ -58,7 +58,6 @@ Feature:
     And I press "Envoyer le message"
     Then I should be on "/espace-depute/utilisateurs/message"
     And I should see 0 ".form__errors" elements
-    And I should see "Votre message a été envoyé avec succès. Il pourrait prendre quelques minutes à s'envoyer."
 
   @javascript
   Scenario: As deputy of 1st Paris district I can see committees.

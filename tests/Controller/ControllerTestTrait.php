@@ -198,7 +198,7 @@ trait ControllerTestTrait
         $session->set('_security_main_context', serialize($token));
         $session->save();
 
-        $client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
+        $client->getCookieJar()->set(new Cookie($session->getName(), $session->getId(), null, null, 'test.enmarche.code'));
     }
 
     private function getEventCategoryIdForName(string $categoryName): int

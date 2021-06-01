@@ -18,7 +18,7 @@ class HomeControllerTest extends WebTestCase
     {
         $crawler = $this->client->request(Request::METHOD_GET, '/');
 
-        $this->isSuccessful($response = $this->client->getResponse());
+        $this->isSuccessful($this->client->getResponse());
 
         // Articles
         // $this->assertSame(1, $crawler->filter('html:contains("« Je viens échanger, comprendre et construire. »")')->count());

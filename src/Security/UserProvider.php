@@ -35,9 +35,7 @@ class UserProvider extends EntityUserProvider
 
     public function loadUserByUsername($username)
     {
-        $signature = LoginAttemptSignature::createFromRequest($this->requestStack->getMasterRequest())
-            ->getSignature()
-        ;
+        $signature = LoginAttemptSignature::createFromRequest($this->requestStack->getMasterRequest())->getSignature();
 
         if (!$this->failedLoginAttemptRepository->canLogin($signature)) {
             $this->logger->warning(sprintf('Max login attempts reached for "%s"', $username), [

@@ -55,7 +55,7 @@ class ReferentTagRepository extends ServiceEntityRepository
     public function findByPartialName(string $name, int $limit, int $offset): array
     {
         return $this->createQueryBuilder('tag')
-            ->where('tag.name LIKE :name')
+            ->where('ILIKE(tag.name, :name) = true')
             ->setParameter('name', $name.'%')
             ->setMaxResults($limit)
             ->setFirstResult($offset)

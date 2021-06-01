@@ -7,7 +7,7 @@ use App\Entity\AdherentMandate\CommitteeMandateQualityEnum;
 use App\ValueObject\Genders;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadCommitteeAdherentMandateData extends Fixture implements DependentFixtureInterface
 {

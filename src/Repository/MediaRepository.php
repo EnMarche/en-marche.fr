@@ -33,7 +33,7 @@ class MediaRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('m')
-            ->where('m.mimeType LIKE :type')
+            ->where('ILIKE(m.mimeType, :type) = true')
             ->setParameter('type', $type.'%')
             ->orderBy('m.id')
             ->getQuery()

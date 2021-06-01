@@ -311,7 +311,7 @@ class ProcurationControllerTest extends WebTestCase
         $this->client->submit($crawler->selectButton('Je continue')->form([
             'g-recaptcha-response' => 'dummy',
             'app_procuration_request' => [
-                'electionRounds' => ['9'],
+                'electionRounds' => ['10'],
                 'reason' => ProcurationRequest::REASON_HEALTH,
                 'authorization' => true,
                 'reachable' => true,
@@ -343,7 +343,7 @@ class ProcurationControllerTest extends WebTestCase
         $this->assertSame('Lyon 1er', $request->getCityName());
         $this->assertSame('6 rue Neyret', $request->getAddress());
         $this->assertSame(true, $request->isReachable());
-        $this->assertEquals([$this->getRepository(ElectionRound::class)->find(9)], $request->getElectionRounds()->toArray());
+        $this->assertEquals([$this->getRepository(ElectionRound::class)->find(10)], $request->getElectionRounds()->toArray());
         $this->assertSame(ProcurationRequest::REASON_HEALTH, $request->getReason());
     }
 
@@ -483,7 +483,7 @@ class ProcurationControllerTest extends WebTestCase
                 'voteCity' => '92110-92024',
                 'voteCityName' => '',
                 'voteOffice' => 'TestOfficeName',
-                'electionRounds' => ['9'],
+                'electionRounds' => ['10'],
                 'conditions' => true,
                 'authorization' => true,
                 'proxiesCount' => 2,
@@ -515,7 +515,7 @@ class ProcurationControllerTest extends WebTestCase
         $this->assertSame('6 rue Neyret', $proposal->getAddress());
         $this->assertSame(true, $proposal->isReachable());
         $this->assertSame(1, $proposal->getReliability());
-        $this->assertEquals([$this->getRepository(ElectionRound::class)->find(9)], $proposal->getElectionRounds()->toArray());
+        $this->assertEquals([$this->getRepository(ElectionRound::class)->find(10)], $proposal->getElectionRounds()->toArray());
     }
 
     public function testProcurationRequestNotUniqueEmailBirthDate()
@@ -577,7 +577,7 @@ class ProcurationControllerTest extends WebTestCase
         $this->client->submit($crawler->selectButton('Je continue')->form([
             'g-recaptcha-response' => 'dummy',
             'app_procuration_request' => [
-                'electionRounds' => ['9'],
+                'electionRounds' => ['10'],
                 'reason' => ProcurationRequest::REASON_HEALTH,
                 'authorization' => true,
             ],
@@ -627,7 +627,7 @@ class ProcurationControllerTest extends WebTestCase
                 'voteCity' => '75018-75120',
                 'voteCityName' => '',
                 'voteOffice' => 'Mairie',
-                'electionRounds' => ['9'],
+                'electionRounds' => ['10'],
                 'conditions' => true,
                 'authorization' => true,
                 'proxiesCount' => 2,

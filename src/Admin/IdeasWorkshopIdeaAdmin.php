@@ -137,7 +137,7 @@ class IdeasWorkshopIdeaAdmin extends AbstractAdmin
                     'choices' => array_combine(
                         array_map(
                             function ($category) {
-                                return 'ideas_workshop.author_category.'.strtolower($category);
+                                return 'ideas_workshop.author_category.'.mb_strtolower($category);
                             },
                             AuthorCategoryEnum::ALL_CATEGORIES
                         ),
@@ -153,7 +153,7 @@ class IdeasWorkshopIdeaAdmin extends AbstractAdmin
                     'choices' => array_combine(
                         array_map(
                             function ($status) {
-                                return 'ideas_workshop.status.'.strtolower($status);
+                                return 'ideas_workshop.status.'.mb_strtolower($status);
                             },
                             IdeaStatusEnum::ALL_STATUSES
                         ),

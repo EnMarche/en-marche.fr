@@ -6,7 +6,7 @@ use App\Entity\Geo\Zone;
 use App\Entity\Jecoute\Region;
 use App\Jecoute\RegionColorEnum;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class LoadJecouteRegionData extends AbstractFixtures implements DependentFixtureInterface

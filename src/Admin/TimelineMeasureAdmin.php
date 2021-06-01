@@ -78,7 +78,7 @@ class TimelineMeasureAdmin extends AbstractAdmin
 
                     $qb
                         ->join("$alias.translations", 'translations')
-                        ->andWhere('translations.title LIKE :title')
+                        ->andWhere('ILIKE(translations.title, :title) = true')
                         ->setParameter('title', '%'.$value['value'].'%')
                     ;
 

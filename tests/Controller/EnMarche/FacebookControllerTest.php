@@ -18,13 +18,13 @@ class FacebookControllerTest extends WebTestCase
     public function testIndex()
     {
         $this->client->request(Request::METHOD_GET, '/profil-facebook');
-        $this->assertResponseStatusCode(Response::HTTP_OK, $response = $this->client->getResponse());
+        $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
     }
 
     public function testAuth()
     {
         $this->client->request(Request::METHOD_GET, '/profil-facebook/connexion');
-        $this->assertResponseStatusCode(Response::HTTP_FOUND, $response = $this->client->getResponse());
+        $this->assertResponseStatusCode(Response::HTTP_FOUND, $this->client->getResponse());
     }
 
     protected function setUp(): void

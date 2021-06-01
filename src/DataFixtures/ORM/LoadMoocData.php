@@ -7,7 +7,7 @@ use App\Entity\Mooc\Mooc;
 use Cake\Chronos\MutableDateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
 class LoadMoocData extends Fixture implements DependentFixtureInterface

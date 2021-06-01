@@ -66,7 +66,12 @@ abstract class AbstractFilesController extends AbstractController
     public function listAction(Request $request, File $directory = null): Response
     {
         $order = $request->query->get('order', 'a');
-        $files = $this->fileRepository->findWithPermissionsInDirectory($this->getMainUser($request->getSession())->getFilePermissions(), $directory, $order);
+
+        $files = $this->fileRepository->findWithPermissionsInDirectory(
+            $this->getMainUser($request->getSession())->getFilePermissions(),
+            $directory,
+            $order
+        );
 
         return $this->renderTemplate('filesystem/list.html.twig', [
             'files' => $files,

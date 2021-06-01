@@ -15,7 +15,7 @@ use App\Event\EventRegistrationFactory;
 use Cake\Chronos\Chronos;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadCommitteeEventData extends Fixture implements DependentFixtureInterface
 {

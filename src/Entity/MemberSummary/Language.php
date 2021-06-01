@@ -8,7 +8,7 @@ use Symfony\Component\Intl\Languages;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\MemberSummary\LanguageRepository")
  * @ORM\Table(name="member_summary_languages")
  */
 class Language

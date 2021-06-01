@@ -6,7 +6,7 @@ use App\DataFixtures\AutoIncrementResetter;
 use App\Entity\IdeasWorkshop\Answer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadIdeaAnswerData extends Fixture implements DependentFixtureInterface
 {

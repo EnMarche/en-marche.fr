@@ -25,7 +25,7 @@ abstract class AbstractOrganizationalChartItem
      *
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

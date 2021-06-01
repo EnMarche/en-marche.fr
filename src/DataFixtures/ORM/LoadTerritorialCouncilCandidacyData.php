@@ -10,7 +10,7 @@ use App\Entity\TerritorialCouncil\TerritorialCouncilQualityEnum;
 use App\Image\ImageManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LoadTerritorialCouncilCandidacyData extends Fixture implements DependentFixtureInterface

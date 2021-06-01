@@ -336,11 +336,6 @@ Feature:
     Then I should be on "/espace-adherent/accueil"
     And the adherent "simple-user@example.ch" should have the "CH" referent tag
     And I should see "Votre compte adhérent est maintenant actif."
-    And "api_sync" should have 1 message
-    And "api_sync" should have message below:
-      | routing_key  | body                                                                                                                                                                             |
-      | user.updated | {"uuid":"@string@","subscriptionExternalIds":["123abc","456def"],"city":"Zürich","country":"CH","zipCode":"8057","tags":["CH"],"emailAddress":"simple-user@example.ch","firstName":"Simple","lastName":"User"} |
-    And I clean the "api_sync" queue
 
   @javascript
   Scenario: I can become adherent with a french address
@@ -366,7 +361,7 @@ Feature:
     Given I fill in the following:
       | become_adherent[address][country]    | FR       |
       | become_adherent[address][postalCode] | 69001    |
-    And I wait until I see "Lyon" in the "#become_adherent_address_city" element
+    And I wait until I see "Lyon 1er" in the "#become_adherent_address_city" element
     When I press "Je rejoins La République En Marche"
     Then I should be on "/espace-adherent/accueil"
     And I should see "Votre compte adhérent est maintenant actif."
@@ -467,7 +462,7 @@ Feature:
     Then I should be on "/adhesion"
     Given I fill in the following:
       | become_adherent[customGender] | Etre non binaire |
-    And I wait until I see "Lyon" in the "#become_adherent_address_city" element
+    And I wait until I see "Lyon 1er" in the "#become_adherent_address_city" element
     When I press "Je rejoins La République En Marche"
     Then I should be on "/espace-adherent/accueil"
     And I should see "Votre compte adhérent est maintenant actif."

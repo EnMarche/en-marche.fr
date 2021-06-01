@@ -133,7 +133,7 @@ abstract class AbstractApplicationRequestRepository extends ServiceEntityReposit
                 $orExpression->add("CONCAT('#', REPLACE(r.favoriteCities, ',', '#')) LIKE :code_${key}");
                 $qb->setParameter("code_$key", sprintf('%%#%s%%', rtrim($code, '0')));
             } else {
-                $orExpression->add("FIND_IN_SET(:code_$key, r.favoriteCities) > 0");
+                $orExpression->add(":code_$key = ANY_OF(string_to_array(r.favoriteCities, ','))");
                 $qb->setParameter("code_$key", $code);
             }
         }

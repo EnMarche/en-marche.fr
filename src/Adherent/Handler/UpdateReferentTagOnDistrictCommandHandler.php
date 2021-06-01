@@ -32,7 +32,7 @@ class UpdateReferentTagOnDistrictCommandHandler implements MessageHandlerInterfa
 
         $newDistrictTags = array_column($connection->executeQuery(
             'SELECT d.referent_tag_id FROM adherents AS a
-            INNER JOIN geo_data AS geo ON ST_Within(ST_GeomFromText(CONCAT(\'POINT (\', a.address_longitude, \' \', a.address_latitude, \')\')), geo.geo_shape) = 1
+            INNER JOIN geo_data AS geo ON ST_Within(ST_GeomFromText(CONCAT(\'POINT (\', a.address_longitude, \' \', a.address_latitude, \')\')), geo.geo_shape) = true
             INNER JOIN districts AS d on d.geo_data_id = geo.id
             WHERE a.id = ?',
             [$adherentId]

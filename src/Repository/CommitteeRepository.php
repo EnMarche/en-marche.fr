@@ -82,7 +82,7 @@ class CommitteeRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->where('c.postAddress.address = :address AND c.postAddress.postalCode = :postal_code')
-            ->andWhere('c.postAddress.cityName LIKE :city_name AND c.postAddress.country = :country')
+            ->andWhere('ILIKE(c.postAddress.cityName, :city_name) = true AND c.postAddress.country = :country')
             ->andWhere('c.status = :approved')
             ->setParameters([
                 'address' => $address->getAddress(),
@@ -370,7 +370,7 @@ class CommitteeRepository extends ServiceEntityRepository
             $qb = $this
                 ->createNearbyQueryBuilder($coordinates)
                 ->andWhere($this->getNearbyExpression().' < :distance_max')
-                ->setParameter('distance_max', $search->getRadius())
+                ->setParameter('distance_max', $search->getRadiusInMeters())
             ;
         } else {
             $qb = $this->createQueryBuilder('n');
@@ -499,9 +499,9 @@ class CommitteeRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder($alias)
-            ->where("$alias.canonicalName LIKE :search")
+            ->where("ILIKE($alias.canonicalName, :search) = true")
             ->andWhere("$alias.status = :status")
-            ->setParameter('search', '%'.strtolower($search).'%')
+            ->setParameter('search', '%'.mb_strtolower($search).'%')
             ->setParameter('status', Committee::APPROVED)
         ;
     }
@@ -551,7 +551,7 @@ class CommitteeRepository extends ServiceEntityRepository
 
         if ($value) {
             $qb
-                ->andWhere('committee.name LIKE :searchedName')
+                ->andWhere('ILIKE(committee.name, :searchedName) = true')
                 ->setParameter('searchedName', $value.'%')
                 ->setMaxResults(70)
             ;
@@ -578,7 +578,7 @@ class CommitteeRepository extends ServiceEntityRepository
 
         if ($value) {
             $qb
-                ->andWhere('committee.postAddress.cityName LIKE :searchedCityName')
+                ->andWhere('ILIKE(committee.postAddress.cityName, :searchedCityName) = true')
                 ->setParameter('searchedCityName', $value.'%')
             ;
         }
@@ -606,7 +606,7 @@ class CommitteeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->innerJoin(District::class, 'd', Join::WITH, 'd.id = :district_id')
             ->innerJoin('d.geoData', 'gd')
-            ->where("ST_Within(ST_GeomFromText(CONCAT('POINT(',c.postAddress.longitude,' ',c.postAddress.latitude,')')), gd.geoShape) = 1")
+            ->where('ST_Within(ST_Point(c.postAddress.longitude, c.postAddress.latitude), gd.geoShape) = true')
             ->andWhere('c.status = :status')
             ->setParameter('district_id', $district->getId())
             ->setParameter('status', Committee::APPROVED)
@@ -646,8 +646,8 @@ class CommitteeRepository extends ServiceEntityRepository
     ): array {
         $this->checkReferent($referent);
 
-        $result = $this->createQueryBuilder('committee')
-            ->select('committee.name, COUNT(event) AS events, SUM(event.participantsCount) as participants')
+        return $this->createQueryBuilder('committee')
+            ->select('committee.name, COUNT(event) AS events, SUM(event.participantsCount) as HIDDEN participants')
             ->join(CommitteeEvent::class, 'event', Join::WITH, 'event.committee = committee.id')
             ->join('committee.referentTags', 'tag')
             ->where('tag.id IN (:tags)')
@@ -666,17 +666,6 @@ class CommitteeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getArrayResult()
         ;
-
-        return $this->removeParticipantionsCountAndId($result);
-    }
-
-    private function removeParticipantionsCountAndId(array $committees): array
-    {
-        array_walk($committees, function (&$item) {
-            unset($item['participants']);
-        });
-
-        return $committees;
     }
 
     /**
@@ -762,7 +751,7 @@ class CommitteeRepository extends ServiceEntityRepository
             ))
             ->addSelect(sprintf('(%s) AS total_candidacy_male',
                 $this->getEntityManager()->createQueryBuilder()
-                    ->select('SUM(IF(candidacy1.id IS NOT NULL AND candidacy1.gender = :male, 1, 0))')
+                    ->select('SUM(CASE WHEN candidacy1.id IS NOT NULL AND candidacy1.gender = :male THEN 1 ELSE 0 END)')
                     ->from(CommitteeElection::class, 'election1')
                     ->leftJoin('election1.candidacies', 'candidacy1')
                     ->innerJoin('election1.designation', 'designation1')
@@ -772,7 +761,7 @@ class CommitteeRepository extends ServiceEntityRepository
             ))
             ->addSelect(sprintf('(%s) AS total_candidacy_female',
                 $this->getEntityManager()->createQueryBuilder()
-                    ->select('SUM(IF(candidacy2.id IS NOT NULL AND candidacy2.gender = :female, 1, 0))')
+                    ->select('SUM(CASE WHEN candidacy2.id IS NOT NULL AND candidacy2.gender = :female THEN 1 ELSE 0 END)')
                     ->from(CommitteeElection::class, 'election2')
                     ->leftJoin('election2.candidacies', 'candidacy2')
                     ->innerJoin('election2.designation', 'designation2')
@@ -839,10 +828,10 @@ class CommitteeRepository extends ServiceEntityRepository
         int $limit = 100
     ): array {
         $qb = $this->createQueryBuilder('committee')
-            ->addSelect('SUM(CASE WHEN mandate.id IS NOT NULL AND mandate.quality IS NULL THEN 1 ELSE 0 END) AS total_designed_adherents')
+            ->addSelect(($having1 = 'SUM(CASE WHEN mandate.id IS NOT NULL AND mandate.quality IS NULL THEN 1 ELSE 0 END)').' AS total_designed_adherents')
             ->addSelect('SUM(CASE WHEN mandate.id IS NOT NULL AND mandate.quality IS NULL AND mandate.gender = :female THEN 1 ELSE 0 END) AS total_designed_adherents_female')
             ->addSelect('SUM(CASE WHEN mandate.id IS NOT NULL AND mandate.quality IS NULL AND mandate.gender = :male THEN 1 ELSE 0 END) AS total_designed_adherents_male')
-            ->addSelect('SUM(CASE WHEN mandate.id IS NOT NULL AND mandate.quality = :supervisor AND mandate.provisional = :false THEN 1 ELSE 0 END) AS total_supervisors')
+            ->addSelect(($having2 = 'SUM(CASE WHEN mandate.id IS NOT NULL AND mandate.quality = :supervisor AND mandate.provisional = :false THEN 1 ELSE 0 END)').' AS total_supervisors')
             ->addSelect('SUM(CASE WHEN mandate.id IS NOT NULL AND mandate.quality = :supervisor AND mandate.provisional = :false AND mandate.gender = :female THEN 1 ELSE 0 END) AS total_supervisors_female')
             ->addSelect('SUM(CASE WHEN mandate.id IS NOT NULL AND mandate.quality = :supervisor AND mandate.provisional = :false AND mandate.gender = :male THEN 1 ELSE 0 END) AS total_supervisors_male')
             ->leftJoin('committee.adherentMandates', 'mandate', Join::WITH, 'mandate.finishAt IS NULL')
@@ -861,12 +850,12 @@ class CommitteeRepository extends ServiceEntityRepository
                 'now' => new \DateTime(),
                 'd30' => (new \DateTime())->modify('-30 days'),
             ])
-            ->having('total_designed_adherents < 2 OR total_supervisors < 2')
+            ->having("${having1} < 2 OR ${having2} < 2")
         ;
 
         if ($filter->getCommitteeName()) {
             $qb
-                ->andWhere('committee.name LIKE :committee_name')
+                ->andWhere('ILIKE(committee.name, :committee_name) = true')
                 ->setParameter('committee_name', '%'.$filter->getCommitteeName().'%')
             ;
         }

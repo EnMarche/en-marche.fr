@@ -39,8 +39,8 @@ class AdherentManager
 
         foreach (range(0, $months - 1) as $monthInterval) {
             $until = $monthInterval
-                        ? (new Chronos("last day of -$monthInterval month"))->setTime(23, 59, 59, 999)
-                        : new Chronos()
+                ? (new Chronos("last day of -$monthInterval month"))->setTime(23, 59, 59, 999)
+                : new Chronos()
             ;
 
             $count = $this->repository->countMembersManagedBy($referent, $until);

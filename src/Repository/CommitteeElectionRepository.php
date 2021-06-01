@@ -81,7 +81,7 @@ class CommitteeElectionRepository extends ServiceEntityRepository
             ->addSelect('committee', 'designation')
             ->addSelect(sprintf('(%s) AS total_confirmed_candidacy_male',
                 $this->getEntityManager()->createQueryBuilder()
-                    ->select('SUM(IF(sub_committee_candidacy_1.id IS NOT NULL AND sub_committee_candidacy_1.gender = :male, 1, 0))')
+                    ->select('SUM(CASE WHEN sub_committee_candidacy_1.id IS NOT NULL AND sub_committee_candidacy_1.gender = :male THEN 1 ELSE 0 END)')
                     ->from(CommitteeCandidacy::class, 'sub_committee_candidacy_1')
                     ->where('sub_committee_candidacy_1.committeeElection = committee_election')
                     ->andWhere('sub_committee_candidacy_1.status = :confirmed')
@@ -89,7 +89,7 @@ class CommitteeElectionRepository extends ServiceEntityRepository
             ))
             ->addSelect(sprintf('(%s) AS total_confirmed_candidacy_female',
                 $this->getEntityManager()->createQueryBuilder()
-                    ->select('SUM(IF(sub_committee_candidacy_2.id IS NOT NULL AND sub_committee_candidacy_2.gender = :female, 1, 0))')
+                    ->select('SUM(CASE WHEN sub_committee_candidacy_2.id IS NOT NULL AND sub_committee_candidacy_2.gender = :female THEN 1 ELSE 0 END)')
                     ->from(CommitteeCandidacy::class, 'sub_committee_candidacy_2')
                     ->where('sub_committee_candidacy_2.committeeElection = committee_election')
                     ->andWhere('sub_committee_candidacy_2.status = :confirmed')
@@ -97,7 +97,7 @@ class CommitteeElectionRepository extends ServiceEntityRepository
             ))
             ->addSelect(sprintf('(%s) AS total_draft_candidacy_male',
                 $this->getEntityManager()->createQueryBuilder()
-                    ->select('SUM(IF(sub_committee_candidacy_3.id IS NOT NULL AND sub_committee_candidacy_3.gender = :male, 1, 0))')
+                    ->select('SUM(CASE WHEN sub_committee_candidacy_3.id IS NOT NULL AND sub_committee_candidacy_3.gender = :male THEN 1 ELSE 0 END)')
                     ->from(CommitteeCandidacy::class, 'sub_committee_candidacy_3')
                     ->where('sub_committee_candidacy_3.committeeElection = committee_election')
                     ->andWhere('sub_committee_candidacy_3.status = :draft')
@@ -105,7 +105,7 @@ class CommitteeElectionRepository extends ServiceEntityRepository
             ))
             ->addSelect(sprintf('(%s) AS total_draft_candidacy_female',
                 $this->getEntityManager()->createQueryBuilder()
-                    ->select('SUM(IF(sub_committee_candidacy_4.id IS NOT NULL AND sub_committee_candidacy_4.gender = :female, 1, 0))')
+                    ->select('SUM(CASE WHEN sub_committee_candidacy_4.id IS NOT NULL AND sub_committee_candidacy_4.gender = :female THEN 1 ELSE 0 END)')
                     ->from(CommitteeCandidacy::class, 'sub_committee_candidacy_4')
                     ->where('sub_committee_candidacy_4.committeeElection = committee_election')
                     ->andWhere('sub_committee_candidacy_4.status = :draft')
@@ -113,7 +113,7 @@ class CommitteeElectionRepository extends ServiceEntityRepository
             ))
             ->addSelect(sprintf('(%s) AS winners',
                 $this->getEntityManager()->createQueryBuilder()
-                    ->select('GROUP_CONCAT(CONCAT_WS(\'|\', sub_voting_platform_candidate.gender, sub_voting_platform_candidate.firstName, sub_voting_platform_candidate.lastName))')
+                    ->select("STRING_AGG(CONCAT(sub_voting_platform_candidate.gender, '|', sub_voting_platform_candidate.firstName, '|', sub_voting_platform_candidate.lastName), ',')")
                     ->from(Candidate::class, 'sub_voting_platform_candidate')
                     ->innerJoin('sub_voting_platform_candidate.candidateGroup', 'sub_candidate_group', Join::WITH, 'sub_candidate_group.elected = :true')
                     ->innerJoin('sub_candidate_group.electionPool', 'sub_election_pool')
@@ -121,8 +121,8 @@ class CommitteeElectionRepository extends ServiceEntityRepository
                     ->innerJoin('sub_voting_platform_election.electionEntity', 'sub_voting_platform_election_entity')
                     ->andWhere('sub_voting_platform_election_entity.committee = committee')
                     ->andWhere('sub_voting_platform_election.designation = designation')
-                    ->getDQL()
-            ))
+                    ->getDQL())
+            )
             ->addSelect(sprintf('(%s) AS voters',
                 $this->getEntityManager()->createQueryBuilder()
                     ->select('COUNT(1)')
@@ -159,7 +159,7 @@ class CommitteeElectionRepository extends ServiceEntityRepository
 
         if ($filter->getCommitteeName()) {
             $qb
-                ->andWhere('committee.name LIKE :committee_name')
+                ->andWhere('ILIKE(committee.name, :committee_name) = true')
                 ->setParameter('committee_name', '%'.$filter->getCommitteeName().'%')
             ;
         }

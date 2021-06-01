@@ -88,8 +88,6 @@ Feature:
     # As an animator, I should have an events section
     Then I should see "Les événements que j'ai créés"
     And I should see 2 ".events ul li" elements
-    And I should see "Événement de la catégorie masquée"
-    And I should see "Réunion de réflexion parisienne"
 
     # As an animator, I should have an interests section
     Then I should see "Les thématiques qui m'intéressent"

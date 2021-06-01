@@ -509,6 +509,9 @@
     "markbaker/matrix": {
         "version": "1.2.0"
     },
+    "martin-georgiev/postgresql-for-doctrine": {
+        "version": "v1.5.1"
+    },
     "masterminds/html5": {
         "version": "2.7.4"
     },
@@ -571,6 +574,9 @@
         "files": [
             "config/packages/misd_phone_number.yaml"
         ]
+    },
+    "oro/doctrine-extensions": {
+        "version": "2.0.0"
     },
     "paragonie/constant_time_encoding": {
         "version": "v2.3.0"

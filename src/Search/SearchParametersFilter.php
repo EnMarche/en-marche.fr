@@ -229,4 +229,9 @@ class SearchParametersFilter
     {
         return self::TYPE_CITIZEN_PROJECTS === $this->getType();
     }
+
+    public function getRadiusInMeters(): int
+    {
+        return $this->radius * 1000;
+    }
 }

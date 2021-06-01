@@ -44,7 +44,7 @@ class Theme implements EnabledInterface, ImageOwnerInterface
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @SymfonySerializer\Groups({"idea_theme_read", "idea_read", "idea_list_read"})
      */

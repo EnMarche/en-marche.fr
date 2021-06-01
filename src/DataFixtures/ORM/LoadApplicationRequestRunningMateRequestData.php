@@ -6,7 +6,7 @@ use App\Entity\ApplicationRequest\RunningMateRequest;
 use App\ValueObject\Genders;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use libphonenumber\PhoneNumberUtil;
 use Ramsey\Uuid\Uuid;

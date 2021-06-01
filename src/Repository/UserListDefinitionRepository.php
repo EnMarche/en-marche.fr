@@ -34,7 +34,7 @@ class UserListDefinitionRepository extends ServiceEntityRepository
                 Join::WITH,
                 'userListDefinition MEMBER OF members.userListDefinitions'
             )
-            ->select('userListDefinition.code AS code, GROUP_CONCAT(members.id) AS ids')
+            ->select('userListDefinition.code AS code, STRING_AGG(CAST(members.id AS string), \',\') AS ids')
             ->where('userListDefinition.type = :type')
             ->andWhere('members.id IN (:ids)')
             ->setParameter('type', $type)

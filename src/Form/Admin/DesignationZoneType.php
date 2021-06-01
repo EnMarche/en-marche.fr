@@ -19,7 +19,7 @@ class DesignationZoneType extends AbstractType
         $resolver->setDefaults([
             'choices' => array_combine(DesignationZoneEnum::toArray(), DesignationZoneEnum::toArray()),
             'choice_label' => static function (string $type) {
-                return 'voting_platform.designation.zone_'.strtolower($type);
+                return 'voting_platform.designation.zone_'.mb_strtolower($type);
             },
         ]);
     }

@@ -4,7 +4,7 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\Biography\ExecutiveOfficeMember;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadExecutiveOfficeMemberData extends Fixture
 {

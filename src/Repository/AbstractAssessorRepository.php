@@ -15,7 +15,7 @@ abstract class AbstractAssessorRepository extends ServiceEntityRepository
     ): QueryBuilder {
         if ($assessorRequest->isFrenchAssessorRequest()) {
             return $qb
-                ->andWhere("FIND_IN_SET(:postalCode, $alias.postalCode) > 0")
+                ->andWhere(":postalCode = ANY_OF(string_to_array($alias.postalCode, ','))")
                 ->setParameter('postalCode', $assessorRequest->getAssessorPostalCode())
                 ->andWhere('vp.city = :city')
                 ->setParameter('city', $assessorRequest->getAssessorCity())

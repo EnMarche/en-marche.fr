@@ -37,7 +37,7 @@ class VotePlaceResultRepository extends ServiceEntityRepository
     {
         return $this
             ->createElectionQueryBuilder($election, $alias = 'vote_result')
-            ->andWhere('SUBSTRING_INDEX(vote_place.code, \'_\', 1) IN (:insee_codes)')
+            ->andWhere('SUBSTRING(vote_place.code, POSITION(\'_\' IN vote_place.code) + 1) IN (:insee_codes)')
             ->setParameter('insee_codes', $inseeCodes)
             ->getQuery()
         ;

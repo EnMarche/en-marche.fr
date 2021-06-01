@@ -69,7 +69,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         return (int) $this
             ->createQueryBuilder('a')
             ->select('COUNT(a)')
-            ->andWhere('a.adherent = 1')
+            ->andWhere('a.adherent = true')
             ->getQuery()
             ->getSingleScalarResult()
         ;
@@ -253,7 +253,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
             ->createQueryBuilder('a')
             ->select('COUNT(a.uuid)')
             ->where('a.status = :status')
-            ->andWhere('a.adherent = 1')
+            ->andWhere('a.adherent = true')
             ->setParameter('status', Adherent::ENABLED)
             ->getQuery()
         ;
@@ -342,7 +342,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
             ->createQueryBuilder('a')
             ->innerJoin('a.coordinatorCitizenProjectArea', 'ccpa')
             ->where('ccpa.codes IS NOT NULL')
-            ->andWhere('FIND_IN_SET(:code, ccpa.codes) > 0')
+            ->andWhere(":code = ANY_OF(string_to_array(ccpa.codes, ','))")
             ->andWhere('LENGTH(ccpa.codes) > 0')
             ->orderBy('LOWER(ccpa.codes)', 'ASC')
             ->setParameter('code', CoordinatorManagedAreaUtils::getCodeFromCitizenProject($citizenProject))
@@ -446,12 +446,12 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         }
 
         if ($queryFirstName = $filter->getQueryFirstName()) {
-            $qb->andWhere('a.firstName LIKE :firstName');
+            $qb->andWhere('ILIKE(a.firstName, :firstName) = true');
             $qb->setParameter('firstName', '%'.$queryFirstName.'%');
         }
 
         if ($queryLastName = $filter->getQueryLastName()) {
-            $qb->andWhere('a.lastName LIKE :lastName');
+            $qb->andWhere('ILIKE(a.lastName, :lastName) = true');
             $qb->setParameter('lastName', '%'.$queryLastName.'%');
         }
 
@@ -514,7 +514,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         $query = $qb
             ->select('a.uuid')
             ->where('LOWER(a.firstName) LIKE :firstName')
-            ->setParameter('firstName', '%'.strtolower($firstName).'%')
+            ->setParameter('firstName', '%'.mb_strtolower($firstName).'%')
             ->getQuery()
         ;
 
@@ -533,7 +533,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         $query = $qb
             ->select('a.uuid')
             ->where('LOWER(a.lastName) LIKE :lastName')
-            ->setParameter('lastName', '%'.strtolower($lastName).'%')
+            ->setParameter('lastName', '%'.mb_strtolower($lastName).'%')
             ->getQuery()
         ;
 
@@ -552,7 +552,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         $query = $qb
             ->select('a.uuid')
             ->where('LOWER(a.emailAddress) LIKE :emailAddress')
-            ->setParameter('emailAddress', '%'.strtolower($emailAddress).'%')
+            ->setParameter('emailAddress', '%'.mb_strtolower($emailAddress).'%')
             ->getQuery()
         ;
 
@@ -570,7 +570,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         if ($name) {
             $qb
                 ->orWhere('CONCAT(LOWER(a.firstName), \' \', LOWER(a.lastName)) LIKE :name')
-                ->setParameter('name', '%'.strtolower($name).'%')
+                ->setParameter('name', '%'.mb_strtolower($name).'%')
             ;
         }
 
@@ -583,7 +583,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
     {
         return $this->createQueryBuilder('a', 'a.gender')
             ->select('a.gender, COUNT(a) AS count')
-            ->where('a.adherent = 1')
+            ->where('a.adherent = true')
             ->andWhere('a.status = :status')
             ->setParameter('status', Adherent::ENABLED)
             ->groupBy('a.gender')
@@ -600,7 +600,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
             ->select('a.gender, COUNT(DISTINCT a) AS count')
             ->innerJoin('a.referentTags', 'tag')
             ->where('tag.id IN (:tags)')
-            ->andWhere('a.adherent = 1')
+            ->andWhere('a.adherent = true')
             ->andWhere('a.status = :status')
             ->setParameter('tags', $referent->getManagedArea()->getTags())
             ->setParameter('status', Adherent::ENABLED)
@@ -663,7 +663,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         $this->checkReferent($referent);
 
         $query = $this->createQueryBuilder('adherent', 'adherent.gender')
-            ->select('COUNT(DISTINCT adherent.id) AS count, YEAR_MONTH(event.beginAt) as yearmonth')
+            ->select("COUNT(DISTINCT adherent.id) AS count, TO_CHAR(event.beginAt, 'YYYYMM') as yearmonth")
             ->join('adherent.memberships', 'membership')
             ->join('membership.committee', 'committee')
             ->innerJoin('committee.referentTags', 'tag')
@@ -700,7 +700,7 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
         $this->assertReferent($referent);
 
         $query = $this->createQueryBuilder('adherent')
-            ->select('COUNT(DISTINCT adherent) AS count')
+            ->select('COUNT(DISTINCT adherent.id) AS count')
             ->innerJoin('adherent.referentTags', 'tag')
             ->where('tag IN (:tags)')
             ->andWhere('adherent.activatedAt <= :until')
@@ -812,9 +812,9 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
     ): PaginatorInterface {
         $qb = $this
             ->createQueryBuilder('a')
-            ->where("FIND_IN_SET(SUBSTRING_INDEX(a.postAddress.city, '-', -1), :insee_codes) > 0")
-            ->andWhere('a.adherent = 1')
-            ->setParameter('insee_codes', implode(',', $inseeCodes))
+            ->where("SUBSTRING(a.postAddress.city, 0, POSITION('-' IN a.postAddress.city)) = ANY_OF(:insee_codes)")
+            ->andWhere('a.adherent = true')
+            ->setParameter('insee_codes', $inseeCodes)
         ;
 
         return $this->configurePaginator($qb, $page, $maxItemPerPage);
@@ -860,13 +860,14 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
                 a.address_address AS address,
                 a.address_postal_code AS postal_code,
                 a.address_city_name AS city,
-                IF(
-                    5 = LENGTH(a.address_postal_code),
-                    CAST(SUBSTRING(a.address_postal_code, 4, 2) AS UNSIGNED),
-                    NULL
+                (
+                    CASE 
+                        WHEN 5 = LENGTH(a.address_postal_code)
+                        THEN CAST(SUBSTRING(a.address_postal_code, 4, 2) AS INTEGER)
+                    END
                 ) AS district,
                 a.gender,
-                DATE_FORMAT(a.birthdate, '%d/%m/%Y') AS birthdate,
+                TO_CHAR(a.birthdate, 'DD/MM/YYYY') AS birthdate,
                 a.address_latitude AS latitude,
                 a.address_longitude AS longitude,
                 a.interests,
@@ -1040,7 +1041,7 @@ SQL;
             ->setParameters([
                 'zones' => $zones,
                 'status' => Adherent::ENABLED,
-                'name' => '%'.strtolower($name).'%',
+                'name' => '%'.mb_strtolower($name).'%',
                 'dateMax' => new \DateTime('-18 years'),
             ])
             ->setMaxResults($limit)
@@ -1094,6 +1095,7 @@ SQL;
     {
         return (int) $this->createCommitteeHostsQueryBuilder($committee, $withoutSupervisors)
             ->select('COUNT(DISTINCT a.id)')
+            ->resetDQLPart('orderBy')
             ->getQuery()
             ->getSingleScalarResult()
         ;
@@ -1103,10 +1105,11 @@ SQL;
      * Returns whether or not the given adherent is already an host of at least
      * one committee.
      */
-    public function hostCommittee(Adherent $adherent, Committee $committee = null): bool
+    public function hostCommittee(Adherent $adherent, Committee $committee): bool
     {
         $result = (int) $this->createCommitteeHostsQueryBuilder($committee)
             ->select('COUNT(DISTINCT a.id)')
+            ->resetDQLPart('orderBy')
             ->andWhere('a.id = :adherent_id')
             ->setParameter('adherent_id', $adherent->getId())
             ->getQuery()
@@ -1140,39 +1143,30 @@ SQL;
     }
 
     private function createCommitteeHostsQueryBuilder(
-        ?Committee $committee = null,
+        Committee $committee,
         bool $withoutSupervisors = false
     ): QueryBuilder {
-        $qb = $this->createQueryBuilder('a');
-
-        $cmCondition = '';
-        $amCondition = '';
-        if ($committee) {
-            $cmCondition = 'cm.committee = :committee AND ';
-            $amCondition = 'am.committee = :committee AND ';
-            $qb->setParameter('committee', $committee);
-        }
+        $qb = $this->createQueryBuilder('a')
+            ->leftJoin('a.memberships', 'cm', Join::WITH, 'cm.committee = :committee AND cm.privilege = :privilege')
+            ->setParameters([
+                'privilege' => CommitteeMembership::COMMITTEE_HOST,
+                'committee' => $committee,
+            ])
+        ;
 
         if ($withoutSupervisors) {
-            return $qb
-                ->leftJoin(CommitteeMembership::class, 'cm', Join::WITH, $cmCondition.'cm.adherent = a')
-                ->where($cmCondition.'cm.privilege = :privilege')
-                ->addOrderBy('cm.privilege', 'ASC')
-                ->setParameter('privilege', CommitteeMembership::COMMITTEE_HOST)
-            ;
+            return $qb->where('cm IS NOT NULL');
         }
 
         return $qb
-            ->leftJoin('a.adherentMandates', 'am', Join::WITH, $amCondition.'am.adherent = a')
-            ->leftJoin(CommitteeMembership::class, 'cm', Join::WITH, $cmCondition.'cm.adherent = a')
+            ->leftJoin('a.adherentMandates', 'am', Join::WITH, 'am.committee = :committee AND am.quality = :supervisor AND am.finishAt IS NULL')
             ->where((new Orx())
-                ->add('cm.privilege = :privilege')
-                ->add('am.quality = :supervisor AND am.finishAt IS NULL')
+                ->add('cm IS NOT NULL')
+                ->add('am IS NOT NULL')
             )
-            ->orderBy('am.quality', 'DESC')
+            ->orderBy('am.quality', 'ASC')
             ->addOrderBy('am.provisional', 'ASC')
             ->addOrderBy('cm.privilege', 'DESC')
-            ->setParameter('privilege', CommitteeMembership::COMMITTEE_HOST)
             ->setParameter('supervisor', CommitteeMandateQualityEnum::SUPERVISOR)
         ;
     }

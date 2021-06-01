@@ -5,7 +5,7 @@ namespace App\DataFixtures\ORM;
 use App\Entity\Mooc\Chapter;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadMoocChapterData extends Fixture implements DependentFixtureInterface
 {

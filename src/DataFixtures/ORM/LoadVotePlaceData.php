@@ -4,7 +4,7 @@ namespace App\DataFixtures\ORM;
 
 use App\VotePlace\VotePlaceFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadVotePlaceData extends Fixture
 {

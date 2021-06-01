@@ -45,7 +45,7 @@ final class OrTextSearchFilter extends AbstractContextAwareFilter
         $searchTextExpression = $queryBuilder->expr()->orX();
 
         foreach ($values as $key => $text) {
-            $searchTextExpression->add(sprintf('%s.%s LIKE :value_%s', $rootAlias, $property, $key));
+            $searchTextExpression->add(sprintf('ILIKE(%s.%s, :value_%s) = true', $rootAlias, $property, $key));
             $queryBuilder->setParameter("value_$key", "%$text%");
         }
 

@@ -64,7 +64,7 @@ class CommitteeMergeHistoryAdmin extends AbstractAdmin
 
                     $qb
                         ->innerJoin("$alias.sourceCommittee", 'sc')
-                        ->andWhere('sc.name LIKE :sourceName')
+                        ->andWhere('ILIKE(sc.name, :sourceName) = true')
                         ->setParameter('sourceName', '%'.$value['value'].'%')
                     ;
 
@@ -82,7 +82,7 @@ class CommitteeMergeHistoryAdmin extends AbstractAdmin
 
                     $qb
                         ->innerJoin("$alias.destinationCommittee", 'dc')
-                        ->andWhere('dc.name LIKE :destinationName')
+                        ->andWhere('ILIKE(dc.name, :destinationName) = true')
                         ->setParameter('destinationName', '%'.$value['value'].'%')
                     ;
 

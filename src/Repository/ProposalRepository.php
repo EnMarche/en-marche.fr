@@ -47,7 +47,7 @@ class ProposalRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('p')
             ->where('p.slug = :slug')
-            ->andWhere('p.published = 1')
+            ->andWhere('p.published = true')
             ->setParameter('slug', $slug)
             ->getQuery()
             ->getOneOrNullResult()

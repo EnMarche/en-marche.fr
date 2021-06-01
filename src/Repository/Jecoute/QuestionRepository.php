@@ -41,7 +41,7 @@ class QuestionRepository extends ServiceEntityRepository
                 'survey' => $survey,
                 'simple_field_type' => SurveyQuestionTypeEnum::SIMPLE_FIELD,
             ])
-            ->groupBy('q.id', 'ch.id')
+            ->groupBy('q.id', 'sq.uuid', 'ch.id')
             ->getQuery()
             ->getArrayResult()
         ;

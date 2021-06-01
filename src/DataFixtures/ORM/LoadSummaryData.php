@@ -16,7 +16,7 @@ use App\Summary\SummaryFactory;
 use Cocur\Slugify\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadSummaryData extends Fixture implements DependentFixtureInterface
 {

@@ -7,7 +7,7 @@ use App\Entity\Department;
 use App\Entity\Region;
 use App\Utils\AreaUtils;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadCityData extends Fixture
 {

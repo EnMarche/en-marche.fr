@@ -6,7 +6,7 @@ use App\Content\ArticleFactory;
 use App\Content\MediaFactory;
 use App\Entity\ArticleCategory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Gedmo\Sluggable\Util\Urlizer;
 use League\Flysystem\FilesystemInterface;

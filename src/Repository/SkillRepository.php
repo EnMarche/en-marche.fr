@@ -28,7 +28,7 @@ class SkillRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder('s');
         $qb
-            ->where('s.slug LIKE :slug')
+            ->where('ILIKE(s.slug, :slug) = true')
             ->andWhere($qb->expr()->notIn('s.slug', $qbUserSkills->getDQL()))
             ->setParameters([
                 'slug' => $term.'%',
@@ -52,7 +52,7 @@ class SkillRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('s');
         $qb
-            ->where('s.slug LIKE :slug')
+            ->where('ILIKE(s.slug, :slug) = true')
             ->setParameters([
                 'slug' => $term.'%',
             ])

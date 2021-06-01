@@ -7,7 +7,7 @@ use App\Entity\IdeasWorkshop\Vote;
 use App\Entity\IdeasWorkshop\VoteTypeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadIdeaVoteData extends Fixture implements DependentFixtureInterface
 {

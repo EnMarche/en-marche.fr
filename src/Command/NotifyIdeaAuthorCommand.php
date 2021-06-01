@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\IdeasWorkshop\Idea;
+use App\Entity\IdeasWorkshop\IdeaNotificationDates;
 use App\Mailer\MailerService;
 use App\Mailer\Message\IdeaFinalizeNotificationMessage;
 use App\Mailer\Message\IdeaFinalizePreNotificationMessage;
@@ -44,13 +45,15 @@ class NotifyIdeaAuthorCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        [$startDate, $endDate] = $this->prepareDates($isCautionMode = $input->getOption('caution'));
+        $ideaNotificationDates = $this->findIdeaNotificationDates();
+
+        [$startDate, $endDate] = $this->prepareDates($ideaNotificationDates, $isCautionMode = $input->getOption('caution'));
 
         foreach ($this->getIdeas($startDate, $endDate) as $idea) {
             $this->sendMail($idea, $isCautionMode);
         }
 
-        $this->saveLastDate($endDate, $isCautionMode);
+        $this->saveLastDate($ideaNotificationDates, $endDate, $isCautionMode);
     }
 
     /**
@@ -68,18 +71,13 @@ class NotifyIdeaAuthorCommand extends Command
         ;
     }
 
-    private function prepareDates(bool $isCautionMode): array
+    private function prepareDates(IdeaNotificationDates $ideaNotificationDates, bool $isCautionMode): array
     {
         $endDate = new \DateTimeImmutable($isCautionMode ? '+3 days' : 'now');
 
-        $startDates = $this->entityManager->getConnection()
-            ->executeQuery('SELECT last_date, caution_last_date FROM ideas_workshop_idea_notification_dates')
-            ->fetch()
-        ;
+        $startDate = $isCautionMode ? $ideaNotificationDates->getCautionLastDate() : $ideaNotificationDates->getLastDate();
 
-        if ($startDate = $startDates[$isCautionMode ? 'caution_last_date' : 'last_date'] ?? null) {
-            $startDate = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $startDate);
-        } else {
+        if (!$startDate) {
             $startDate = $endDate->modify('-1 hours');
         }
 
@@ -87,6 +85,21 @@ class NotifyIdeaAuthorCommand extends Command
             $startDate,
             $endDate,
         ];
+    }
+
+    private function findIdeaNotificationDates(): IdeaNotificationDates
+    {
+        $ideasNotificationDates = $this
+            ->entityManager
+            ->getRepository(IdeaNotificationDates::class)
+            ->findAll()
+        ;
+
+        if (!$ideasNotificationDates) {
+            return new IdeaNotificationDates();
+        }
+
+        return reset($ideasNotificationDates);
     }
 
     private function sendMail(Idea $idea, bool $isCautionMode): void
@@ -114,11 +127,21 @@ class NotifyIdeaAuthorCommand extends Command
         $this->mailer->sendMessage($message);
     }
 
-    private function saveLastDate(\DateTimeInterface $lastDate, bool $isCautionMode): void
-    {
-        $this->entityManager->getConnection()->executeUpdate(
-            'UPDATE ideas_workshop_idea_notification_dates SET '.($isCautionMode ? 'caution_last_date' : 'last_date').' = ?',
-            [$lastDate->format('Y-m-d H:i:s')]
-        );
+    private function saveLastDate(
+        IdeaNotificationDates $ideaNotificationDates,
+        \DateTimeInterface $lastDate,
+        bool $isCautionMode
+    ): void {
+        if ($isCautionMode) {
+            $ideaNotificationDates->setCautionLastDate($lastDate);
+        } else {
+            $ideaNotificationDates->setLastDate($lastDate);
+        }
+
+        if (!$ideaNotificationDates->getId()) {
+            $this->entityManager->persist($ideaNotificationDates);
+        }
+
+        $this->entityManager->flush();
     }
 }
