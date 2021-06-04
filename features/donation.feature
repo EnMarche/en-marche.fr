@@ -37,7 +37,6 @@ Feature: The goal is to donate one time or multiple time with a subscription
     And I should see "Le don que vous vous apprêtez à faire est trop élevé, car vous avez déjà donné 200 euros cette année. Les dons étant limités à 7500 euros par an et par personne, vous pouvez encore donner 7300 euros."
 
   @javascript
-  @pending
   Scenario: An anonymous user can donate successfully
     Given the following fixtures are loaded:
       | LoadDonatorIdentifierData |
@@ -79,7 +78,6 @@ Feature: The goal is to donate one time or multiple time with a subscription
     Then I should see "Continuons à transformer notre pays ensemble !"
 
   @javascript
-  @pending
   Scenario: The user can subscribe to donate each month successfully but can't have a second subscription
     Given the following fixtures are loaded:
       | LoadDonatorIdentifierData |
@@ -151,7 +149,6 @@ Feature: The goal is to donate one time or multiple time with a subscription
     And the "Adresse e-mail" field should contain "jean.dupont@en-marche.fr"
 
   @javascript
-  @pending
   Scenario: The logged user can subscribe to donate each month successfully but can't have a second subscription without unsubscribe before
     Given the following fixtures are loaded:
       | LoadAdherentData          |
@@ -239,7 +236,6 @@ Feature: The goal is to donate one time or multiple time with a subscription
     Then I should see "Continuons à transformer notre pays ensemble !"
 
   @javascript
-  @pending
   Scenario: The logged user can continue to donate punctually with a subscription currently running
     Given the following fixtures are loaded:
       | LoadDonationData          |
