@@ -192,10 +192,6 @@ services:
             - '@App\Algolia\SearchService.inner'
             - '%kernel.debug%'
 
-    App\Vision\ImageAnnotatorClient:
-        arguments:
-            $keyFilePath: '%kernel.project_dir%/gcloud-service-key.json'
-
     Geocoder\Geocoder: '@bazinga_geocoder.geocoder'
 
     League\Flysystem\Filesystem:
@@ -206,8 +202,6 @@ services:
                 arguments:
                     - '%kernel.environment%'
                     - '%kernel.project_dir%/app/data'
-                    - '%env(GCLOUD_PROJECT_ID)%'
-                    - '%kernel.project_dir%/gcloud-service-key.json'
                     - '%env(GCLOUD_BUCKET)%'
                     - '@Symfony\Component\Routing\Generator\UrlGeneratorInterface'
 

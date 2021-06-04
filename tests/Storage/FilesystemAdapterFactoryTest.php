@@ -25,7 +25,7 @@ class FilesystemAdapterFactoryTest extends TestCase
 
     public function testCreateProdAdapter()
     {
-        $adapter = FilesystemAdapterFactory::createAdapter('prod', '', 'project-id', __DIR__.'/../Fixtures/gcloud-service-key.json', 'project-bucket', $this->createMock(UrlGeneratorInterface::class));
+        $adapter = FilesystemAdapterFactory::createAdapter('prod', '', 'project-bucket', $this->createMock(UrlGeneratorInterface::class));
 
         $this->assertInstanceOf(CachedAdapter::class, $adapter);
         $this->assertInstanceOf(GoogleStorageAdapter::class, $adapter->getAdapter());

@@ -14,11 +14,9 @@ class ImageAnnotatorClient
     private $textAnnotations = [];
     private $webDetections = [];
 
-    public function __construct(string $keyFilePath)
+    public function __construct()
     {
-        $this->client = new GoogleImageAnnotatorClient([
-            'credentials' => $keyFilePath,
-        ]);
+        $this->client = new GoogleImageAnnotatorClient();
     }
 
     public function getBestGuessLabels(string $content): ?RepeatedField

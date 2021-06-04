@@ -62,8 +62,7 @@ COPY docker/prod/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-RUN chmod 0444 gcloud-service-key.json && \
-    mkdir /run/php && \
+RUN mkdir /run/php && \
     mkdir var && \
     APP_ENV=prod composer install --optimize-autoloader --no-interaction --no-ansi --no-dev && \
     APP_ENV=prod bin/console cache:clear --no-warmup && \

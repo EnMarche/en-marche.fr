@@ -12,8 +12,6 @@ class FilesystemAdapterFactory
     public static function createAdapter(
         string $environment,
         string $localPath,
-        $gcloudId,
-        $gcloudKeyFilePath,
         $gcloudBucket,
         UrlGeneratorInterface $urlGenerator
     ) {
@@ -24,13 +22,8 @@ class FilesystemAdapterFactory
             return $adapter;
         }
 
-        $storage = new StorageClient([
-            'projectId' => $gcloudId,
-            'keyFilePath' => $gcloudKeyFilePath,
-        ]);
-
         return new CachedAdapter(
-            new GoogleStorageAdapter($storage, $storage->bucket($gcloudBucket)),
+            new GoogleStorageAdapter($storage = new StorageClient(), $storage->bucket($gcloudBucket)),
             new Memory()
         );
     }

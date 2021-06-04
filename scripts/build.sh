@@ -5,9 +5,9 @@ set -xe
 perl -pi -e "s/default/$CIRCLE_SHA1/g" ./config/packages/app_version.yaml
 
 VERSION=${CIRCLE_TAG:-$CIRCLE_BRANCH}
-RESOURCE_NAME="eu.gcr.io/$GCLOUD_PROJECT/app"
+RESOURCE_NAME="eu.gcr.io/$GCLOUD_PROJECT_TMP/en-marche.fr"
 DOCKER_IMAGE_TAG="$RESOURCE_NAME:$VERSION-$CIRCLE_SHA1"
-DOCKER_IMAGE_CACHE_TAG="$RESOURCE_NAME:master"
+DOCKER_IMAGE_CACHE_TAG="$RESOURCE_NAME:new-master"
 
 # Build the image
 gcloud docker -- pull $DOCKER_IMAGE_CACHE_TAG
@@ -17,7 +17,7 @@ docker build --cache-from=$DOCKER_IMAGE_CACHE_TAG -t $DOCKER_IMAGE_TAG .
 gcloud docker -- push $DOCKER_IMAGE_TAG
 
 # Set image tag only for master
-if [ "$VERSION" = "master" ]; then
+if [ "$VERSION" = "new-master" ]; then
     gcloud container images add-tag $DOCKER_IMAGE_TAG $DOCKER_IMAGE_CACHE_TAG --quiet
 
     # Clear oldest docker images

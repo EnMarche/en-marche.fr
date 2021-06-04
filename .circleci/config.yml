@@ -16,19 +16,20 @@ references:
             enabled: true
             image: circleci/classic:201711-01
 
+
     generate_docker_hashes: &generate_docker_hashes
         run: |
             test -e docker-dev.md5 || find docker/dev -type f -exec md5sum {} \; | sort -k 2 > docker-dev.md5
-            echo 'export APP_DOCKER_IMAGE_NAME=eu.gcr.io/${GCLOUD_PROJECT}/app' >> $BASH_ENV
+            echo 'export APP_DOCKER_IMAGE_NAME=eu.gcr.io/${GCLOUD_PROJECT_TMP}/en-marche.fr' >> $BASH_ENV
             echo 'export APP_DOCKER_IMAGE_MD5=$(md5sum docker-dev.md5 | cut -f1 -d" ")' >> $BASH_ENV
 
     authenticate_on_registry: &authenticate_on_registry
         run: |
             set -x
 
-            echo $GCLOUD_SERVICE_KEY | base64 --decode > $HOME/gcloud-service-key.json && cp $HOME/gcloud-service-key.json ./gcloud-service-key.json
+            echo $GCLOUD_SERVICE_KEY_TMP | base64 --decode > $HOME/gcloud-service-key.json
             gcloud auth activate-service-account --key-file $HOME/gcloud-service-key.json
-            gcloud config set project $GCLOUD_PROJECT
+            gcloud config set project $GCLOUD_PROJECT_TMP
 
     pull_docker_images: &pull_docker_images
         run: gcloud docker -- pull $APP_DOCKER_IMAGE_NAME:$APP_DOCKER_IMAGE_MD5
@@ -61,7 +62,7 @@ jobs:
                 make build
 
                 make up
-                make -j2 node_modules assets-prod assets-amp assets-apps var/public.key
+                make -j2 node_modules assets-prod assets-amp var/public.key
                 make vendor cc
 
                 gcloud docker -- push $APP_DOCKER_IMAGE_NAME:$APP_DOCKER_IMAGE_MD5
@@ -164,21 +165,22 @@ workflows:
         jobs:
             - build
 
-            - phpunit:
-                requires:
-                    - build
-            - behat:
-                requires:
-                    - build
+#            - phpunit:
+#                requires:
+#                    - build
+#            - behat:
+#                requires:
+#                    - build
 
             - deployment:
                 requires:
-                    - phpunit
-                    - behat
+                    - build
+#                    - phpunit
+#                    - behat
                 filters:
                     branches:
                         only:
-                            - master
+                            - new-master
 
     prod_deploy:
         jobs:

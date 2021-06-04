@@ -25,3 +25,4 @@ scripts
 webpack.*.js
 yarn.lock
 src/DataFixtures
+gcloud-service-key.json
