@@ -1,4 +1,4 @@
-FROM ubuntu:xenial-20210429
+FROM ubuntu:20.10
 
 ENV LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
