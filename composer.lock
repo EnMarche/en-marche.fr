@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f484a54eda1293bba16927b670dd04cf",
+    "content-hash": "80a328b210e849f990baa5bf084e7d76",
     "packages": [
         {
             "name": "a2lix/translation-form-bundle",
@@ -1514,40 +1514,39 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "1.10.2",
+            "version": "1.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "13e3381b25847283a91948d04640543941309727"
+                "reference": "3bb5588cec00a0268829cc4a518490df6741af9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/13e3381b25847283a91948d04640543941309727",
-                "reference": "13e3381b25847283a91948d04640543941309727",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/3bb5588cec00a0268829cc4a518490df6741af9d",
+                "reference": "3bb5588cec00a0268829cc4a518490df6741af9d",
                 "shasum": ""
             },
             "require": {
                 "php": "~7.1 || ^8.0"
             },
             "conflict": {
-                "doctrine/common": ">2.2,<2.4"
+                "doctrine/common": ">2.2,<2.4",
+                "psr/cache": ">=3"
             },
             "require-dev": {
                 "alcaeus/mongo-php-adapter": "^1.1",
-                "doctrine/coding-standard": "^6.0",
+                "cache/integration-tests": "dev-master",
+                "doctrine/coding-standard": "^8.0",
                 "mongodb/mongodb": "^1.1",
-                "phpunit/phpunit": "^7.0",
-                "predis/predis": "~1.0"
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
+                "predis/predis": "~1.0",
+                "psr/cache": "^1.0 || ^2.0",
+                "symfony/cache": "^4.4 || ^5.2"
             },
             "suggest": {
                 "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.9.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
@@ -1594,7 +1593,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/1.10.x"
+                "source": "https://github.com/doctrine/cache/tree/1.11.3"
             },
             "funding": [
                 {
@@ -1610,7 +1609,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-07T18:54:01+00:00"
+            "time": "2021-05-25T09:01:55+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -2225,26 +2224,26 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "1.4.3",
+            "version": "1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "4650c8b30c753a76bf44fb2ed00117d6f367490c"
+                "reference": "4bd5c1cdfcd00e9e2d8c484f79150f67e5d355d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/4650c8b30c753a76bf44fb2ed00117d6f367490c",
-                "reference": "4650c8b30c753a76bf44fb2ed00117d6f367490c",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/4bd5c1cdfcd00e9e2d8c484f79150f67e5d355d9",
+                "reference": "4bd5c1cdfcd00e9e2d8c484f79150f67e5d355d9",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2 || ^8.0"
+                "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^7.0",
-                "phpstan/phpstan": "^0.11",
-                "phpstan/phpstan-phpunit": "^0.11",
-                "phpstan/phpstan-strict-rules": "^0.11",
+                "doctrine/coding-standard": "^8.0",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-phpunit": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12",
                 "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
             },
             "type": "library",
@@ -2301,7 +2300,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/inflector/issues",
-                "source": "https://github.com/doctrine/inflector/tree/1.4.x"
+                "source": "https://github.com/doctrine/inflector/tree/1.4.4"
             },
             "funding": [
                 {
@@ -2317,7 +2316,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-29T07:19:59+00:00"
+            "time": "2021-04-16T17:34:40+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -12110,20 +12109,20 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.4.25",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "ed33314396d968a8936c95f5bd1b88bd3b3e94a3"
+                "reference": "0ae3f047bed4edff6fd35b26a9a6bfdc92c953c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/ed33314396d968a8936c95f5bd1b88bd3b3e94a3",
-                "reference": "ed33314396d968a8936c95f5bd1b88bd3b3e94a3",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/0ae3f047bed4edff6fd35b26a9a6bfdc92c953c6",
+                "reference": "0ae3f047bed4edff6fd35b26a9a6bfdc92c953c6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.3"
+                "php": ">=7.2.5"
             },
             "type": "library",
             "autoload": {
@@ -12151,7 +12150,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v4.4.25"
+                "source": "https://github.com/symfony/finder/tree/v5.3.0"
             },
             "funding": [
                 {
@@ -12167,7 +12166,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T11:20:16+00:00"
+            "time": "2021-05-26T12:52:38+00:00"
         },
         {
             "name": "symfony/flex",
@@ -15500,20 +15499,21 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v4.4.25",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "723c038aac53280c8ad4209add93e679a33bbe3f"
+                "reference": "7a7c9dd972541f78e7815c03c0bae9f81e0e9dbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/723c038aac53280c8ad4209add93e679a33bbe3f",
-                "reference": "723c038aac53280c8ad4209add93e679a33bbe3f",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/7a7c9dd972541f78e7815c03c0bae9f81e0e9dbb",
+                "reference": "7a7c9dd972541f78e7815c03c0bae9f81e0e9dbb",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.3"
+                "php": ">=7.2.5",
+                "symfony/polyfill-php80": "^1.15"
             },
             "require-dev": {
                 "symfony/var-dumper": "^4.4.9|^5.0.9"
@@ -15552,7 +15552,7 @@
                 "serialize"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v4.4.25"
+                "source": "https://github.com/symfony/var-exporter/tree/v5.3.0"
             },
             "funding": [
                 {
@@ -15568,7 +15568,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T17:39:37+00:00"
+            "time": "2021-05-26T17:40:38+00:00"
         },
         {
             "name": "symfony/workflow",
@@ -18007,35 +18007,43 @@
         },
         {
             "name": "liip/functional-test-bundle",
-            "version": "4.2.0",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "efa6519f51c7f2005a89de5a63441af4d4eb119f"
+                "reference": "51fd5ba0e9b96b37876ac1652b13f8883c75c1bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/efa6519f51c7f2005a89de5a63441af4d4eb119f",
-                "reference": "efa6519f51c7f2005a89de5a63441af4d4eb119f",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/51fd5ba0e9b96b37876ac1652b13f8883c75c1bd",
+                "reference": "51fd5ba0e9b96b37876ac1652b13f8883c75c1bd",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.3",
-                "php": "^7.1",
+                "php": "^7.2 || ^8.0",
                 "phpunit/phpunit": "^7.5.0 || ^8.0 || ^9.0",
-                "symfony/browser-kit": "^3.4 || ^4.1 || ^5.0",
-                "symfony/framework-bundle": "^3.4 || ^4.1 || ^5.0"
+                "symfony/browser-kit": "^4.4 || ^5.1",
+                "symfony/framework-bundle": "^4.4 || ^5.1"
             },
             "conflict": {
                 "symfony/framework-bundle": "4.3.0"
             },
             "require-dev": {
-                "doctrine/doctrine-bundle": "^1.8 || ^2.0",
-                "doctrine/orm": "^2.6",
+                "doctrine/doctrine-bundle": "^2.1",
+                "doctrine/orm": "^2.7",
                 "monolog/monolog": "~1.11",
-                "symfony/monolog-bundle": "^3.2 || ^5.0",
-                "symfony/phpunit-bridge": "^3.4 || ^4.1 || ^5.0",
-                "twig/twig": "^2.0"
+                "symfony/css-selector": "^4.4 || ^5.1",
+                "symfony/doctrine-bridge": "^4.4 || ^5.1",
+                "symfony/form": "^4.4 || ^5.1",
+                "symfony/http-kernel": "^4.4 || ^5.1",
+                "symfony/monolog-bundle": "^3.4",
+                "symfony/phpunit-bridge": "^4.4 || ^5.1",
+                "symfony/security-bundle": "^4.4 || ^5.1",
+                "symfony/twig-bundle": "^4.4 || ^5.1",
+                "symfony/validator": "^4.4 || ^5.1",
+                "symfony/yaml": "^4.4 || ^5.1",
+                "twig/twig": "^2.0 || ^3.0"
             },
             "suggest": {
                 "liip/test-fixtures-bundle": "Efficient loading of Doctrine fixtures in functional test-cases for Symfony applications"
@@ -18070,7 +18078,11 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2020-05-29T10:29:48+00:00"
+            "support": {
+                "issues": "https://github.com/liip/LiipFunctionalTestBundle/issues",
+                "source": "https://github.com/liip/LiipFunctionalTestBundle/tree/4.4.0"
+            },
+            "time": "2021-06-01T12:28:00+00:00"
         },
         {
             "name": "myclabs/deep-copy",

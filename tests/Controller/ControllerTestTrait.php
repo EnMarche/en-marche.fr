@@ -216,34 +216,36 @@ trait ControllerTestTrait
         self::assertSame($referentTag->getCode(), $code);
     }
 
-    protected function init(string $host = 'app')
-    {
-        static::bootKernel();
+//    protected function init(string $host = 'app')
+//    {
+////        static::bootKernel();
+//
+//        $container = $this->getContainer();
+//
+//        $this->hosts = [
+//            'scheme' => $container->getParameter('router.request_context.scheme'),
+//            'app' => $container->getParameter('app_host'),
+//            'legislatives' => $container->getParameter('legislatives_host'),
+//        ];
+//
+//        $this->client = $this->makeClient(['HTTP_HOST' => $this->hosts[$host]]);
+//        $this->manager = $container->get('doctrine.orm.entity_manager');
+//
+//        // delete all scheduled emails
+////        $this->getEmailRepository()->createQueryBuilder('e')->delete()->getQuery()->execute();
+//    }
 
-        $this->hosts = [
-            'scheme' => static::$container->getParameter('router.request_context.scheme'),
-            'app' => static::$container->getParameter('app_host'),
-            'legislatives' => static::$container->getParameter('legislatives_host'),
-        ];
-
-        $this->client = $this->makeClient(['HTTP_HOST' => $this->hosts[$host]]);
-        $this->manager = static::$container->get('doctrine.orm.entity_manager');
-
-        // delete all scheduled emails
-        $this->getEmailRepository()->createQueryBuilder('e')->delete()->getQuery()->execute();
-    }
-
-    protected function kill()
-    {
-        $this->client = null;
-        $this->manager = null;
-        $this->adherents = null;
-        $this->hosts = [];
-
-        if (static::$container) {
-            static::$container = null;
-        }
-    }
+//    protected function kill()
+//    {
+//        $this->client = null;
+//        $this->manager = null;
+//        $this->adherents = null;
+//        $this->hosts = [];
+//
+////        if (static::$container) {
+////            static::$container = null;
+////        }
+//    }
 
     protected function getMessageRecorder(): MessageRecorderInterface
     {

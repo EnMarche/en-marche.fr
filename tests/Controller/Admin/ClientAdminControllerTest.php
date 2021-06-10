@@ -52,7 +52,7 @@ class ClientAdminControllerTest extends WebTestCase
         $this->client->request($form->getMethod(), $form->getUri(), [$formName => $values], $form->getPhpFiles());
 
         $this->assertTrue($this->client->getResponse()->isRedirection());
-        $this->assertRegExp('#/admin/app/oauth-client/[\d]+/edit#', $this->client->getResponse()->getTargetUrl(), 'The user should be redirected on the \'edit\' page.');
+        $this->assertMatchesRegularExpression('#/admin/app/oauth-client/[\d]+/edit#', $this->client->getResponse()->getTargetUrl(), 'The user should be redirected on the \'edit\' page.');
 
         $this->client->followRedirect();
         $this->isSuccessful($this->client->getResponse());

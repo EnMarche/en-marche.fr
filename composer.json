@@ -142,7 +142,7 @@
         "fakerphp/faker": "^1.13",
         "friendsofphp/php-cs-fixer": "^3.0",
         "league/flysystem-memory": "^1.0",
-        "liip/functional-test-bundle": "^4.2",
+        "liip/functional-test-bundle": "^4.4",
         "pedrotroller/php-cs-custom-fixer": "^2.25",
         "phpstan/phpstan": "^0.12.66",
         "phpunit/phpunit": "^9.5",

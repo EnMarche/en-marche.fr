@@ -67,21 +67,21 @@ class BoardMemberControllerTest extends WebTestCase
         $this->assertSame('Tous les résultats (8)', $crawler->filter('h2')->first()->text());
         $this->assertSame(8, $resultRow->count());
         $this->assertSame('Carl Mirabeau', $resultRow->eq(0)->filter('li')->eq(1)->filter('.text--bold')->first()->text());
-        $this->assertRegExp('/\d+, M, Mouxy/', $resultRow->eq(0)->filter('li')->eq(1)->filter('div')->eq(1)->text());
+        $this->assertMatchesRegularExpression('/\d+, M, Mouxy/', $resultRow->eq(0)->filter('li')->eq(1)->filter('div')->eq(1)->text());
         $this->assertSame('Laura Deloche', $resultRow->eq(1)->filter('li')->eq(1)->filter('.text--bold')->first()->text());
-        $this->assertRegExp('/\d+, F, Rouen/', $resultRow->eq(1)->filter('li')->eq(1)->filter('div')->eq(1)->text());
+        $this->assertMatchesRegularExpression('/\d+, F, Rouen/', $resultRow->eq(1)->filter('li')->eq(1)->filter('div')->eq(1)->text());
         $this->assertSame('Martine Lindt', $resultRow->eq(2)->filter('li')->eq(1)->filter('.text--bold')->first()->text());
-        $this->assertRegExp('/\d+, F, Berlin/', $resultRow->eq(2)->filter('li')->eq(1)->filter('div')->eq(1)->text());
+        $this->assertMatchesRegularExpression('/\d+, F, Berlin/', $resultRow->eq(2)->filter('li')->eq(1)->filter('div')->eq(1)->text());
         $this->assertSame('Élodie Dutemps', $resultRow->eq(3)->filter('li')->eq(1)->filter('.text--bold')->first()->text());
-        $this->assertRegExp('/\d+, F, Singapour/', $resultRow->eq(3)->filter('li')->eq(1)->filter('div')->eq(1)->text());
+        $this->assertMatchesRegularExpression('/\d+, F, Singapour/', $resultRow->eq(3)->filter('li')->eq(1)->filter('div')->eq(1)->text());
         $this->assertSame('Député PARIS I', $resultRow->eq(4)->filter('li')->eq(1)->filter('.text--bold')->first()->text());
-        $this->assertRegExp('/\d+, M, Paris/', $resultRow->eq(4)->filter('li')->eq(1)->filter('div')->eq(1)->text());
+        $this->assertMatchesRegularExpression('/\d+, M, Paris/', $resultRow->eq(4)->filter('li')->eq(1)->filter('div')->eq(1)->text());
         $this->assertSame('Député PARIS II', $resultRow->eq(5)->filter('li')->eq(1)->filter('.text--bold')->first()->text());
-        $this->assertRegExp('/\d+, M, Paris/', $resultRow->eq(5)->filter('li')->eq(1)->filter('div')->eq(1)->text());
+        $this->assertMatchesRegularExpression('/\d+, M, Paris/', $resultRow->eq(5)->filter('li')->eq(1)->filter('div')->eq(1)->text());
         $this->assertSame('Député CHLI FDESIX', $resultRow->eq(6)->filter('li')->eq(1)->filter('.text--bold')->first()->text());
-        $this->assertRegExp('/\d+, M, Paris/', $resultRow->eq(6)->filter('li')->eq(1)->filter('div')->eq(1)->text());
+        $this->assertMatchesRegularExpression('/\d+, M, Paris/', $resultRow->eq(6)->filter('li')->eq(1)->filter('div')->eq(1)->text());
         $this->assertSame('Referent Referent', $resultRow->eq(7)->filter('li')->eq(1)->filter('.text--bold')->first()->text());
-        $this->assertRegExp('/\d+, M, Melun/', $resultRow->eq(7)->filter('li')->eq(1)->filter('div')->eq(1)->text());
+        $this->assertMatchesRegularExpression('/\d+, M, Melun/', $resultRow->eq(7)->filter('li')->eq(1)->filter('div')->eq(1)->text());
 
         // Gender
         $this->client->submit($this->client->getCrawler()->selectButton('Rechercher')->form(['g' => 'male']));
@@ -167,13 +167,13 @@ class BoardMemberControllerTest extends WebTestCase
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
         $this->assertCount(4, $members);
         $this->assertStringContainsString('Carl Mirabeau', $members->first()->text());
-        $this->assertRegExp('/\d+, M, Mouxy/', $members->first()->text());
+        $this->assertMatchesRegularExpression('/\d+, M, Mouxy/', $members->first()->text());
         $this->assertStringContainsString('Laura Deloche', $members->eq(1)->text());
-        $this->assertRegExp('/\d+, F, Rouen/', $members->eq(1)->text());
+        $this->assertMatchesRegularExpression('/\d+, F, Rouen/', $members->eq(1)->text());
         $this->assertStringContainsString('Martine Lindt', $members->eq(2)->text());
-        $this->assertRegExp('/\d+, F, Berlin/', $members->eq(2)->text());
+        $this->assertMatchesRegularExpression('/\d+, F, Berlin/', $members->eq(2)->text());
         $this->assertStringContainsString('Élodie Dutemps', $members->eq(3)->text());
-        $this->assertRegExp('/\d+, F, Singapour/', $members->eq(3)->text());
+        $this->assertMatchesRegularExpression('/\d+, F, Singapour/', $members->eq(3)->text());
         $this->assertStringContainsString('4 profils sauvegardés', $crawler->filter('h2')->eq(1)->text());
 
         // Statistics

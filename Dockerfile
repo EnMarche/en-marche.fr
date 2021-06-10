@@ -1,11 +1,10 @@
-FROM ubuntu:xenial-20210429
+FROM ubuntu:20.04
 
 ENV LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
     LANGUAGE="en_US.UTF-8" \
     TERM="xterm" \
-    DEBIAN_FRONTEND="noninteractive" \
-    COMPOSER_ALLOW_SUPERUSER=1
+    DEBIAN_FRONTEND="noninteractive"
 
 EXPOSE 80
 WORKDIR /app
