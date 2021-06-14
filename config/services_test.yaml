@@ -34,7 +34,7 @@ services:
     old_sound_rabbit_mq.chezvous_algolia_producer:
         class: 'Tests\App\Test\Producer\ChezVous\AlgoliaNullProducer'
 
-    Tests\App\Consumer\DummyConsumer: ~
+    Tests\App\Test\Consumer\DummyConsumer: ~
 
     Tests\App\Test\Payment\PayboxProvider:
         arguments:
@@ -45,9 +45,9 @@ services:
 
     test.App\Vision\IdentityDocumentParser: '@App\Vision\IdentityDocumentParser'
 
-    Tests\App\Image\DummyImageManager: ~
+    Tests\App\Test\Image\DummyImageManager: ~
 
-    App\Image\ImageManagerInterface: '@Tests\App\Image\DummyImageManager'
+    App\Image\ImageManagerInterface: '@Tests\App\Test\Image\DummyImageManager'
 
     App\Repository\DonatorRepository: ~
     App\Repository\DonationRepository: ~

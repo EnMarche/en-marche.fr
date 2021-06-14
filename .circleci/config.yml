@@ -95,7 +95,7 @@ jobs:
                 mkdir -p ./phpunit
                 make -j2 tfp-rabbitmq tfp-db
 
-                $DOCKER_COMPOSE exec app ./vendor/bin/phpunit -v --log-junit ./phpunit/junit.xml
+                $DOCKER_COMPOSE exec app ./vendor/bin/phpunit --debug -v --log-junit ./phpunit/junit.xml
             - store_test_results:
                 path: ./phpunit
 

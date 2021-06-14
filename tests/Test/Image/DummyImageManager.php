@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Image;
+namespace Tests\App\Test\Image;
 
 use App\Entity\ImageOwnerInterface;
 use App\Image\ImageManagerInterface;

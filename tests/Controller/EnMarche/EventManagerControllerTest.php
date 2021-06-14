@@ -112,7 +112,7 @@ class EventManagerControllerTest extends WebTestCase
         self::assertSame('Écologie, débatons-en ! - Lyon 1er, 02/03/2022 | La République En Marche !', $crawler->filter('title')->text());
         self::assertSame('Écologie, débatons-en ! - Lyon 1er, 02/03/2022', $crawler->filter('.committee-event-name')->text());
         self::assertSame('Organisé par Jacques Picard du comité En Marche Paris 8', trim(preg_replace('/\s+/', ' ', $crawler->filter('.committee-event-organizer')->text())));
-        self::assertRegExp('#Mercredi 2 mars 2022, 9h30 UTC \+0(1|2):00#', $crawler->filter('.committee-event-date')->text());
+        self::assertMatchesRegularExpression('#Mercredi 2 mars 2022, 9h30 UTC \+0(1|2):00#', $crawler->filter('.committee-event-date')->text());
         self::assertSame('6 rue Neyret, 69001 Lyon 1er', $crawler->filter('.committee-event-address')->text());
         self::assertSame('Cette journée sera consacrée à un grand débat sur la question écologique.', $crawler->filter('.committee-event-description')->text());
     }
@@ -376,7 +376,7 @@ END\:VCALENDAR
 CONTENT;
         $icalRegex = str_replace("\n", "\r\n", $icalRegex); // Returned content contains CRLF
 
-        $this->assertRegExp(sprintf('/%s/', $icalRegex), $response->getContent());
+        $this->assertMatchesRegularExpression(sprintf('/%s/', $icalRegex), $response->getContent());
     }
 
     private function redirectionEventNotPublishTest($url)

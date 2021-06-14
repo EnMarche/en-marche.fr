@@ -187,8 +187,8 @@ class DonationControllerTest extends WebTestCase
         $callbackUrlRegExp .= '&transaction=(\d+)&amount=3000&date=(\d+)&time=(.+)';
         $callbackUrlRegExp .= '&card_type=(CB|Visa|MasterCard)&card_end=3212&card_print=(.+)&subscription=(\d+)&Sign=(.+)';
 
-        $this->assertRegExp('#'.$callbackUrlRegExp.'#', $content);
-        $this->assertRegExp('#'.$callbackUrlRegExp.'#', $callbackUrl);
+        $this->assertMatchesRegularExpression('#'.$callbackUrlRegExp.'#', $content);
+        $this->assertMatchesRegularExpression('#'.$callbackUrlRegExp.'#', $callbackUrl);
 
         $appClient->request(Request::METHOD_GET, $callbackUrl);
 
@@ -198,7 +198,7 @@ class DonationControllerTest extends WebTestCase
         $statusUrlRegExp = '/don/(.+)'; // uuid
         $statusUrlRegExp .= '/effectue\?code=donation_paybox_success&result=00000&is_registration=0&_status_token=(.+)';
 
-        $this->assertRegExp('#'.$statusUrlRegExp.'#', $statusUrl);
+        $this->assertMatchesRegularExpression('#'.$statusUrlRegExp.'#', $statusUrl);
 
         $appClient->followRedirect();
 
@@ -326,7 +326,7 @@ class DonationControllerTest extends WebTestCase
         $cancelUrlRegExp .= '&result=00001'; // error code
         $cancelUrlRegExp .= '&transaction=0&amount=3000&subscription=0&Sign=(.+)';
 
-        $this->assertRegExp('#'.$cancelUrlRegExp.'#', $cancelUrl);
+        $this->assertMatchesRegularExpression('#'.$cancelUrlRegExp.'#', $cancelUrl);
 
         $appClient->request(Request::METHOD_GET, $cancelUrl);
 
@@ -336,7 +336,7 @@ class DonationControllerTest extends WebTestCase
         $statusUrlRegExp = '/don/(.+)'; // uuid
         $statusUrlRegExp .= '/erreur\?code=paybox&result=00001&is_registration=0&_status_token=(.+)';
 
-        $this->assertRegExp('#'.$statusUrlRegExp.'#', $statusUrl);
+        $this->assertMatchesRegularExpression('#'.$statusUrlRegExp.'#', $statusUrl);
 
         $crawler = $appClient->followRedirect();
 
@@ -360,7 +360,7 @@ class DonationControllerTest extends WebTestCase
         $retryUrl = $crawler->selectLink('Je souhaite réessayer')->attr('href');
         $retryUrlRegExp = '/don/coordonnees\?donation_retry_payload=(.*)&montant=30';
 
-        $this->assertRegExp('#'.$retryUrlRegExp.'#', $retryUrl);
+        $this->assertMatchesRegularExpression('#'.$retryUrlRegExp.'#', $retryUrl);
 
         $crawler = $this->client->request(Request::METHOD_GET, $retryUrl);
 
