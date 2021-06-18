@@ -5,13 +5,13 @@ namespace Tests\App\Command;
 use App\Command\ImportReferentBioPictureCommand;
 use App\Entity\Media;
 use App\Entity\Referent;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractCommandCaseTest;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
  * @group command
  */
-class ImportReferentBioPictureCommandTest extends WebTestCase
+class ImportReferentBioPictureCommandTest extends AbstractCommandCaseTest
 {
     use ControllerTestTrait;
     public const VALID_ARCHIVE_NAME = 'correct.zip';
@@ -90,7 +90,7 @@ class ImportReferentBioPictureCommandTest extends WebTestCase
         $archive = new \ZipArchive();
 
         $archive->open(self::VALID_ARCHIVE_NAME, \ZipArchive::CREATE);
-        $pathToImage = $this->getContainer()->getParameter('kernel.project_dir').'/app/data/dist/';
+        $pathToImage = $this->getParameter('kernel.project_dir').'/app/data/dist/';
         $archive->addFromString('nicolas_bordes.jpg', file_get_contents($pathToImage.'macron.jpg'));
         $archive->addFromString('alban_martin.jpg', file_get_contents($pathToImage.'richardferrand.jpg'));
         $csvData = [
@@ -114,7 +114,7 @@ class ImportReferentBioPictureCommandTest extends WebTestCase
         $archive = new \ZipArchive();
 
         $archive->open(self::ARCHIVE_WITHOUT_CSV_NAME, \ZipArchive::CREATE);
-        $pathToImage = $this->getContainer()->getParameter('kernel.project_dir').'/app/data/dist/';
+        $pathToImage = $this->getParameter('kernel.project_dir').'/app/data/dist/';
         $archive->addFromString('nicolas_bordes.jpg', file_get_contents($pathToImage.'macron.jpg'));
         $archive->addFromString('alban_martin.jpg', file_get_contents($pathToImage.'richardferrand.jpg'));
 
@@ -146,7 +146,7 @@ class ImportReferentBioPictureCommandTest extends WebTestCase
         $archive = new \ZipArchive();
 
         $archive->open(self::ARCHIVE_WITH_MISSING_IMAGE_FILE, \ZipArchive::CREATE);
-        $pathToImage = $this->getContainer()->getParameter('kernel.project_dir').'/app/data/dist/';
+        $pathToImage = $this->getParameter('kernel.project_dir').'/app/data/dist/';
         $archive->addFromString('alban_martin.jpg', file_get_contents($pathToImage.'richardferrand.jpg'));
         $csvData = [
             ['id', 'first_name', 'last_name', 'bio', 'image'],
@@ -164,17 +164,8 @@ class ImportReferentBioPictureCommandTest extends WebTestCase
         $archive->close();
     }
 
-    protected function setUp(): void
-    {
-        static::$container = $this->getContainer();
-
-        parent::setUp();
-    }
-
     protected function tearDown(): void
     {
-        $this->kill();
-
         foreach (self::ARCHIVES_NAME as $archiveName) {
             if (file_exists($archiveName)) {
                 unlink($archiveName);

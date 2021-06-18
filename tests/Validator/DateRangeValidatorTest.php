@@ -131,7 +131,7 @@ class DateRangeValidatorTest extends ConstraintValidatorTestCase
         ;
     }
 
-    protected function createValidator()
+    protected function createValidator(): DateRangeValidator
     {
         return new DateRangeValidator(new PropertyAccessor());
     }

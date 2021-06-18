@@ -3,8 +3,8 @@
 namespace Tests\App\Controller\EnMarche;
 
 use App\Entity\Event\EventRegistration;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 abstract class AbstractEventControllerTest extends WebTestCase

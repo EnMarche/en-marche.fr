@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -174,19 +174,5 @@ class DocumentsControllerTest extends WebTestCase
         $this->client->request(Request::METHOD_GET, $documentsRoot.'/animateurs/document-host-b.pdf');
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
         $this->logout($this->client);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

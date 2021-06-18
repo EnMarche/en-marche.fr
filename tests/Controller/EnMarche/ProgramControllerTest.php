@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -24,7 +24,7 @@ class ProgramControllerTest extends WebTestCase
         $this->isSuccessful($this->client->getResponse());
     }
 
-    public function provideActions()
+    public function provideActions(): \Generator
     {
         yield ['/emmanuel-macron/le-programme'];
         yield ['/emmanuel-macron/le-programme/produire-en-france-et-sauver-la-planete'];
@@ -41,7 +41,7 @@ class ProgramControllerTest extends WebTestCase
         $this->assertClientIsRedirectedTo('/emmanuel-macron/le-programme', $this->client, false, true);
     }
 
-    public function provideRedirectActions()
+    public function provideRedirectActions(): \Generator
     {
         yield ['/programme'];
         yield ['/le-programme'];
@@ -52,19 +52,5 @@ class ProgramControllerTest extends WebTestCase
         $this->client->request(Request::METHOD_GET, '/emmanuel-macron/le-programme/mieux-vivre-de-son-travail');
 
         $this->assertStatusCode(Response::HTTP_NOT_FOUND, $this->client);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

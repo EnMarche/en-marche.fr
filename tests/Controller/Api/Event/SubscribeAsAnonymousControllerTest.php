@@ -5,8 +5,8 @@ namespace Tests\App\Controller\Api\Event;
 use App\DataFixtures\ORM\LoadCauseEventData;
 use App\DataFixtures\ORM\LoadCoalitionEventData;
 use App\DataFixtures\ORM\LoadCommitteeEventData;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 
@@ -47,19 +47,5 @@ class SubscribeAsAnonymousControllerTest extends WebTestCase
         yield [LoadCoalitionEventData::EVENT_1_UUID, 'CoalitionsEventRegistrationConfirmationMessage'];
         yield [LoadCauseEventData::EVENT_1_UUID, 'CoalitionsEventRegistrationConfirmationMessage'];
         yield [LoadCommitteeEventData::EVENT_1_UUID, 'EventRegistrationConfirmationMessage'];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

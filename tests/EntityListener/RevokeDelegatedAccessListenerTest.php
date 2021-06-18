@@ -4,27 +4,10 @@ namespace Tests\App\EntityListener;
 
 use App\Entity\Adherent;
 use App\Entity\MyTeam\DelegatedAccess;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
-class RevokeDelegatedAccessListenerTest extends WebTestCase
+class RevokeDelegatedAccessListenerTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
-    }
-
     public function testDeputyDelegatedAccessAreRemovedWhenAdherentLostHisAccess()
     {
         $deputy = $this->manager->getRepository(Adherent::class)->findOneByEmail('deputy-ch-li@en-marche-dev.fr');

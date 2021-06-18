@@ -4,7 +4,7 @@ namespace Tests\App\Controller\EnMarche\AdherentMessage;
 
 use App\AdherentMessage\Command\AdherentMessageChangeCommand;
 use App\Entity\AdherentMessage\ReferentAdherentMessage;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\MessengerTestTrait;
 
@@ -78,19 +78,5 @@ class ReferentMessageControllerTest extends WebTestCase
 
         self::assertSame(sprintf('/espace-referent/messagerie/%s/modifier', $uuid), $buttons->eq(0)->attr('href'));
         self::assertSame(sprintf('/espace-referent/messagerie/%s/filtrer', $uuid), $buttons->eq(1)->attr('href'));
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

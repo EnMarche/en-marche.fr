@@ -5,8 +5,8 @@ namespace Tests\App\Controller\EnMarche;
 use App\Adherent\Certification\CertificationRequestProcessCommand;
 use App\Entity\CertificationRequest;
 use App\Mailer\Message\CertificationRequestPendingMessage;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\MessengerTestTrait;
 
@@ -124,16 +124,12 @@ class CertificationRequestControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->certificationRequestRepository = $this->getRepository(CertificationRequest::class);
     }
 
     protected function tearDown(): void
     {
         $this->certificationRequestRepository = null;
-
-        $this->kill();
 
         parent::tearDown();
     }

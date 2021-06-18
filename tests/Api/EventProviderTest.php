@@ -38,7 +38,7 @@ class EventProviderTest extends TestCase
         );
 
         // This one is not geocoded and will not included in the final results
-        $events[] = $event3 = $this->createCommitteeEventMock(
+        $events[] = $this->createCommitteeEventMock(
             'b3d93750-d983-46bb-8f36-1a7ce39e74b5',
             'evenement-rouen',
             'Événement de Rouen'

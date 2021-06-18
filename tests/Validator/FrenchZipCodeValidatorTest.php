@@ -42,7 +42,7 @@ class FrenchZipCodeValidatorTest extends ConstraintValidatorTestCase
         ;
     }
 
-    public function validZipProvider()
+    public function validZipProvider(): \Generator
     {
         yield 'No validation on null' => [
             null,
@@ -58,7 +58,7 @@ class FrenchZipCodeValidatorTest extends ConstraintValidatorTestCase
         ];
     }
 
-    protected function createValidator()
+    protected function createValidator(): FrenchZipCodeValidator
     {
         return new FrenchZipCodeValidator();
     }

@@ -57,7 +57,7 @@ EOF;
         $this->assertSame($body, $email->getHttpResponsePayload());
     }
 
-    private function createDummyEmail()
+    private function createDummyEmail(): DummyEmailTemplate
     {
         $email = new DummyEmailTemplate(Uuid::uuid4(), '12345', 'Votre donation !', 'contact@en-marche.fr', 'En Marche !');
         $email->addRecipient('john.smith@example.tld', 'John Smith', ['name' => 'John Smith']);

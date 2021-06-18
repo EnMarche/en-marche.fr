@@ -1,20 +1,17 @@
 <?php
 
-namespace Tests\Utils;
+namespace Tests\App\Utils;
 
 use App\DataFixtures\ORM\LoadAdherentData;
 use App\Utils\GroupUtils;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Ramsey\Uuid\Uuid;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class GroupUtilsTest extends WebTestCase
+class GroupUtilsTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     public function testGetUuidsFromJson()
     {
         $this->assertSame([], GroupUtils::getUuidsFromJson(''));
@@ -112,19 +109,5 @@ class GroupUtilsTest extends WebTestCase
         $this->expectException(\BadMethodCallException::class);
 
         GroupUtils::getUuidsFromAdherents('this is not an iterable value');
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        static::$container = $this->getContainer();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

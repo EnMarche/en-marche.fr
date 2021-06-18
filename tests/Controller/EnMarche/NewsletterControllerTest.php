@@ -9,9 +9,9 @@ use App\Mailer\Message\NewsletterSubscriptionConfirmationMessage;
 use App\Repository\EmailRepository;
 use App\Repository\NewsletterInviteRepository;
 use App\Repository\NewsletterSubscriptionRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -165,7 +165,7 @@ class NewsletterControllerTest extends WebTestCase
         ]));
 
         // Subscription should not have been saved
-        $this->assertCount(5, $subscriptions = $this->subscriptionsRepository->findAll());
+        $this->assertCount(5, $this->subscriptionsRepository->findAll());
 
         // But email should have been sent
         $this->assertCountMails(1, NewsletterAdherentSubscriptionMessage::class, 'jacques.picard@en-marche.fr');
@@ -219,7 +219,7 @@ class NewsletterControllerTest extends WebTestCase
         $this->assertStringContainsString('Vos 2 invitations ont bien été envoyées', trim($crawler->filter('.newsletter-result > h2')->text()));
 
         // Invitations should have been saved
-        $this->assertCount(2, $invitations = $this->newsletterInviteRepository->findAll());
+        $this->assertCount(2, $this->newsletterInviteRepository->findAll());
 
         $invite1 = $this->newsletterInviteRepository->findMostRecentInvite('hugo.hamon@clichy-beach.com');
         $this->assertSame('hugo.hamon@clichy-beach.com', $invite1->getEmail());
@@ -285,7 +285,7 @@ class NewsletterControllerTest extends WebTestCase
 
         $this->manager->clear();
 
-        $this->assertCount(5, $subscriptions = $this->subscriptionsRepository->findAll());
+        $this->assertCount(5, $this->subscriptionsRepository->findAll());
 
         $subscription = $this->subscriptionsRepository->findOneBy(['email' => 'abc@en-marche-dev.fr']);
 
@@ -297,8 +297,6 @@ class NewsletterControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->subscriptionsRepository = $this->getNewsletterSubscriptionRepository();
         $this->newsletterInviteRepository = $this->getNewsletterInvitationRepository();
         $this->emailRepository = $this->getEmailRepository();
@@ -306,8 +304,6 @@ class NewsletterControllerTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->subscriptionsRepository = null;
         $this->newsletterInviteRepository = null;
         $this->emailRepository = null;

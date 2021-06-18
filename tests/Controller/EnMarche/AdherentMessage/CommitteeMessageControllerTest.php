@@ -3,7 +3,7 @@
 namespace Tests\App\Controller\EnMarche\AdherentMessage;
 
 use App\AdherentMessage\Command\AdherentMessageChangeCommand;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\MessengerTestTrait;
 
@@ -33,19 +33,5 @@ class CommitteeMessageControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         $this->assertResponseStatusCode(200, $this->client->getResponse());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

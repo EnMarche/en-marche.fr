@@ -18,10 +18,10 @@ use App\Repository\EmailRepository;
 use App\Repository\UnregistrationRepository;
 use App\Subscription\SubscriptionTypeEnum;
 use Cake\Chronos\Chronos;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -91,7 +91,7 @@ class AdherentControllerTest extends WebTestCase
         $this->assertClientIsRedirectedTo('/connexion', $this->client);
     }
 
-    public function provideProfilePage()
+    public function provideProfilePage(): \Generator
     {
         yield 'Mon compte' => ['/parametres/mon-compte'];
         yield 'Mes informations personnelles' => ['/parametres/mon-compte/modifier'];
@@ -109,7 +109,7 @@ class AdherentControllerTest extends WebTestCase
         $crawler = $this->client->request(Request::METHOD_GET, '/parametres/mon-compte');
 
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
-        $this->assertCount(1, $current = $crawler->filter('.settings .settings-menu ul li.active a'));
+        $this->assertCount(1, $crawler->filter('.settings .settings-menu ul li.active a'));
         $this->assertSame('Nom Carl Mirabeau', $crawler->filter('.settings__username')->text());
         $this->assertSame('Adhérent depuis novembre 2016.', $crawler->filter('.settings__membership')->text());
         $this->assertSame('Mon compte', $crawler->filter('.settings h2')->text());
@@ -122,7 +122,7 @@ class AdherentControllerTest extends WebTestCase
         $crawler = $this->client->request(Request::METHOD_GET, '/parametres/mon-compte');
 
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
-        $this->assertCount(1, $current = $crawler->filter('.settings .settings-menu ul li.active a'));
+        $this->assertCount(1, $crawler->filter('.settings .settings-menu ul li.active a'));
         $this->assertSame('Nom Thomas Leclerc', $crawler->filter('.settings__username')->text());
         $this->assertSame('Non adhérent.', $crawler->filter('.settings__membership')->text());
         $this->assertSame('Mon compte', $crawler->filter('.settings h2')->text());
@@ -332,7 +332,7 @@ class AdherentControllerTest extends WebTestCase
 
         $this->assertCount(18, $checkboxes = $crawler->filter($checkBoxPattern));
 
-        $interests = $this->client->getContainer()->getParameter('adherent_interests');
+        $interests = $this->getParameter('adherent_interests');
         $interestsValues = array_keys($interests);
         $interestsLabels = array_values($interests);
 
@@ -341,7 +341,7 @@ class AdherentControllerTest extends WebTestCase
             self::assertSame($interestsLabels[$i], $crawler->filter('label[for="app_adherent_pin_interests_interests_'.$i.'"]')->eq(0)->text());
         }
 
-        $interests = $this->client->getContainer()->getParameter('adherent_interests');
+        $interests = $this->getParameter('adherent_interests');
         $interestsValues = array_keys($interests);
 
         $chosenInterests = [
@@ -707,7 +707,7 @@ class AdherentControllerTest extends WebTestCase
         $this->assertCount(1, $this->emailRepository->findRecipientMessages(CommitteeCreationConfirmationMessage::class, $emailAddress));
 
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
-        $this->assertEquals('http://'.$this->hosts['app'].'/parametres/mes-activites', $this->client->getRequest()->getUri());
+        $this->assertEquals('http://'.$this->getParameter('app_host').'/parametres/mes-activites', $this->client->getRequest()->getUri());
         $this->seeFlashMessage($crawler, 'Votre comité a été créé avec succès. Il ne manque plus que la validation d\'un référent.');
     }
 
@@ -808,7 +808,7 @@ class AdherentControllerTest extends WebTestCase
         $this->assertStatusCode(Response::HTTP_NOT_FOUND, $this->client);
     }
 
-    public function dataProviderCannotTerminateMembership()
+    public function dataProviderCannotTerminateMembership(): \Generator
     {
         yield 'Host' => ['gisele-berthoux@caramail.com'];
         yield 'Referent' => ['referent@en-marche-dev.fr'];
@@ -838,7 +838,7 @@ class AdherentControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('.settings__delete_account'));
 
         $crawler = $this->client->click($crawler->selectLink('Supprimer définitivement ce compte')->link());
-        $this->assertEquals('http://'.$this->hosts['app'].'/parametres/mon-compte/desadherer', $this->client->getRequest()->getUri());
+        $this->assertEquals('http://'.$this->getParameter('app_host').'/parametres/mon-compte/desadherer', $this->client->getRequest()->getUri());
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
 
         $crawler = $this->client->submit($crawler->selectButton('Je confirme la suppression de mon adhésion')->form([
@@ -869,7 +869,7 @@ class AdherentControllerTest extends WebTestCase
             ],
         ]));
 
-        $this->assertEquals('http://'.$this->hosts['app'].'/parametres/mon-compte/desadherer', $this->client->getRequest()->getUri());
+        $this->assertEquals('http://'.$this->getParameter('app_host').'/parametres/mon-compte/desadherer', $this->client->getRequest()->getUri());
 
         $errors = $crawler->filter('.form__errors > li');
 
@@ -920,23 +920,19 @@ class AdherentControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->committeeRepository = $this->getCommitteeRepository();
         $this->emailRepository = $this->getEmailRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->emailRepository = null;
         $this->committeeRepository = null;
 
         parent::tearDown();
     }
 
-    private function getSubscriptionTypesFormValues(array $codes)
+    private function getSubscriptionTypesFormValues(array $codes): array
     {
         return array_map(static function (SubscriptionType $type) use ($codes) {
             return \in_array($type->getCode(), $codes, true) ? $type->getId() : false;

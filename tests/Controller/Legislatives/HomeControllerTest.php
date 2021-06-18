@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\Legislatives;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -77,19 +77,5 @@ class HomeControllerTest extends WebTestCase
         $this->assertSame('Onzième circonscription des Français établis hors de France', $profile->filter('#candidate-district-name')->text());
         $this->assertSame(0, $profile->filter('.candidate_links')->count());
         $this->assertSame(2, $description->filter('p')->count());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

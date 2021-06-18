@@ -3,18 +3,17 @@
 namespace Tests\App\Controller;
 
 use App\Entity\Adherent;
-use App\Entity\Event\EventCategory;
 use App\Entity\Event\InstitutionalEventCategory;
 use App\Entity\ReferentTag;
 use App\Messenger\MessageRecorder\MessageRecorderInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 use Tests\App\TestHelperTrait;
@@ -28,16 +27,6 @@ trait ControllerTestTrait
 
     protected $hosts = [];
 
-    /**
-     * @var Client
-     */
-    protected $client;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $manager;
-
     public function assertResponseStatusCode(int $statusCode, Response $response, string $message = '')
     {
         $this->assertSame($statusCode, $response->getStatusCode(), $message);
@@ -45,10 +34,10 @@ trait ControllerTestTrait
 
     public function assertClientIsRedirectedTo(
         string $path,
-        Client $client,
+        KernelBrowser $client,
         bool $withSchemes = false,
         bool $permanent = false
-    ) {
+    ): void {
         $response = $client->getResponse();
 
         $this->assertResponseStatusCode($permanent ? Response::HTTP_MOVED_PERMANENTLY : Response::HTTP_FOUND, $response);
@@ -58,7 +47,17 @@ trait ControllerTestTrait
         );
     }
 
-    public function logout(Client $client): void
+    public function assertStatusCode(int $code, KernelBrowser $client): void
+    {
+        $this->assertResponseStatusCode($code, $client->getResponse());
+    }
+
+    public function isSuccessful(Response $response): void
+    {
+        static::assertTrue($response->isSuccessful());
+    }
+
+    public function logout(KernelBrowser $client): void
     {
         $session = $client->getContainer()->get('session');
 
@@ -67,7 +66,7 @@ trait ControllerTestTrait
         $session->save();
     }
 
-    public function authenticateAsAdherent(Client $client, string $emailAddress): void
+    public function authenticateAsAdherent(KernelBrowser $client, string $emailAddress): void
     {
         if (!$user = $this->getAdherentRepository()->findOneBy(['emailAddress' => $emailAddress])) {
             throw new \Exception(sprintf('Adherent %s not found', $emailAddress));
@@ -76,7 +75,7 @@ trait ControllerTestTrait
         $this->authenticate($client, $user, 'main');
     }
 
-    public function authenticateAsAdmin(Client $client, string $email = 'admin@en-marche-dev.fr'): void
+    public function authenticateAsAdmin(KernelBrowser $client, string $email = 'admin@en-marche-dev.fr'): void
     {
         if (!$user = $this->getAdministratorRepository()->loadUserByUsername($email)) {
             throw new \Exception(sprintf('Admin %s not found', $email));
@@ -167,7 +166,7 @@ trait ControllerTestTrait
 
     private function getMessages(string $queue): array
     {
-        $channel = static::$container->get('old_sound_rabbit_mq.connection.default')->channel();
+        $channel = $this->get('old_sound_rabbit_mq.connection.default')->channel();
         $messages = [];
 
         /** @var AMQPMessage $message */
@@ -179,7 +178,7 @@ trait ControllerTestTrait
         return $messages;
     }
 
-    private function authenticate(Client $client, UserInterface $user, string $firewallName): void
+    private function authenticate(KernelBrowser $client, UserInterface $user, string $firewallName): void
     {
         $session = $client->getContainer()->get('session');
 
@@ -188,11 +187,6 @@ trait ControllerTestTrait
         $session->save();
 
         $client->getCookieJar()->set(new Cookie($session->getName(), $session->getId()));
-    }
-
-    private function getEventCategoryIdForName(string $categoryName): int
-    {
-        return $this->manager->getRepository(EventCategory::class)->findOneBy(['name' => $categoryName])->getId();
     }
 
     private function getInstitutionalEventCategoryIdByName(string $categoryName): int
@@ -216,37 +210,16 @@ trait ControllerTestTrait
         self::assertSame($referentTag->getCode(), $code);
     }
 
-    protected function init(string $host = 'app')
-    {
-        static::bootKernel();
-
-        $this->hosts = [
-            'scheme' => static::$container->getParameter('router.request_context.scheme'),
-            'app' => static::$container->getParameter('app_host'),
-            'legislatives' => static::$container->getParameter('legislatives_host'),
-        ];
-
-        $this->client = $this->makeClient(['HTTP_HOST' => $this->hosts[$host]]);
-        $this->manager = static::$container->get('doctrine.orm.entity_manager');
-
-        // delete all scheduled emails
-        $this->getEmailRepository()->createQueryBuilder('e')->delete()->getQuery()->execute();
-    }
-
-    protected function kill()
-    {
-        $this->client = null;
-        $this->manager = null;
-        $this->adherents = null;
-        $this->hosts = [];
-
-        if (static::$container) {
-            static::$container = null;
-        }
-    }
-
     protected function getMessageRecorder(): MessageRecorderInterface
     {
         return $this->client->getContainer()->get(MessageRecorderInterface::class);
+    }
+
+    protected function getUrl(
+        string $route,
+        array $params = [],
+        int $absolute = UrlGeneratorInterface::ABSOLUTE_PATH
+    ): string {
+        return $this->get('router')->generate($route, $params, $absolute);
     }
 }

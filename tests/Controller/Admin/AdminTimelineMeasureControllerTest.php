@@ -12,9 +12,9 @@ use App\Repository\Timeline\ManifestoRepository;
 use App\Repository\Timeline\MeasureRepository;
 use App\Repository\Timeline\ProfileRepository;
 use App\Repository\Timeline\ThemeRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\Test\Algolia\DummySearchService;
 
@@ -102,8 +102,6 @@ class AdminTimelineMeasureControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->measureRepository = $this->getRepository(Measure::class);
         $this->themeRepository = $this->getRepository(Theme::class);
         $this->profileRepository = $this->getRepository(Profile::class);
@@ -112,33 +110,12 @@ class AdminTimelineMeasureControllerTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->measureRepository = null;
         $this->themeRepository = null;
         $this->profileRepository = null;
         $this->manifestoRepository = null;
 
         parent::tearDown();
-    }
-
-    private function getMeasureIdsByTitles(array $measureTitles): array
-    {
-        return array_map(function (string $measureTitle) {
-            return $this->measureRepository->findOneByTitle($measureTitle)->getId();
-        }, $measureTitles);
-    }
-
-    private function getProfileIdsByTitles(array $profileTitles): array
-    {
-        return array_map(function (string $profileTitle) {
-            return $this->profileRepository->findOneByTitle($profileTitle)->getId();
-        }, $profileTitles);
-    }
-
-    private function getManifestoIdByTitle(string $manifestoTitle): int
-    {
-        return $this->manifestoRepository->findOneByTitle($manifestoTitle)->getId();
     }
 
     private function getIndexer(): DummySearchService

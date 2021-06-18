@@ -969,6 +969,8 @@ class AdherentMessageChangeCommandHandlerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->adherentDummy = $this->createConfiguredMock(Adherent::class, [
             '__toString' => 'Full Name',
             'getFullName' => 'Full Name',
@@ -981,6 +983,15 @@ class AdherentMessageChangeCommandHandlerTest extends TestCase
         $this->clientMock = $this->createMock(ClientInterface::class);
         $this->commandDummy = $this->createMock(AdherentMessageChangeCommand::class);
         $this->commandDummy->expects($this->once())->method('getUuid')->willReturn(Uuid::uuid4());
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->adherentDummy = null;
+        $this->clientMock = null;
+        $this->commandDummy = null;
     }
 
     private function preparedMessage(string $messageClass): AdherentMessageInterface
@@ -1135,7 +1146,7 @@ class SimpleContainer implements ContainerInterface
         return $this->container[$id] ?? null;
     }
 
-    public function has($id)
+    public function has($id): bool
     {
         return isset($this->container[$id]);
     }

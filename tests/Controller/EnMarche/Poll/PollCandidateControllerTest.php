@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Controller\EnMarche;
+namespace Tests\App\Controller\EnMarche\Poll;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -256,19 +256,5 @@ class PollCandidateControllerTest extends WebTestCase
     {
         yield ['jacques.picard@en-marche.fr', 'Espace candidat'];  // candidate region headed
         yield ['gisele-berthoux@caramail.com', 'Espace candidat partagé (Île-de-France)']; // has a delegated access
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

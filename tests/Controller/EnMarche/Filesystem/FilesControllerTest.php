@@ -2,8 +2,8 @@
 
 namespace Tests\App\Controller\EnMarche\Filesystem;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 class FilesControllerTest extends WebTestCase
@@ -60,22 +60,8 @@ class FilesControllerTest extends WebTestCase
         self::assertSame($expectedDocumentsNumber, $crawler->filter('tbody tr')->count());
     }
 
-    public function provideSpaces()
+    public function provideSpaces(): \Generator
     {
         yield ['gisele-berthoux@caramail.com', 'Espace candidat partagé (Île-de-France)', '/espace-candidat', 4];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

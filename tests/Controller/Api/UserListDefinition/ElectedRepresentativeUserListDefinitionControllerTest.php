@@ -4,9 +4,9 @@ namespace Tests\App\Controller\Api\UserListDefinition;
 
 use App\Entity\ElectedRepresentative\ElectedRepresentative;
 use App\Entity\UserListDefinitionEnum;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\Test\Helper\PHPUnitHelper;
 
@@ -17,7 +17,7 @@ class ElectedRepresentativeUserListDefinitionControllerTest extends WebTestCase
 {
     use ControllerTestTrait;
 
-    public function providePages()
+    public function providePages(): array
     {
         return [
             ['/api/elected-representative/user-list-definitions/%s/members'],
@@ -176,15 +176,6 @@ class ElectedRepresentativeUserListDefinitionControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->disableRepublicanSilence();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

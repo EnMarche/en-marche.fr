@@ -5,9 +5,9 @@ namespace Tests\App\Controller\EnMarche;
 use App\Entity\JeMarcheReport;
 use App\Mailer\Message\JeMarcheReportMessage;
 use App\Repository\JeMarcheReportRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -99,15 +99,11 @@ class JeMarcheControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->jeMarcheReportRepostitory = $this->getJeMarcheReportRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->jeMarcheReportRepostitory = null;
 
         parent::tearDown();

@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\Api;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -49,19 +49,5 @@ class IntlControllerTest extends WebTestCase
             'Sarrebruck',
             'Stuttgart',
         ], \GuzzleHttp\json_decode($this->client->getResponse()->getContent(), true));
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

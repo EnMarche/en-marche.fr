@@ -23,11 +23,10 @@ class ArticleFeedGeneratorTest extends TestCase
      */
     protected $feedGenerator;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $this->markdownParser = $this->createMock(CommonMarkConverter::class);
 
@@ -37,6 +36,15 @@ class ArticleFeedGeneratorTest extends TestCase
             $this->urlGenerator,
             $this->markdownParser
         );
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->urlGenerator = null;
+        $this->markdownParser = null;
+        $this->feedGenerator = null;
     }
 
     /**
@@ -118,7 +126,7 @@ class ArticleFeedGeneratorTest extends TestCase
         $this->assertInstanceOf(FeedInterface::class, $this->feedGenerator->buildFeed([$article]));
     }
 
-    public function dataProviderGenerateInvalidInput()
+    public function dataProviderGenerateInvalidInput(): array
     {
         return [
             [null],

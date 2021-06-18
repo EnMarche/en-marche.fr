@@ -4,13 +4,10 @@ namespace Tests\App\Repository;
 
 use App\Entity\Transaction;
 use App\Repository\TransactionRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
-class TransactionRepositoryTest extends WebTestCase
+class TransactionRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var TransactionRepository
      */
@@ -37,15 +34,11 @@ class TransactionRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->transactionRepository = $this->getTransactionRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->transactionRepository = null;
 
         parent::tearDown();

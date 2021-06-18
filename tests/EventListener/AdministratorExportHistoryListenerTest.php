@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Repository;
+namespace Tests\App\EventListener;
 
 use App\Entity\Reporting\AdministratorExportHistory;
 use Doctrine\ORM\EntityRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -23,15 +23,11 @@ class AdministratorExportHistoryListenerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->historyRepository = $this->getRepository(AdministratorExportHistory::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->historyRepository = null;
 
         parent::tearDown();

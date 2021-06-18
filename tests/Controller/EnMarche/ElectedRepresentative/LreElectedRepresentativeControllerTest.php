@@ -2,8 +2,8 @@
 
 namespace Tests\App\Controller\EnMarche\ElectedRepresentative;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -42,15 +42,6 @@ class LreElectedRepresentativeControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->disableRepublicanSilence();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

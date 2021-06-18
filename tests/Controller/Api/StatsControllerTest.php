@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\Api;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\Test\Helper\PHPUnitHelper;
 
@@ -32,19 +32,5 @@ class StatsControllerTest extends WebTestCase
             'eventCount' => 20,
             'committeeCount' => 13,
         ], $data);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

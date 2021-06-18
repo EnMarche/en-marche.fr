@@ -26,20 +26,19 @@ class NullEmailClient implements EmailClientInterface
 
     public function renderEmail(EmailTemplateInterface $email): string
     {
-        return '
-            <!DOCTYPE html>
+        return
+            '<!DOCTYPE html>
             <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <title>Email template</title>
-            </head>
-            <body bgcolor="#fff" style="text-align: center">
-                <div>
-                    <h1>Email content</h1>
-                    <small>With ❤️ from NULL client</small>
-                </div>            
-            </body>
-            </html>
-        ';
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Email template</title>
+                </head>
+                <body style="background:#fff;text-align:center">
+                    <div>
+                        <h1>Email content</h1>
+                        <small>With ❤️ from NULL client</small>
+                    </div>
+                </body>
+            </html>';
     }
 }

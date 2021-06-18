@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Repository;
+namespace Tests\App\BoardMember;
 
 use App\BoardMember\BoardMemberFilter;
 use App\BoardMember\BoardMemberManager;
@@ -10,14 +10,14 @@ use App\Entity\Adherent;
 use App\Entity\BoardMember\Role;
 use App\Repository\AdherentRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractKernelTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
  * @group functional
  * @group boardMember
  */
-class BoardMemberManagerTest extends WebTestCase
+class BoardMemberManagerTest extends AbstractKernelTestCase
 {
     use ControllerTestTrait;
 
@@ -90,16 +90,12 @@ class BoardMemberManagerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->adherentRepository = $this->getAdherentRepository();
         $this->boardMemberManager = $this->get(BoardMemberManager::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->boardMemberManager = null;
         $this->adherentRepository = null;
 

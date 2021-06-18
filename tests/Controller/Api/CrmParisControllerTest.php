@@ -3,8 +3,8 @@
 namespace Tests\App\Controller\Api;
 
 use App\DataFixtures\ORM\LoadClientData;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 
@@ -59,19 +59,5 @@ CONTENT;
             'HTTP_AUTHORIZATION' => 'Bearer 123abc456def',
         ]);
         $this->assertStatusCode(401, $this->client);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

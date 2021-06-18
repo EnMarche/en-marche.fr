@@ -9,14 +9,14 @@ use App\Mailer\Message\CertificationRequestApprovedMessage;
 use App\Mailer\Message\CertificationRequestBlockedMessage;
 use App\Mailer\Message\CertificationRequestRefusedMessage;
 use App\Repository\AdherentRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractKernelTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
  * @group functional
  * @group certification
  */
-class CertificationAuthorityManagerTest extends WebTestCase
+class CertificationAuthorityManagerTest extends AbstractKernelTestCase
 {
     use ControllerTestTrait;
 
@@ -130,16 +130,12 @@ class CertificationAuthorityManagerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->adherentRepository = $this->getAdherentRepository();
         $this->certificationAuthorityManager = $this->get(CertificationAuthorityManager::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->adherentRepository = null;
         $this->certificationAuthorityManager = null;
 

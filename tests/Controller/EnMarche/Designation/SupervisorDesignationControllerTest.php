@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche\Designation;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -131,12 +131,5 @@ class SupervisorDesignationControllerTest extends WebTestCase
         $this->assertStringContainsString('Liste des bulletins dépouillés', $crawler->filter('.datagrid__pre-table')->eq(1)->text());
 
         $this->assertCount(8, $crawler->filter('.datagrid__table-manager tbody tr'));
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
     }
 }

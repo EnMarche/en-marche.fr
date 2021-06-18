@@ -2,9 +2,9 @@
 
 namespace Tests\App\Security;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -46,19 +46,5 @@ class InactiveAdminDisconnectionTest extends WebTestCase
 
         // status code should be 200 OK, because there is no redirection to disconnect
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

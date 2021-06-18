@@ -2,8 +2,8 @@
 
 namespace Tests\App\Controller\EnMarche\CommitteeDesignation;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -78,12 +78,5 @@ class ReferentDesignationControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', '/comites/en-marche-dammarie-les-lys');
         self::assertStringContainsString('Élection de l’Animatrice locale du comité', $crawler->filter('main.committee')->text());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
     }
 }

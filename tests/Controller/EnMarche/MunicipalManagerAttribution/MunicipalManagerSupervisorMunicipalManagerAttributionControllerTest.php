@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche\MunicipalManagerAttribution;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -39,19 +39,5 @@ class MunicipalManagerSupervisorMunicipalManagerAttributionControllerTest extend
 
         $this->client->request(Request::METHOD_GET, '/espace-responsable-attribution/responsables-communaux');
         $this->assertResponseStatusCode(Response::HTTP_FORBIDDEN, $this->client->getResponse());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

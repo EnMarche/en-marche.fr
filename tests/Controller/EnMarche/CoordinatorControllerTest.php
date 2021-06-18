@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -107,24 +107,10 @@ class CoordinatorControllerTest extends WebTestCase
         $this->assertCount(1, $this->client->getCrawler()->filter('.fa-times'));
     }
 
-    public function providePages()
+    public function providePages(): array
     {
         return [
             ['/espace-coordinateur/comites/list'],
         ];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

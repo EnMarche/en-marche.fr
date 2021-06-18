@@ -4,9 +4,9 @@ namespace Tests\App\Controller\EnMarche;
 
 use App\Mailer\Message\LegislativeCampaignContactMessage;
 use App\Repository\EmailRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\Mandrill\MailAssertTrait;
 
@@ -126,15 +126,11 @@ class LegislativesControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->emailRepository = $this->getEmailRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->emailRepository = null;
 
         parent::tearDown();

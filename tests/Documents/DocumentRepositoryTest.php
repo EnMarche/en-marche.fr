@@ -69,10 +69,10 @@ class DocumentRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->filesystem = new Filesystem(new MemoryAdapter());
         $this->repository = new DocumentRepository($this->filesystem);
-
-        parent::setUp();
     }
 
     protected function tearDown(): void

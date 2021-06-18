@@ -9,9 +9,9 @@ use App\Mailer\Message\AdherentResetPasswordConfirmationMessage;
 use App\Mailer\Message\AdherentResetPasswordMessage;
 use App\Repository\AdherentRepository;
 use App\Repository\EmailRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -220,16 +220,12 @@ class AdherentSecurityControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->adherentRepository = $this->getAdherentRepository();
         $this->emailRepository = $this->getEmailRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->emailRepository = null;
         $this->adherentRepository = null;
 

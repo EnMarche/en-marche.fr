@@ -14,14 +14,14 @@ use App\Entity\Reporting\CommitteeMembershipHistory;
 use App\Exception\CommitteeMembershipException;
 use App\Geocoder\Coordinates;
 use App\Repository\AdherentMandate\CommitteeAdherentMandateRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractKernelTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
  * @group functional
  * @group committeeManager
  */
-class CommitteeManagerTest extends WebTestCase
+class CommitteeManagerTest extends AbstractKernelTestCase
 {
     use ControllerTestTrait;
 
@@ -305,12 +305,18 @@ class CommitteeManagerTest extends WebTestCase
     {
         parent::setUp();
 
-        static::$container = $this->getContainer();
         $this->committeeManager = new CommitteeManager(
             $this->getEntityManager(Committee::class),
             $this->get('event_dispatcher'),
             $this->get(CommitteeAdherentMandateRepository::class)
         );
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->committeeManager = null;
     }
 
     private function findCommitteeMembershipHistoryByAdherent(Adherent $adherent): array

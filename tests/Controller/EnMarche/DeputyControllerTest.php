@@ -5,9 +5,9 @@ namespace Tests\App\Controller\EnMarche;
 use App\AdherentMessage\Command\AdherentMessageChangeCommand;
 use App\Entity\DeputyManagedUsersMessage;
 use App\Repository\DeputyManagedUsersMessageRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\MessengerTestTrait;
 
@@ -42,7 +42,7 @@ class DeputyControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
-        $this->assertStringContainsString('http://'.$this->hosts['app'].'/espace-depute/utilisateurs/message', $this->client->getRequest()->getUri());
+        $this->assertStringContainsString('http://'.$this->getParameter('app_host').'/espace-depute/utilisateurs/message', $this->client->getRequest()->getUri());
 
         $deputyMessages = $this
             ->deputyMessageRepository
@@ -93,15 +93,11 @@ class DeputyControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->deputyMessageRepository = $this->manager->getRepository(DeputyManagedUsersMessage::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->deputyMessageRepository = null;
 
         parent::tearDown();

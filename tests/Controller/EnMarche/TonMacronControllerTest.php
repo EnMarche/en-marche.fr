@@ -11,9 +11,9 @@ use App\Repository\TonMacronFriendInvitationRepository;
 use App\TonMacron\InvitationProcessor;
 use App\TonMacron\InvitationProcessorHandler;
 use Doctrine\Common\Collections\ArrayCollection;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -186,8 +186,6 @@ class TonMacronControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->tonMacronChoiceRepository = $this->getTonMacronChoiceRepository();
         $this->tonMacronInvitationRepository = $this->getTonMacronInvitationRepository();
         $this->emailRepository = $this->getEmailRepository();
@@ -195,8 +193,6 @@ class TonMacronControllerTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->emailRepository = null;
         $this->tonMacronInvitationRepository = null;
         $this->tonMacronChoiceRepository = null;

@@ -8,8 +8,8 @@ use App\Entity\Event\BaseEvent;
 use App\Event\EventTypeEnum;
 use App\OAuth\Model\GrantTypeEnum;
 use App\OAuth\Model\Scope;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 
@@ -86,19 +86,5 @@ class CoalitionEventControllerTest extends WebTestCase
 
         self::assertSame('My event', $response['name']);
         self::assertSame('online', $response['mode']);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

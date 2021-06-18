@@ -13,9 +13,9 @@ use App\Repository\DonatorRepository;
 use App\Repository\TransactionRepository;
 use Goutte\Client as PayboxClient;
 use GuzzleHttp\Client;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\Test\Payment\PayboxProvider;
 
@@ -177,7 +177,7 @@ class DonationControllerTest extends WebTestCase
 
         // Check payment was successful
         $callbackUrl = $crawler->filter('a')->attr('href');
-        $callbackUrlRegExp = 'http://'.$this->hosts['app'].'/don/callback/(.+)'; // token
+        $callbackUrlRegExp = 'http://'.$this->getParameter('app_host').'/don/callback/(.+)'; // token
         $callbackUrlRegExp .= '\?id=(.+)_john-doe';
         if (PayboxPaymentSubscription::NONE !== $duration) {
             $durationRegExp = $duration < 0 ? 0 : $duration - 1;
@@ -213,13 +213,12 @@ class DonationControllerTest extends WebTestCase
         $this->assertFalse($donation->hasError());
         if ($donation->hasSubscription()) {
             $this->assertTrue($donation->isSubscriptionInProgress());
-            $donation->nextDonationAt();
         } else {
             $this->assertTrue($donation->isFinished());
             $this->expectException(\LogicException::class);
             $this->expectExceptionMessage('Donation without subscription can\'t have next donation date.');
-            $donation->nextDonationAt();
         }
+        $donation->nextDonationAt();
         $transactions = $donation->getTransactions();
         $this->assertCount(1, $transactions);
         $transaction = $transactions->first();
@@ -317,7 +316,7 @@ class DonationControllerTest extends WebTestCase
 
         $crawler = $this->payboxClient->submit($crawler->filter('form[name=PAYBOX]')->form());
         $cancelUrl = $crawler->filter('#pbx-annuler a')->attr('href');
-        $cancelUrlRegExp = 'http://'.$this->hosts['app'].'/don/callback/(.+)'; // token
+        $cancelUrlRegExp = 'http://'.$this->getParameter('app_host').'/don/callback/(.+)'; // token
         $cancelUrlRegExp .= '\?id=(.+)_john-doe';
         if (PayboxPaymentSubscription::NONE !== $duration) {
             $durationRegExp = $duration < 0 ? 0 : $duration - 1;
@@ -486,8 +485,6 @@ class DonationControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         // Delete all donations for tests
         $this->getRepository(Transaction::class)->createQueryBuilder('t')->delete()->getQuery()->execute();
         $this->getDonationRepository()->createQueryBuilder('d')->delete()->getQuery()->execute();
@@ -502,8 +499,6 @@ class DonationControllerTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->payboxClient = null;
         $this->donationRepository = null;
         $this->donatorRepository = null;

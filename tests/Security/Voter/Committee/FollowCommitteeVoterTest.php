@@ -22,9 +22,9 @@ class FollowCommitteeVoterTest extends AbstractAdherentVoterTest
 
     protected function setUp(): void
     {
-        $this->adherentRepository = $this->createMock(AdherentRepository::class);
-
         parent::setUp();
+
+        $this->adherentRepository = $this->createMock(AdherentRepository::class);
     }
 
     protected function tearDown(): void
@@ -153,7 +153,7 @@ class FollowCommitteeVoterTest extends AbstractAdherentVoterTest
     }
 
     /**
-     * @return CommitteeMembership|\MockObject|null
+     * @return CommitteeMembership|MockObject|null
      */
     private function getMembershipMock(
         ?bool $isFollower,

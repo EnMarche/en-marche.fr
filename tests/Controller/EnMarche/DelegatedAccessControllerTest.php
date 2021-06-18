@@ -2,7 +2,7 @@
 
 namespace Tests\App\Controller\EnMarche;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 class DelegatedAccessControllerTest extends WebTestCase
@@ -28,15 +28,6 @@ class DelegatedAccessControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->client->followRedirects();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

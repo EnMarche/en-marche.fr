@@ -4,9 +4,9 @@ namespace Tests\App\Controller\EnMarche\TerritorialCouncil;
 
 use App\DataFixtures\ORM\LoadAdherentData;
 use App\Entity\Report\Report;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -188,19 +188,5 @@ class PoliticalCommitteeControllerTest extends WebTestCase
         );
 
         static::assertSame(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

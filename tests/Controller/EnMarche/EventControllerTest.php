@@ -175,7 +175,7 @@ class EventControllerTest extends AbstractEventControllerTest
     {
         $this->authenticateAsAdherent($this->client, 'carl999@example.fr');
         $event = $this->getEventRepository()->findOneByUuid(LoadCommitteeEventData::EVENT_3_UUID);
-        $eventUrl = sprintf('/evenements/%s', $slug = $event->getSlug());
+        $eventUrl = sprintf('/evenements/%s', $event->getSlug());
 
         $this->assertCount(0, $this->manager->getRepository(EventInvite::class)->findAll());
 
@@ -240,7 +240,7 @@ class EventControllerTest extends AbstractEventControllerTest
     public function testAnonymousCanInviteToEvent()
     {
         $event = $this->getEventRepository()->findOneByUuid(LoadCommitteeEventData::EVENT_3_UUID);
-        $eventUrl = sprintf('/evenements/%s', $slug = $event->getSlug());
+        $eventUrl = sprintf('/evenements/%s', $event->getSlug());
 
         $this->assertCount(0, $this->manager->getRepository(EventInvite::class)->findAll());
 
@@ -442,8 +442,6 @@ class EventControllerTest extends AbstractEventControllerTest
     {
         parent::setUp();
 
-        $this->init();
-
         $this->repository = $this->getEventRegistrationRepository();
         $this->emailRepository = $this->getEmailRepository();
         $this->subscriptionsRepository = $this->getNewsletterSubscriptionRepository();
@@ -451,8 +449,6 @@ class EventControllerTest extends AbstractEventControllerTest
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->repository = null;
         $this->emailRepository = null;
         $this->subscriptionsRepository = null;

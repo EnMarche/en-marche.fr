@@ -44,6 +44,8 @@ class CallbackManagerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->clientRepository = $this->createMock(ClientRepository::class);
@@ -66,6 +68,17 @@ class CallbackManagerTest extends TestCase
         ;
 
         $this->callbackManager = new CallbackManager($this->urlGenerator, $requestStack, $this->clientRepository, $this->logger);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->logger = null;
+        $this->clientRepository = null;
+        $this->urlGenerator = null;
+        $this->request = null;
+        $this->callbackManager = null;
     }
 
     public function testItGeneratesUrlWithCallbackInformation(): void

@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\Legislatives;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -27,19 +27,5 @@ class MapsControllerTest extends WebTestCase
         $this->client->request(Request::METHOD_GET, $this->hosts['scheme'].'://'.$this->hosts['legislatives'].'/les-evenements');
 
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init('legislatives');
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

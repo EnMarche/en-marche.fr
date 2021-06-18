@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc62d24f5d5a1bad3df9bb9f09b6c70d",
+    "content-hash": "88b5ef1d7dfe3a81606110fb5e886dde",
     "packages": [
         {
             "name": "a2lix/translation-form-bundle",
@@ -18211,73 +18211,6 @@
             "time": "2019-05-30T21:34:13+00:00"
         },
         {
-            "name": "liip/functional-test-bundle",
-            "version": "4.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "efa6519f51c7f2005a89de5a63441af4d4eb119f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/efa6519f51c7f2005a89de5a63441af4d4eb119f",
-                "reference": "efa6519f51c7f2005a89de5a63441af4d4eb119f",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/annotations": "^1.3",
-                "php": "^7.1",
-                "phpunit/phpunit": "^7.5.0 || ^8.0 || ^9.0",
-                "symfony/browser-kit": "^3.4 || ^4.1 || ^5.0",
-                "symfony/framework-bundle": "^3.4 || ^4.1 || ^5.0"
-            },
-            "conflict": {
-                "symfony/framework-bundle": "4.3.0"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "^1.8 || ^2.0",
-                "doctrine/orm": "^2.6",
-                "monolog/monolog": "~1.11",
-                "symfony/monolog-bundle": "^3.2 || ^5.0",
-                "symfony/phpunit-bridge": "^3.4 || ^4.1 || ^5.0",
-                "twig/twig": "^2.0"
-            },
-            "suggest": {
-                "liip/test-fixtures-bundle": "Efficient loading of Doctrine fixtures in functional test-cases for Symfony applications"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Liip\\FunctionalTestBundle\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Liip AG",
-                    "homepage": "http://www.liip.ch/"
-                },
-                {
-                    "name": "Community contributions",
-                    "homepage": "https://github.com/liip/LiipFunctionalTestBundle/contributors"
-                }
-            ],
-            "description": "This bundles provides additional functional test-cases for Symfony applications",
-            "keywords": [
-                "symfony",
-                "testing"
-            ],
-            "time": "2020-05-29T10:29:48+00:00"
-        },
-        {
             "name": "myclabs/deep-copy",
             "version": "1.10.2",
             "source": {
@@ -20855,8 +20788,9 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-pdo": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "ext-dom": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

@@ -5,9 +5,9 @@ namespace Tests\App\Controller\EnMarche\Committee;
 use App\DataFixtures\ORM\LoadAdherentData;
 use App\DataFixtures\ORM\LoadCommitteeData;
 use App\Entity\Committee;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -49,7 +49,7 @@ class ReferentCommitteeControllerTest extends WebTestCase
 
         $this->client->click($creationLink->link());
 
-        $this->assertEquals('http://'.$this->hosts['app'].'/espace-referent/comites/creer', $this->client->getRequest()->getUri());
+        $this->assertEquals('http://'.$this->getParameter('app_host').'/espace-referent/comites/creer', $this->client->getRequest()->getUri());
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
     }
 
@@ -191,7 +191,7 @@ Il ne manque plus que la validation d\'un coordinateur régional pour qu\'il soi
 
         $this->client->click($crawler->selectLink('Voir')->link());
 
-        $this->assertEquals('http://'.$this->hosts['app'].'/espace-referent/comites/demandes', $this->client->getRequest()->getUri());
+        $this->assertEquals('http://'.$this->getParameter('app_host').'/espace-referent/comites/demandes', $this->client->getRequest()->getUri());
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
     }
 
@@ -330,7 +330,7 @@ Il ne manque plus que la validation d\'un coordinateur régional pour qu\'il soi
         $form = $crawler->selectButton('Appliquer')->form();
         $crawler = $this->client->submit($form, ['f' => ['committeeName' => 'Fontainebleau']]);
 
-        $this->assertCount(1, $table = $crawler->filter('tbody tr'));
+        $this->assertCount(1, $crawler->filter('tbody tr'));
 
         $crawler = $this->client->click($crawler->selectLink('Détails')->link());
         $this->assertStringEndsWith('/espace-referent/comites/antenne-en-marche-de-fontainebleau/designations/b81c3585-c802-48f6-9dca-19d1d4e08c44', $crawler->getUri());
@@ -349,7 +349,7 @@ Il ne manque plus que la validation d\'un coordinateur régional pour qu\'il soi
 
         $crawler = $this->client->click($crawler->selectLink('Liste d\'émargement')->link());
 
-        $this->assertCount(6, $table = $crawler->filter('tbody tr'));
+        $this->assertCount(6, $crawler->filter('tbody tr'));
         $this->assertStringContainsString('Adherent 33 Fa33ke', $crawler->filter('table')->text());
 
         $crawler = $this->client->click($crawler->selectLink('Résultats Animateurs Locaux')->link());
@@ -362,7 +362,7 @@ Il ne manque plus que la validation d\'un coordinateur régional pour qu\'il soi
 
         $crawler = $this->client->click($crawler->selectLink('Bulletins dépouillés')->link());
 
-        $this->assertCount(5, $table = $crawler->filter('tbody tr'));
+        $this->assertCount(5, $crawler->filter('tbody tr'));
 
         $tableHeader = $crawler->filter('thead')->text();
         $this->assertStringContainsString('Adherent 32 Fa32ke', $tableHeader);
@@ -373,7 +373,7 @@ Il ne manque plus que la validation d\'un coordinateur régional pour qu\'il soi
         $this->assertStringContainsString('Adherent 37 Fa37ke', $tableHeader);
     }
 
-    public function provideAdherents()
+    public function provideAdherents(): array
     {
         return [
             ['referent@en-marche-dev.fr', LoadCommitteeData::COMMITTEE_16_UUID, 'pre-approuver', Response::HTTP_OK],
@@ -392,12 +392,5 @@ Il ne manque plus que la validation d\'un coordinateur régional pour qu\'il soi
         $fields = $requests->eq(--$position)->filter('td');
 
         $this->assertStringContainsString($status, $fields->eq(5)->text());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
     }
 }

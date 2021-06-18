@@ -5,9 +5,9 @@ namespace Tests\App\Controller\EnMarche;
 use App\Entity\Event\CommitteeEvent;
 use App\Search\SearchParametersFilter;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -38,7 +38,7 @@ class SearchControllerTest extends WebTestCase
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
     }
 
-    public function providerPathSearchPage()
+    public function providerPathSearchPage(): array
     {
         return [
             ['/evenements'],
@@ -47,7 +47,7 @@ class SearchControllerTest extends WebTestCase
         ];
     }
 
-    public function provideQuery()
+    public function provideQuery(): \Generator
     {
         yield 'No criteria' => [[]];
         yield 'Search committees' => [[SearchParametersFilter::PARAMETER_TYPE => SearchParametersFilter::TYPE_COMMITTEES]];
@@ -102,19 +102,5 @@ class SearchControllerTest extends WebTestCase
         $this->assertSame(1, $crawler->filter('.listing__paginator li')->count());
         $this->assertSame('/tous-les-comites', $crawler->filter('.listing__paginator li a')->attr('href'));
         $this->assertSame('1', trim($crawler->filter('.listing__paginator li a')->text()));
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

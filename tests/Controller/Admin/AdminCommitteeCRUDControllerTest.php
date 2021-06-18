@@ -6,9 +6,9 @@ use App\AdherentMessage\Command\CreateStaticSegmentCommand;
 use App\DataFixtures\ORM\LoadCommitteeData;
 use App\Mailer\Message\CommitteeApprovalConfirmationMessage;
 use App\Mailer\Message\CommitteeApprovalReferentMessage;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\MessengerTestTrait;
 
@@ -62,15 +62,11 @@ class AdminCommitteeCRUDControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->committeeRepository = $this->getCommitteeRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->committeeRepository = null;
 
         parent::tearDown();

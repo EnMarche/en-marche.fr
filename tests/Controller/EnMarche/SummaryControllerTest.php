@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -15,7 +15,7 @@ class SummaryControllerTest extends WebTestCase
 {
     use ControllerTestTrait;
 
-    public function provideSummarySlug()
+    public function provideSummarySlug(): \Generator
     {
         yield ['carl-mirabeau'];
 
@@ -73,19 +73,5 @@ class SummaryControllerTest extends WebTestCase
         $this->assertSame('https://twitter.com/lucie-olivera-fake', $crawler->filter('.summary-contact-twitter a')->attr('href'));
 
         $this->assertSame(0, $crawler->filter('.cv__skills--modify:contains("Modifier")')->count());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

@@ -7,18 +7,17 @@ use App\Entity\Geo\City;
 use App\Entity\Geo\Country;
 use App\Entity\Geo\Department;
 use App\Entity\Geo\Region;
-use Doctrine\ORM\EntityManagerInterface;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
+use Tests\App\AbstractCommandCaseTest;
 
 /**
  * @group command
  * @group geo
  */
-final class UpdateFranceCommandTest extends WebTestCase
+final class UpdateFranceCommandTest extends AbstractCommandCaseTest
 {
     private const PAYLOAD = [
         [
@@ -46,7 +45,6 @@ final class UpdateFranceCommandTest extends WebTestCase
 
     public function testDryRunDoNotWrite(): void
     {
-        self::bootKernel();
         $application = new Application(self::$kernel);
 
         /* @var UpdateFranceCommand $command */
@@ -83,7 +81,6 @@ final class UpdateFranceCommandTest extends WebTestCase
 
     public function testPersistingCommand(): void
     {
-        self::bootKernel();
         $application = new Application(self::$kernel);
 
         /* @var UpdateFranceCommand $command */
@@ -120,11 +117,6 @@ final class UpdateFranceCommandTest extends WebTestCase
 
     private function exists(string $class, string $code): bool
     {
-        /* @var EntityManagerInterface $repository */
-        $repository = static::$container->get('doctrine.orm.entity_manager');
-
-        return (bool) $repository->getRepository($class)->findOneBy([
-            'code' => $code,
-        ]);
+        return 0 < $this->getRepository($class)->count(['code' => $code]);
     }
 }

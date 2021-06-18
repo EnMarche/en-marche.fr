@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -26,22 +26,8 @@ class ExplainerControllerTest extends WebTestCase
         $this->assertSame(4, $crawler->filter('.explainer__articles > ul > li')->count());
     }
 
-    public function provideActions()
+    public function provideActions(): \Generator
     {
         yield ['/transformer-la-france'];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

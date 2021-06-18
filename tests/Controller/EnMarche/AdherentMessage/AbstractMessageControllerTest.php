@@ -3,7 +3,7 @@
 namespace Tests\App\Controller\EnMarche\AdherentMessage;
 
 use App\Entity\Adherent;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -29,7 +29,7 @@ class AbstractMessageControllerTest extends WebTestCase
         self::assertEquals('http://test.enmarche.code/'.$spacePath, $crawler->getUri());
     }
 
-    public function provideSpaces()
+    public function provideSpaces(): \Generator
     {
         yield ['referent@en-marche-dev.fr', 'Espace député partagé (FDE-06)', 'espace-depute/messagerie'];
         yield ['gisele-berthoux@caramail.com', 'Espace sénateur partagé (59)', 'espace-senateur/messagerie'];
@@ -96,7 +96,7 @@ class AbstractMessageControllerTest extends WebTestCase
         $this->assertResponseStatusCode($statusCode, $this->client->getResponse());
     }
 
-    public function provideTabs()
+    public function provideTabs(): \Generator
     {
         yield ['messagerie', 403];
         yield ['evenements', 200];
@@ -136,7 +136,7 @@ class AbstractMessageControllerTest extends WebTestCase
         $this->assertResponseStatusCode($statusCode, $this->client->getResponse());
     }
 
-    public function provideMultiAccess()
+    public function provideMultiAccess(): \Generator
     {
         yield ['96076afb-2243-4251-97fe-8201d50c3256', '/espace-depute/utilisateurs', 403];
         yield ['96076afb-2243-4251-97fe-8201d50c3256', '/espace-depute/messagerie', 200];
@@ -158,14 +158,6 @@ class AbstractMessageControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
         $this->client->followRedirects();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

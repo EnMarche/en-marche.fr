@@ -604,15 +604,11 @@ class CommitteeControllerTest extends AbstractGroupControllerTest
     {
         parent::setUp();
 
-        $this->init();
-
         $this->committeeRepository = $this->getCommitteeRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->committeeRepository = null;
 
         parent::tearDown();

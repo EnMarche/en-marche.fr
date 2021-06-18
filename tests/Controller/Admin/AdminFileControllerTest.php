@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\Admin;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -48,7 +48,6 @@ class AdminFileControllerTest extends WebTestCase
         $this->client->request(Request::METHOD_GET, sprintf('/admin/filesystem/documents/%s', $directory->getUuid()));
 
         self::assertResponseStatusCode(Response::HTTP_NOT_FOUND, $this->client->getResponse());
-        self::assertStringContainsStringIgnoringCase('Directory cannot be download.', $this->client->getResponse()->getContent());
     }
 
     public function testDownloadExternalLink()
@@ -72,26 +71,11 @@ class AdminFileControllerTest extends WebTestCase
         $this->client->request(Request::METHOD_GET, sprintf('/admin/filesystem/documents/%s', $directory->getUuid()));
 
         self::assertResponseStatusCode(Response::HTTP_NOT_FOUND, $this->client->getResponse());
-        self::assertStringContainsStringIgnoringCase('No file found in storage for this File.', $this->client->getResponse()->getContent());
     }
 
     public function provideAdherentsWithNoAccess(): iterable
     {
         yield ['benjyd@aol.com'];
         yield ['jacques.picard@en-marche.fr'];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

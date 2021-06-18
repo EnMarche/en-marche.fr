@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\Api;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 
@@ -34,19 +34,5 @@ class LegislativesControllerTest extends WebTestCase
         $this->assertEachJsonItemContainsKey('picture', $content);
         $this->assertEachJsonItemContainsKey('url', $content);
         $this->assertEachJsonItemContainsKey('geojson', $content);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

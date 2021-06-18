@@ -6,8 +6,8 @@ use App\Adherent\Command\RemoveAdherentAndRelatedDataCommand;
 use App\Adherent\Handler\RemoveAdherentAndRelatedDataCommandHandler;
 use App\Entity\Adherent;
 use App\Entity\Unregistration;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -28,7 +28,7 @@ class UnregistrationControllerTest extends WebTestCase
         foreach ($this->getAdherentRepository()->findAll() as $adherent) {
             $this->getEntityManager(Adherent::class)->detach($adherent);
 
-            $this->authenticateAsAdherent($this->client, $email = $adherent->getEmailAddress());
+            $this->authenticateAsAdherent($this->client, $adherent->getEmailAddress());
 
             $crawler = $this->client->request('GET', '/parametres/mon-compte/desadherer');
 
@@ -46,19 +46,24 @@ class UnregistrationControllerTest extends WebTestCase
                 4 => $reasonsValues[4],
             ];
 
-            $crawler = $this->client->submit($crawler->selectButton('Je confirme la suppression de mon')->form([
-                'unregistration' => [
-                    'reasons' => $chosenReasons,
-                    'comment' => 'Je me désinscris',
-                ],
-            ]));
+            $crawler = $this->client->submit(
+                $crawler->selectButton('Je confirme la suppression de mon')->form(
+                    [
+                        'unregistration' => [
+                            'reasons' => $chosenReasons,
+                            'comment' => 'Je me désinscris',
+                        ],
+                    ]
+                )
+            );
 
             $this->assertStatusCode(Response::HTTP_OK, $this->client);
 
             self::assertCount(0, $crawler->filter('.form__errors > li'));
             self::assertSame(
-                $adherent->isUser() ? 'Votre compte En Marche a bien été supprimé et vos données personnelles effacées de notre base.' :
-                'Votre adhésion et votre compte En Marche ont bien été supprimés et vos données personnelles effacées de notre base.',
+                $adherent->isUser(
+                ) ? 'Votre compte En Marche a bien été supprimé et vos données personnelles effacées de notre base.' :
+                    'Votre adhésion et votre compte En Marche ont bien été supprimés et vos données personnelles effacées de notre base.',
                 trim($crawler->filter('#is_not_adherent h1')->eq(0)->text())
             );
 
@@ -66,19 +71,5 @@ class UnregistrationControllerTest extends WebTestCase
         }
 
         self::assertSame(31, $countForbidden);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

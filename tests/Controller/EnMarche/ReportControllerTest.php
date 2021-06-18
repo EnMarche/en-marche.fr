@@ -7,10 +7,10 @@ use App\DataFixtures\ORM\LoadCommitteeEventData;
 use App\Entity\Report\CommitteeReport;
 use App\Entity\Report\CommunityEventReport;
 use App\Report\ReportType;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -20,20 +20,6 @@ use Tests\App\Controller\ControllerTestTrait;
 class ReportControllerTest extends WebTestCase
 {
     use ControllerTestTrait;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
-    }
 
     public function provideReportableSubject(): iterable
     {
@@ -83,7 +69,7 @@ class ReportControllerTest extends WebTestCase
     {
         $reportUri = sprintf(
             'http://%s/report/%s/%s?redirectUrl=%s',
-            $this->hosts['app'],
+            $this->getParameter('app_host'),
             $this->getUriTypeFromReportCLass($reportClass),
             $subjectUuid,
             $subjectUrl

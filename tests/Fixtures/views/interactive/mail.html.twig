@@ -1,6 +1,6 @@
 {{ introduction.content|replace({'%friend_first_name%': interactive.friendFirstName|e})|raw }}
 
-{% spaceless %}
+{% apply spaceless %}
     <ul>
         {% if common %}
             <li>{{ common.content|raw }}</li>
@@ -9,6 +9,6 @@
             <li>{{- argument|raw }}</li>
         {% endfor %}
     </ul>
-{% endspaceless %}
+{% endapply %}
 
 {{ conclusion.content|raw }}

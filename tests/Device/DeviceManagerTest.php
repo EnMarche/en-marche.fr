@@ -6,13 +6,13 @@ use App\Device\DeviceManager;
 use App\Entity\Device;
 use App\Entity\Geo\Zone;
 use App\Repository\DeviceRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractKernelTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
  * @group functional
  */
-class DeviceManagerTest extends WebTestCase
+class DeviceManagerTest extends AbstractKernelTestCase
 {
     use ControllerTestTrait;
 
@@ -56,16 +56,12 @@ class DeviceManagerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->deviceRepository = $this->get(DeviceRepository::class);
         $this->deviceManager = $this->get(DeviceManager::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->deviceRepository = null;
         $this->deviceManager = null;
 

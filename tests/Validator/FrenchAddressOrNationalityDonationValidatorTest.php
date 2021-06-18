@@ -69,7 +69,7 @@ class FrenchAddressOrNationalityDonationValidatorTest extends ConstraintValidato
         yield [null, null];
     }
 
-    protected function createValidator()
+    protected function createValidator(): FrenchAddressOrNationalityDonationValidator
     {
         return new FrenchAddressOrNationalityDonationValidator();
     }

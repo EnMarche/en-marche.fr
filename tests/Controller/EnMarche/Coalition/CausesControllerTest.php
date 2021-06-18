@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\App\Controller\EnMarche;
+namespace Tests\App\Controller\EnMarche\Coalition;
 
 use App\DataFixtures\ORM\LoadAdherentData;
 use App\DataFixtures\ORM\LoadCauseData;
 use App\DataFixtures\ORM\LoadCoalitionData;
 use App\Entity\Coalition\Cause;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -63,17 +63,17 @@ class CausesControllerTest extends WebTestCase
 
         $crawler = $this->client->request(Request::METHOD_GET, '/espace-coalition/causes');
         $this->assertResponseIsSuccessful();
-        $this->assertCount(8, $causes = $crawler->filter('.datagrid table tbody tr'));
+        $this->assertCount(8, $crawler->filter('.datagrid table tbody tr'));
 
         $crawler = $this->client->submit($crawler->selectButton('Filtrer')->form([
             'f' => $parameters,
         ]));
         $this->assertResponseIsSuccessful();
-        $this->assertCount($expectedResultCount, $causes = $crawler->filter('.datagrid table tbody tr'));
+        $this->assertCount($expectedResultCount, $crawler->filter('.datagrid table tbody tr'));
 
         $crawler = $this->client->clickLink('Réinitialiser le filtre');
         $this->assertResponseIsSuccessful();
-        $this->assertCount(8, $causes = $crawler->filter('.datagrid table tbody tr'));
+        $this->assertCount(8, $crawler->filter('.datagrid table tbody tr'));
     }
 
     public function getCausesFilterParameters(): iterable
@@ -226,7 +226,7 @@ class CausesControllerTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertCount(0, $errors = $crawler->filter('li.form__error'));
+        $this->assertCount(0, $crawler->filter('li.form__error'));
         $this->assertSame(
             'La cause "Cause avec un nouveau objectif" a bien été modifiée.',
             $crawler->filter('.flash .flash__inner')->eq(0)->text()
@@ -286,15 +286,11 @@ class CausesControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->causeRepository = $this->getCauseRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->causeRepository = null;
 
         parent::tearDown();

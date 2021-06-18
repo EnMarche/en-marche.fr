@@ -65,7 +65,7 @@ class DonationFactoryTest extends TestCase
         $this->assertSame(self::DONATION_REQUEST_UUID, $donation->getUuid()->toString());
     }
 
-    private function createFactory()
+    private function createFactory(): DonationFactory
     {
         return new DonationFactory(
             new PostAddressFactory(),

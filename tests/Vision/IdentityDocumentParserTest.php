@@ -4,16 +4,13 @@ namespace Tests\App\Vision;
 
 use App\Vision\IdentityDocumentParser;
 use App\Vision\ImageAnnotations;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class IdentityDocumentParserTest extends WebTestCase
+class IdentityDocumentParserTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var IdentityDocumentParser
      */
@@ -151,15 +148,11 @@ TXT, 'Rémi', 'Gardien', '1988-11-27'];
     {
         parent::setUp();
 
-        $this->init();
-
         $this->parser = $this->get('test.'.IdentityDocumentParser::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->parser = null;
 
         parent::tearDown();

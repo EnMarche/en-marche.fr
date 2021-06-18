@@ -6,14 +6,14 @@ use App\Entity\ProcurationProxy;
 use App\Entity\ProcurationRequest;
 use App\Procuration\ProcurationManager;
 use App\Repository\ProcurationRequestRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractKernelTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
  * @group functional
  * @group procuration
  */
-class ProcurationManagerTest extends WebTestCase
+class ProcurationManagerTest extends AbstractKernelTestCase
 {
     use ControllerTestTrait;
 
@@ -91,16 +91,12 @@ class ProcurationManagerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->procurationRequestRepository = $this->getProcurationRequestRepository();
         $this->procurationManager = $this->get(ProcurationManager::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->procurationRequestRepository = null;
         $this->procurationManager = null;
 

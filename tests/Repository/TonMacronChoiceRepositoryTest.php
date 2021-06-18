@@ -4,16 +4,13 @@ namespace Tests\App\Repository;
 
 use App\Entity\TonMacronChoice;
 use App\Repository\TonMacronChoiceRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class TonMacronChoiceRepositoryTest extends WebTestCase
+class TonMacronChoiceRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var TonMacronChoiceRepository
      */
@@ -36,16 +33,12 @@ class TonMacronChoiceRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        static::$container = $this->getContainer();
         $this->repository = $this->getTonMacronChoiceRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->repository = null;
-        static::$container = null;
 
         parent::tearDown();
     }

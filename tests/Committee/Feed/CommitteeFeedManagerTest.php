@@ -8,16 +8,13 @@ use App\DataFixtures\ORM\LoadCommitteeData;
 use App\Entity\CommitteeFeedItem;
 use App\Repository\AdherentRepository;
 use App\Repository\CommitteeRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group committee
  */
-class CommitteeFeedManagerTest extends WebTestCase
+class CommitteeFeedManagerTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /* @var CommitteeFeedManager */
     private $committeeFeedManager;
 
@@ -53,19 +50,15 @@ class CommitteeFeedManagerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->init();
+        parent::setUp();
 
         $this->committeeFeedManager = $this->get(CommitteeFeedManager::class);
         $this->committeeRepository = $this->getCommitteeRepository();
         $this->adherentRepository = $this->getAdherentRepository();
-
-        parent::setUp();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->committeeFeedManager = null;
         $this->committeeRepository = null;
         $this->adherentRepository = null;

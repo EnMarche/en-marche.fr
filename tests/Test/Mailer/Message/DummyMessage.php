@@ -7,7 +7,7 @@ use Ramsey\Uuid\Uuid;
 
 class DummyMessage extends Message
 {
-    public static function create()
+    public static function create(): DummyMessage
     {
         return new self(
             Uuid::fromString('99999999-9999-9999-9999-999999999999'),

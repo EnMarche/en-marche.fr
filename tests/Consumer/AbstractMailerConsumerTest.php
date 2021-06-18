@@ -33,8 +33,18 @@ class AbstractMailerConsumerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->entityManager = $this->getMockBuilder(EntityManagerInterface::class)->getMock();
         $this->validator = $this->createMock(ValidatorInterface::class);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->entityManager = null;
+        $this->validator = null;
     }
 
     public function testDoExecuteWithoutUuidInMessage()
@@ -130,8 +140,8 @@ class AbstractMailerConsumerTest extends TestCase
         $messageClass = 'Hello World';
         $sender = 's.jobs@pomme.com';
         $recipients = ['b.gates@petit-logiciel.com'];
-        $messagePaylod = 'you are fired';
-        $messagePayloadEncoded = base64_encode($messagePaylod);
+        $messagePayload = 'you are fired';
+        $messagePayloadEncoded = base64_encode($messagePayload);
 
         $email = $this->getMockBuilder(Email::class)
             ->disableOriginalConstructor()
@@ -198,8 +208,8 @@ class AbstractMailerConsumerTest extends TestCase
         $messageClass = 'Hello World';
         $sender = 's.jobs@pomme.com';
         $recipients = ['b.gates@petit-logiciel.com'];
-        $messagePaylod = 'you are fired';
-        $messagePayloadEncoded = base64_encode($messagePaylod);
+        $messagePayload = 'you are fired';
+        $messagePayloadEncoded = base64_encode($messagePayload);
 
         $email = $this->getMockBuilder(Email::class)
             ->disableOriginalConstructor()
@@ -273,8 +283,8 @@ class AbstractMailerConsumerTest extends TestCase
         $messageClass = 'Hello World';
         $sender = 's.jobs@pomme.com';
         $recipients = ['b.gates@petit-logiciel.com'];
-        $messagePaylod = 'you are fired';
-        $messagePayloadEncoded = base64_encode($messagePaylod);
+        $messagePayload = 'you are fired';
+        $messagePayloadEncoded = base64_encode($messagePayload);
 
         $email = $this->getMockBuilder(Email::class)
             ->disableOriginalConstructor()
@@ -353,8 +363,8 @@ class AbstractMailerConsumerTest extends TestCase
         $messageClass = 'Hello World';
         $sender = 's.jobs@pomme.com';
         $recipients = ['b.gates@petit-logiciel.com'];
-        $messagePaylod = 'you are fired';
-        $messagePayloadEncoded = base64_encode($messagePaylod);
+        $messagePayload = 'you are fired';
+        $messagePayloadEncoded = base64_encode($messagePayload);
 
         $email = $this->getMockBuilder(Email::class)
             ->disableOriginalConstructor()

@@ -161,7 +161,7 @@ class OAuthAuthorizationManagerTest extends TestCase
         return new OAuthAuthorizationManager($this->userAuthorizationRepository);
     }
 
-    private function createUserAuthorization(Adherent $user, Client $client, array $scopes = [])
+    private function createUserAuthorization(Adherent $user, Client $client, array $scopes = []): UserAuthorization
     {
         return new UserAuthorization(null, $user, $client, $scopes ?: [Scope::READ_USERS()]);
     }

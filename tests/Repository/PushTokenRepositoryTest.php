@@ -5,16 +5,13 @@ namespace Tests\App\Repository;
 use App\Entity\Geo\Zone;
 use App\Repository\Geo\ZoneRepository;
 use App\Repository\PushTokenRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class PushTokenRepositoryTest extends WebTestCase
+class PushTokenRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var ZoneRepository
      */
@@ -60,16 +57,12 @@ class PushTokenRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->zoneRepository = $this->get(ZoneRepository::class);
         $this->pushTokenRepository = $this->get(PushTokenRepository::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->zoneRepository = null;
         $this->pushTokenRepository = null;
 

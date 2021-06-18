@@ -8,8 +8,8 @@ use App\DataFixtures\ORM\LoadClientData;
 use App\DataFixtures\ORM\LoadCoalitionEventData;
 use App\DataFixtures\ORM\LoadCommitteeEventData;
 use App\OAuth\Model\GrantTypeEnum;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 
@@ -65,19 +65,5 @@ class SubscribeAsAdherentControllerTest extends WebTestCase
         yield [LoadCoalitionEventData::EVENT_1_UUID, 'carl999@example.fr', 'CoalitionsEventRegistrationConfirmationMessage'];
         yield [LoadCauseEventData::EVENT_1_UUID, 'carl999@example.fr', 'CoalitionsEventRegistrationConfirmationMessage'];
         yield [LoadCommitteeEventData::EVENT_1_UUID, 'carl999@example.fr', 'EventRegistrationConfirmationMessage'];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

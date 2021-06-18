@@ -8,14 +8,13 @@ use App\Membership\EventListener\UserSubscriber;
 use App\Membership\UserEvent;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Ramsey\Uuid\Uuid;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tests\App\AbstractKernelTestCase;
 
-class UserSubscriberTest extends KernelTestCase
+class UserSubscriberTest extends AbstractKernelTestCase
 {
     public function testSerialiseUser()
     {
-        self::bootKernel();
-        $serializer = self::$kernel->getContainer()->get('jms_serializer');
+        $serializer = $this->get('jms_serializer');
 
         $producer = $this->getMockBuilder(ProducerInterface::class)->getMock();
         $userSubscriber = new UserSubscriber($producer, $serializer);

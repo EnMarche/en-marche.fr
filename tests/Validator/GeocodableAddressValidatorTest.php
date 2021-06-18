@@ -48,7 +48,7 @@ class GeocodableAddressValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function provideGeocodableAddress()
+    public function provideGeocodableAddress(): array
     {
         $address = new Address();
         $address->setCountry('CH');
@@ -80,7 +80,7 @@ class GeocodableAddressValidatorTest extends ConstraintValidatorTestCase
         ;
     }
 
-    protected function createValidator()
+    protected function createValidator(): GeocodableAddressValidator
     {
         return new GeocodableAddressValidator(new Geocoder(new DummyGeocoder()));
     }

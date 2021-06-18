@@ -17,7 +17,7 @@ class SHA1Test extends TestCase
         SHA1::fromString($hash);
     }
 
-    public function provideInvalidHash()
+    public function provideInvalidHash(): array
     {
         return [
             'invalid SHA1 hash' => ['2zzz8079f27fd1fab76b28420f5ff2ccbe57a283'],
@@ -62,7 +62,7 @@ class SHA1Test extends TestCase
         $this->assertSame($expectedHash, (string) $sha1);
     }
 
-    public function provideHash()
+    public function provideHash(): array
     {
         return [
             ['3c5340eca1e0a1ac201e4ae648ba11f2ddddddd9', '3c5340eca1e0a1ac201e4ae648ba11f2ddddddd9', true],

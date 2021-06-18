@@ -8,10 +8,10 @@ use App\Entity\Event\CommitteeEvent;
 use App\Mailer\Message\EventCancellationMessage;
 use App\Mailer\Message\EventContactMembersMessage;
 use App\Mailer\Message\EventUpdateMessage;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -53,7 +53,7 @@ class EventManagerControllerTest extends WebTestCase
         $this->assertResponseStatusCode(Response::HTTP_FORBIDDEN, $this->client->getResponse());
     }
 
-    public function provideHostProtectedPages()
+    public function provideHostProtectedPages(): array
     {
         $slug = date('Y-m-d', strtotime('+3 days')).'-reunion-de-reflexion-parisienne';
 
@@ -63,7 +63,7 @@ class EventManagerControllerTest extends WebTestCase
         ];
     }
 
-    public function provideCancelledInaccessiblePages()
+    public function provideCancelledInaccessiblePages(): array
     {
         $slug = date('Y-m-d', strtotime('+60 days')).'-reunion-de-reflexion-parisienne-annule';
 
@@ -388,19 +388,5 @@ CONTENT;
         $this->client->followRedirect();
 
         $this->isSuccessful($this->client->getResponse());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

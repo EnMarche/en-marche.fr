@@ -57,7 +57,16 @@ class XlsxEncoderTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->encoder = new XlsxEncoder();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->encoder = null;
     }
 
     public function testSupportEncoding()

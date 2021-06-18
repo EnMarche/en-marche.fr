@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\App\Consumer;
+namespace Tests\App\Consumer;
 
 use App\Consumer\MailerConsumer;
 use App\Mailer\MailerService;
@@ -21,11 +21,21 @@ class MailerConsumerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->entityManager = $this->createConfiguredMock(EntityManagerInterface::class, [
             'getConnection' => $this->createMock(Connection::class),
         ]);
 
         $this->validator = $this->createMock(ValidatorInterface::class);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->entityManager = null;
+        $this->validator = null;
     }
 
     public function testExecuteWithInvalidMessagePayload(): void

@@ -6,9 +6,8 @@ use App\DataFixtures\ORM\LoadClientData;
 use App\Entity\OAuth\AccessToken;
 use App\Entity\OAuth\Client;
 use App\Entity\OAuth\RefreshToken;
-use Doctrine\ORM\EntityManager;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Ramsey\Uuid\Uuid;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -85,22 +84,13 @@ class ClientAdminControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->authenticateAsAdmin($this->client);
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 
     private function findClient(string $uuid): Client
     {
         return $this
-            ->getManager()
+            ->getEntityManager()
             ->getRepository(Client::class)
             ->findClientByUuid(Uuid::fromString($uuid))
         ;
@@ -109,7 +99,7 @@ class ClientAdminControllerTest extends WebTestCase
     private function findAccessTokensByClient(Client $client): ?array
     {
         return $this
-            ->getManager()
+            ->getEntityManager()
             ->getRepository(AccessToken::class)
             ->findAllAccessTokensByClient($client)
         ;
@@ -118,7 +108,7 @@ class ClientAdminControllerTest extends WebTestCase
     private function findRefreshTokensByClient(Client $client): ?array
     {
         return $this
-            ->getManager()
+            ->getEntityManager()
             ->getRepository(RefreshToken::class)
             ->createQueryBuilder('rt')
             ->join('rt.accessToken', 'at')
@@ -127,10 +117,5 @@ class ClientAdminControllerTest extends WebTestCase
             ->getQuery()
             ->getResult()
         ;
-    }
-
-    private function getManager(): EntityManager
-    {
-        return $this->getContainer()->get('doctrine')->getManager();
     }
 }

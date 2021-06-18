@@ -132,7 +132,7 @@ class AdherentFactoryTest extends TestCase
         $this->assertSame(ActivityPositions::RETIRED, $adherent->getPosition());
     }
 
-    private function createFactory()
+    private function createFactory(): AdherentFactory
     {
         return new AdherentFactory(
             new EncoderFactory([

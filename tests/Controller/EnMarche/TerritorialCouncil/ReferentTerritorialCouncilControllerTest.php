@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche\TerritorialCouncil;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -151,19 +151,5 @@ class ReferentTerritorialCouncilControllerTest extends WebTestCase
 
         $this->assertCount(1, $crawler->filter('tbody tr.referent__item'));
         $this->assertStringContainsString('Referent75and77', $crawler->filter('tbody tr.referent__item')->eq(0)->text());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

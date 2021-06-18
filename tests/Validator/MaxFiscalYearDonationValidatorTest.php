@@ -141,12 +141,12 @@ class MaxFiscalYearDonationValidatorTest extends ConstraintValidatorTestCase
         ];
     }
 
-    protected function createValidator()
+    protected function createValidator(): MaxFiscalYearDonationValidator
     {
         return $this->createCustomValidatorFail();
     }
 
-    protected function createCustomValidatorFail()
+    protected function createCustomValidatorFail(): MaxFiscalYearDonationValidator
     {
         $transactionRepository = $this->createMock(TransactionRepository::class);
 
@@ -195,5 +195,12 @@ class MaxFiscalYearDonationValidatorTest extends ConstraintValidatorTestCase
             $this->createMock(MembershipRegistrationProcess::class),
             $this->createMock(GeoCoder::class)
         );
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->donationRequestUtils = null;
     }
 }

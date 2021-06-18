@@ -3,9 +3,9 @@
 namespace Tests\App\Controller\Api;
 
 use App\DataFixtures\ORM\LoadCommitteeData;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\Test\Helper\PHPUnitHelper;
@@ -83,19 +83,5 @@ class CommitteesControllerTest extends WebTestCase
             'first_name' => 'Carl',
             'last_name' => 'Mirabeau',
         ], $data['candidacies'][1]);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

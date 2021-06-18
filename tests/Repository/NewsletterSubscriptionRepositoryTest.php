@@ -3,16 +3,13 @@
 namespace Tests\App\Repository;
 
 use App\Repository\NewsletterSubscriptionRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class NewsletterSubscriptionRepositoryTest extends WebTestCase
+class NewsletterSubscriptionRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /** @var NewsletterSubscriptionRepository */
     private $repository;
 
@@ -32,16 +29,12 @@ class NewsletterSubscriptionRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        static::$container = $this->getContainer();
         $this->repository = $this->getNewsletterSubscriptionRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->repository = null;
-        static::$container = null;
 
         parent::tearDown();
     }

@@ -2,8 +2,8 @@
 
 namespace Tests\App\Controller\EnMarche\ThematicCommunity;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 class ThematicCommunitiesChiefMembersControllerTest extends WebTestCase
@@ -96,19 +96,5 @@ class ThematicCommunitiesChiefMembersControllerTest extends WebTestCase
         $this->assertStringContainsString('Peter John', $crawler->filter('table tbody tr.referent__item')->eq(1)->filter('td')->first()->text());
         $this->assertStringContainsString('Peter John', $crawler->filter('table tbody tr.referent__item')->eq(2)->filter('td')->first()->text());
         $this->assertStringContainsString('Berthoux Gisele', $crawler->filter('table tbody tr.referent__item')->eq(3)->filter('td')->first()->text());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

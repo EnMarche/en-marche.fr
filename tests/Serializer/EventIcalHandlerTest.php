@@ -20,7 +20,16 @@ class EventIcalHandlerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->handler = new EventICalHandler();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->handler = null;
     }
 
     public function testGetSubscribingMethods()

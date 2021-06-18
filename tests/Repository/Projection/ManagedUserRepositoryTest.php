@@ -8,17 +8,14 @@ use App\Repository\Geo\ZoneRepository;
 use App\Repository\Projection\ManagedUserRepository;
 use App\Subscription\SubscriptionTypeEnum;
 use Doctrine\Common\Persistence\ObjectRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  * @group referent
  */
-class ManagedUserRepositoryTest extends WebTestCase
+class ManagedUserRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var ManagedUserRepository
      */
@@ -64,15 +61,12 @@ class ManagedUserRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        static::$container = $this->getContainer();
         $this->managedUserRepository = $this->get(ManagedUserRepository::class);
         $this->zoneRepository = $this->get(ZoneRepository::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->managedUserRepository = null;
         $this->zoneRepository = null;
 

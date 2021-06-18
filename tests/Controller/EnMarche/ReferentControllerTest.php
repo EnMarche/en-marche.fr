@@ -2,7 +2,6 @@
 
 namespace Tests\App\Controller\EnMarche;
 
-use App\Address\GeoCoder;
 use App\AdherentMessage\Command\AdherentMessageChangeCommand;
 use App\DataFixtures\ORM\LoadDelegatedAccessData;
 use App\Entity\Event\InstitutionalEvent;
@@ -11,10 +10,10 @@ use App\Entity\ReferentManagedUsersMessage;
 use App\Mailer\Message\EventRegistrationConfirmationMessage;
 use App\Mailer\Message\InstitutionalEventInvitationMessage;
 use App\Repository\ReferentManagedUsersMessageRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\MessengerTestTrait;
 
@@ -458,7 +457,7 @@ class ReferentControllerTest extends WebTestCase
         $this->assertCount(0, $this->client->getCrawler()->filter('tbody tr .adherent-name > img'));
     }
 
-    public function providePages()
+    public function providePages(): array
     {
         return [
             ['/espace-referent/utilisateurs'],
@@ -474,37 +473,17 @@ class ReferentControllerTest extends WebTestCase
         yield ['referent@en-marche-dev.fr'];
     }
 
-    /**
-     * @return string Date in the format "Jeudi 14 juin 2018, 9h00"
-     */
-    private function formatEventDate(\DateTime $date, $timeZone = GeoCoder::DEFAULT_TIME_ZONE): string
-    {
-        $formatter = new \IntlDateFormatter(
-            'fr_FR',
-            \IntlDateFormatter::NONE,
-            \IntlDateFormatter::NONE,
-            $timeZone,
-            \IntlDateFormatter::GREGORIAN,
-            'EEEE d LLLL Y, H');
-
-        return ucfirst(strtolower($formatter->format($date).'h00'));
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->init();
-
-        $this->referentMessageRepository = $this->manager->getRepository(ReferentManagedUsersMessage::class);
+        $this->referentMessageRepository = $this->getRepository(ReferentManagedUsersMessage::class);
 
         $this->disableRepublicanSilence();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->referentMessageRepository = null;
 
         parent::tearDown();

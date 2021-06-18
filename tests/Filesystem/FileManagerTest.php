@@ -20,6 +20,8 @@ class FileManagerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->storage = $this->createMock(FilesystemInterface::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->repository = $this->createMock(FileRepository::class);

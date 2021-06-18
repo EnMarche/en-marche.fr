@@ -2,8 +2,8 @@
 
 namespace Tests\App\Controller\EnMarche\ThematicCommunity;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 class ThematicCommunityControllerTest extends WebTestCase
@@ -210,14 +210,6 @@ class ThematicCommunityControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
         $this->client->followRedirects();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

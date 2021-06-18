@@ -5,9 +5,9 @@ namespace Tests\App\Controller\EnMarche;
 use App\Entity\Invite;
 use App\Mailer\Message\MovementInvitationMessage;
 use App\Repository\InviteRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -87,15 +87,11 @@ class InvitationControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->invitationRepository = $this->getInvitationRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->invitationRepository = null;
 
         parent::tearDown();

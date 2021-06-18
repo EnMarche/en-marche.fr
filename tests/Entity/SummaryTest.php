@@ -1,6 +1,6 @@
 <?php
 
-namespace Entity;
+namespace Tests\App\Entity;
 
 use App\Entity\Adherent;
 use App\Entity\MemberSummary\JobExperience;

@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche\Filesystem;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 class CandidateFilesControllerTest extends WebTestCase
@@ -216,19 +216,5 @@ class CandidateFilesControllerTest extends WebTestCase
             ['external link for regional candidates', 'luciole1989@spambox.fr', Response::HTTP_FOUND],
             ['external link for regional candidates', 'francis.brioul@yahoo.com', Response::HTTP_FORBIDDEN],
         ];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

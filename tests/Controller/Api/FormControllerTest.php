@@ -6,9 +6,9 @@ use App\Form\AdherentRegistrationType;
 use App\Form\BecomeAdherentType;
 use App\Form\DonationRequestType;
 use App\Form\UserRegistrationType;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 
@@ -175,19 +175,5 @@ class FormControllerTest extends WebTestCase
                 static::assertSame($item, $actual[$key]);
             }
         }
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

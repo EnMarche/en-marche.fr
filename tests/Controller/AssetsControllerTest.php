@@ -4,9 +4,9 @@ namespace Tests\App\Controller;
 
 use League\Glide\Signatures\Signature;
 use League\Glide\Signatures\SignatureFactory;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 
 /**
  * @group functional
@@ -146,15 +146,11 @@ class AssetsControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
-        $this->signature = SignatureFactory::create(static::$container->getParameter('kernel.secret'));
+        $this->signature = SignatureFactory::create($this->getParameter('kernel.secret'));
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->signature = null;
 
         parent::tearDown();

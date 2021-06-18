@@ -34,7 +34,7 @@ class EventTest extends TestCase
         $this->assertFalse($event->isFinished());
     }
 
-    public static function provideNotFinishedEventDate()
+    public static function provideNotFinishedEventDate(): array
     {
         return [
             ['Europe/Paris', '+3 hours'],
@@ -68,7 +68,7 @@ class EventTest extends TestCase
         $this->assertTrue($event->isFinished());
     }
 
-    public static function provideFinishedEventDate()
+    public static function provideFinishedEventDate(): array
     {
         return [
             ['FR', '-2 hours'],

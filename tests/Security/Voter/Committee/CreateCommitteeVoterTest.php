@@ -19,9 +19,9 @@ class CreateCommitteeVoterTest extends AbstractAdherentVoterTest
 
     protected function setUp(): void
     {
-        $this->electedRepresentativeRepository = $this->createMock(ElectedRepresentativeRepository::class);
-
         parent::setUp();
+
+        $this->electedRepresentativeRepository = $this->createMock(ElectedRepresentativeRepository::class);
     }
 
     protected function tearDown(): void

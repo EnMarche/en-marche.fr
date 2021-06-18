@@ -4,16 +4,16 @@ namespace Tests\App\Donation;
 
 use App\Repository\DonationRepository;
 use App\Repository\TransactionRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractWebCaseTest;
+use Tests\App\TestHelperTrait;
 
 /**
  * @group functional
  */
-class TransactionSubscriberTest extends WebTestCase
+class TransactionSubscriberTest extends AbstractWebCaseTest
 {
-    use ControllerTestTrait;
+    use TestHelperTrait;
 
     /**
      * @var DonationRepository
@@ -60,7 +60,7 @@ class TransactionSubscriberTest extends WebTestCase
     private function createSignature(array $params): string
     {
         $queryParams = http_build_query($params);
-        $privateKey = openssl_pkey_get_private(static::$container->getParameter('ssl_private_key'));
+        $privateKey = openssl_pkey_get_private($this->getParameter('ssl_private_key'));
         openssl_sign($queryParams, $signature, $privateKey, 'sha1WithRSAEncryption');
 
         return base64_encode($signature);
@@ -93,16 +93,12 @@ class TransactionSubscriberTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->donationRepository = $this->getDonationRepository();
         $this->transactionRepository = $this->getTransactionRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->donationRepository = null;
         $this->transactionRepository = null;
 

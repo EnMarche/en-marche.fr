@@ -2,8 +2,8 @@
 
 namespace Tests\App\Controller\EnMarche;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -18,7 +18,7 @@ class HomeControllerTest extends WebTestCase
     {
         $crawler = $this->client->request(Request::METHOD_GET, '/');
 
-        $this->isSuccessful($response = $this->client->getResponse());
+        $this->isSuccessful($this->client->getResponse());
 
         // Articles
         // $this->assertSame(1, $crawler->filter('html:contains("« Je viens échanger, comprendre et construire. »")')->count());
@@ -109,26 +109,12 @@ class HomeControllerTest extends WebTestCase
         $this->isSuccessful($this->client->getResponse());
     }
 
-    public function provideUrlsAndRedirections()
+    public function provideUrlsAndRedirections(): \Generator
     {
         yield 'Emmanuel Macron' => ['/emmanuel-macron/', '/emmanuel-macron'];
         yield 'Le mouvement' => ['/le-mouvement/', '/le-mouvement'];
         yield 'Actualités' => ['/articles/actualites/', '/articles/actualites'];
         yield 'Inscription' => ['/adhesion/', '/adhesion'];
         yield 'Inscription with parameters' => ['/adhesion/?param1=value1&param2=value2', '/adhesion?param1=value1&param2=value2'];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

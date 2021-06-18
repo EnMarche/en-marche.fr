@@ -4,8 +4,8 @@ namespace Tests\App\Controller\EnMarche\EventManager;
 
 use App\DataFixtures\ORM\LoadCoalitionData;
 use App\Mailer\Message\EventRegistrationConfirmationMessage;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 class CoalitionEventManagerControllerTest extends WebTestCase
@@ -108,12 +108,5 @@ class CoalitionEventManagerControllerTest extends WebTestCase
         $this->client->request('GET', '/espace-coalition/evenements/'.date('Y-m-d', strtotime('+2 days')).'-evenement-culturel-1-de-la-cause-culturelle-1/modifier');
 
         $this->isSuccessful($this->client->getResponse());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
     }
 }

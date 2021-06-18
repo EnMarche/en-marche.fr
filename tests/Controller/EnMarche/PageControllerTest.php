@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller\EnMarche;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -21,7 +21,7 @@ class PageControllerTest extends WebTestCase
     {
         $this->client->request(Request::METHOD_GET, $path);
 
-        $this->assertResponseStatusCode(Response::HTTP_OK, $response = $this->client->getResponse());
+        $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
     }
 
     /**
@@ -47,7 +47,7 @@ class PageControllerTest extends WebTestCase
         $this->assertClientIsRedirectedTo('https://legislatives.en-marche.fr', $this->client, false, true);
     }
 
-    public function providePages()
+    public function providePages(): \Generator
     {
         yield ['/emmanuel-macron'];
         yield ['/emmanuel-macron/revolution'];
@@ -66,19 +66,5 @@ class PageControllerTest extends WebTestCase
         yield ['/nos-offres'];
         yield ['/candidatures-delegue-general-et-bureau-executif'];
         yield ['/emmanuel-macron/test'];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

@@ -18,9 +18,9 @@ class AttendEventVoterTest extends AbstractAdherentVoterTest
 
     protected function setUp(): void
     {
-        $this->registrationRepository = $this->createMock(EventRegistrationRepository::class);
-
         parent::setUp();
+
+        $this->registrationRepository = $this->createMock(EventRegistrationRepository::class);
     }
 
     protected function tearDown(): void

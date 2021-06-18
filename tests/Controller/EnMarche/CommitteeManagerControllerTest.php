@@ -5,7 +5,6 @@ namespace Tests\App\Controller\EnMarche;
 use App\Committee\CommitteeManager;
 use App\DataFixtures\ORM\LoadCommitteeData;
 use App\DataFixtures\ORM\LoadEventCategoryData;
-use App\Entity\Adherent;
 use App\Entity\Committee;
 use App\Entity\CommitteeFeedItem;
 use App\Entity\CommitteeMembership;
@@ -16,12 +15,11 @@ use App\Mailer\Message\EventRegistrationConfirmationMessage;
 use App\Repository\CommitteeFeedItemRepository;
 use App\Repository\CommitteeMembershipRepository;
 use App\Repository\EventRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -190,7 +188,7 @@ class CommitteeManagerControllerTest extends WebTestCase
         $this->client->followRedirects();
 
         $this->authenticateAsAdherent($this->client, 'benjyd@aol.com');
-        $crawler = $this->client->request(Request::METHOD_GET, '/comites/en-marche-marseille-3');
+        $this->client->request(Request::METHOD_GET, '/comites/en-marche-marseille-3');
         $this->assertResponseStatusCode(Response::HTTP_FORBIDDEN, $this->client->getResponse());
     }
 
@@ -436,7 +434,7 @@ class CommitteeManagerControllerTest extends WebTestCase
         $this->assertResponseStatusCode(Response::HTTP_FORBIDDEN, $this->client->getResponse());
     }
 
-    public function provideFollowerCredentials()
+    public function provideFollowerCredentials(): array
     {
         return [
             'follower 1' => ['carl999@example.fr'],
@@ -656,11 +654,10 @@ class CommitteeManagerControllerTest extends WebTestCase
         $this->logout($this->client);
 
         /** @var CommitteeManager $committeeManager */
-        $committeeManager = static::$container->get(CommitteeManager::class);
-        $entityManager = static::$container->get(EntityManagerInterface::class);
+        $committeeManager = $this->get(CommitteeManager::class);
 
-        $adherent = $entityManager->getRepository(Adherent::class)->findOneByEmail('martine.lindt@gmail.com');
-        $committee = $entityManager->getRepository(Committee::class)->findOneByName('En Marche - Comité de Berlin');
+        $adherent = $this->getAdherentRepository()->findOneByEmail('martine.lindt@gmail.com');
+        $committee = $this->getCommitteeRepository()->findOneByName('En Marche - Comité de Berlin');
 
         $committeeManager->changePrivilege(
             $adherent,
@@ -733,8 +730,6 @@ class CommitteeManagerControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->committeeEventRepository = $this->getEventRepository();
         $this->committeeFeedItemRepository = $this->getCommitteeFeedItemRepository();
         $this->committeeMembershipRepository = $this->getCommitteeMembershipRepository();
@@ -742,8 +737,6 @@ class CommitteeManagerControllerTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->committeeMembershipRepository = null;
         $this->committeeFeedItemRepository = null;
         $this->committeeEventRepository = null;

@@ -21,11 +21,21 @@ class StatisticsExporterTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->dataAnswerRepository = $this->getMockBuilder(DataAnswerRepository::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;
         $this->statisticsExporter = new StatisticsExporter($this->dataAnswerRepository);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->dataAnswerRepository = null;
+        $this->statisticsExporter = null;
     }
 
     public function testExport(): void

@@ -11,11 +11,11 @@ use App\Summary\Contribution;
 use App\Summary\JobDuration;
 use App\Summary\JobLocation;
 use League\Glide\Signatures\SignatureFactory;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -50,7 +50,7 @@ class SummaryManagerControllerTest extends WebTestCase
         self::SECTION_INTERESTS,
     ];
 
-    public function provideActions()
+    public function provideActions(): \Generator
     {
         yield 'Index' => ['/espace-adherent/mon-profil'];
         yield 'Handle experience' => ['/espace-adherent/mon-profil/experience'];
@@ -1277,20 +1277,6 @@ class SummaryManagerControllerTest extends WebTestCase
         $this->assertCount(0, $crawler->filter('#summary-recent-activities p'));
 
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 
     private function getSummarySection(Crawler $crawler, string $section): Crawler

@@ -4,9 +4,9 @@ namespace Tests\App\Controller\EnMarche;
 
 use App\Entity\AssessorOfficeEnum;
 use App\Mailer\Message\AssessorRequestConfirmationMessage;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -148,19 +148,5 @@ class AssessorControllerTest extends WebTestCase
             'month' => '01',
             'day' => '01',
         ]];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

@@ -30,7 +30,7 @@ class DummyGeocoderTest extends TestCase
         $this->assertSame($longitude, $coordinates->getLongitude());
     }
 
-    public function provideAddress()
+    public function provideAddress(): array
     {
         return [
             [

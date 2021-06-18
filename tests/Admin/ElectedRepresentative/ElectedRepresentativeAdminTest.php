@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\App\Controller\Admin\ElectedRepresentative;
+namespace Tests\App\Admin\ElectedRepresentative;
 
 use App\DataFixtures\ORM\LoadElectedRepresentativeData;
 use App\Entity\ElectedRepresentative\ElectedRepresentative;
 use App\Mailchimp\Synchronisation\Command\ElectedRepresentativeArchiveCommand;
 use App\Mailchimp\Synchronisation\Command\ElectedRepresentativeChangeCommand;
 use App\Repository\ElectedRepresentative\ElectedRepresentativeRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\MessengerTestTrait;
 
@@ -95,15 +95,11 @@ class ElectedRepresentativeAdminTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->electedRepresentativeRepository = $this->getElectedRepresentativeRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->electedRepresentativeRepository = null;
 
         parent::tearDown();

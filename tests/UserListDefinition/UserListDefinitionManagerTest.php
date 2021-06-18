@@ -15,16 +15,13 @@ use App\UserListDefinition\UserListDefinitionManager;
 use App\UserListDefinition\UserListDefinitionPermissions;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
-class UserListDefinitionManagerTest extends WebTestCase
+class UserListDefinitionManagerTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     public const TYPES = [
         [
             'id' => 2,
@@ -469,8 +466,6 @@ class UserListDefinitionManagerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->userListDefinitionManager = new UserListDefinitionManager(
             $this->createMock(EntityManagerInterface::class),
             $this->createBus(),
@@ -483,8 +478,6 @@ class UserListDefinitionManagerTest extends WebTestCase
     protected function tearDown(): void
     {
         $this->userListDefinitionManager = null;
-
-        $this->kill();
 
         parent::tearDown();
     }

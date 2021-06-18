@@ -6,16 +6,13 @@ use App\DataFixtures\ORM\LoadAdherentData;
 use App\DataFixtures\ORM\LoadCommitteeData;
 use App\Entity\CommitteeMembership;
 use App\Repository\CommitteeMembershipRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class CommitteeMembershipRepositoryTest extends WebTestCase
+class CommitteeMembershipRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var CommitteeMembershipRepository
      */
@@ -34,16 +31,12 @@ class CommitteeMembershipRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        static::$container = $this->getContainer();
         $this->repository = $this->getCommitteeMembershipRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->repository = null;
-        static::$container = null;
 
         parent::tearDown();
     }

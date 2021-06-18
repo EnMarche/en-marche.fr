@@ -4,18 +4,15 @@ namespace Tests\App\Adherent\Certification;
 
 use App\Adherent\Certification\CertificationManager;
 use App\Repository\AdherentRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  * @group certification
  */
-class CertificationManagerTest extends WebTestCase
+class CertificationManagerTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var AdherentRepository
      */
@@ -82,16 +79,12 @@ class CertificationManagerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->adherentRepository = $this->getAdherentRepository();
         $this->certificationManager = $this->get(CertificationManager::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->adherentRepository = null;
         $this->certificationManager = null;
 

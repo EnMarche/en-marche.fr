@@ -5,9 +5,9 @@ namespace Tests\App\Geo;
 use App\Entity\Geo\Zone;
 use App\Entity\PostAddress;
 use App\Geo\ZoneMatcher;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tests\App\AbstractKernelTestCase;
 
-class ZoneMatcherTest extends KernelTestCase
+class ZoneMatcherTest extends AbstractKernelTestCase
 {
     /**
      * @var ZoneMatcher
@@ -16,8 +16,16 @@ class ZoneMatcherTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        self::bootKernel();
-        $this->matcher = self::$container->get(ZoneMatcher::class);
+        parent::setUp();
+
+        $this->matcher = $this->get(ZoneMatcher::class);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->matcher = null;
     }
 
     public function testInseeMatch(): void

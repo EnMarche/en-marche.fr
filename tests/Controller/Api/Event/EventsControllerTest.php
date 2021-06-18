@@ -7,9 +7,9 @@ use App\DataFixtures\ORM\LoadClientData;
 use App\DataFixtures\ORM\LoadEventCategoryData;
 use App\Entity\Event\EventCategory;
 use App\OAuth\Model\GrantTypeEnum;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 
@@ -89,26 +89,12 @@ class EventsControllerTest extends WebTestCase
         self::assertSame('1fc69fd0-2b34-4bd4-a0cc-834480480934', $response['items'][0]['uuid']);
     }
 
-    public function provideApiEventsCategories()
+    public function provideApiEventsCategories(): array
     {
         return [
             ['CE011', 0],
             ['CE001', 2, [0]],
             ['CE005', 1],
         ];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

@@ -4,9 +4,9 @@ namespace Tests\App\Controller\EnMarche\TerritorialCouncil;
 
 use App\Entity\Report\Report;
 use App\Entity\TerritorialCouncil\OfficialReport;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -110,7 +110,7 @@ class OfficialReportManagerControllerTest extends WebTestCase
 
         $crawler = $this->client->click($creationLink->link());
 
-        $this->assertEquals('http://'.$this->hosts['app'].'/espace-referent/instances/proces-verbaux/creer', $this->client->getRequest()->getUri());
+        $this->assertEquals('http://'.$this->getParameter('app_host').'/espace-referent/instances/proces-verbaux/creer', $this->client->getRequest()->getUri());
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
 
         $politicalCommittee = $this->getPoliticalCommitteeRepository()->findOneBy(['name' => 'CoPol de Paris (75)']);
@@ -189,7 +189,7 @@ class OfficialReportManagerControllerTest extends WebTestCase
         $report = $this->getOfficialReportRepository()->findOneBy(['name' => 'Test PV 75 1']);
 
         $this->assertEquals(
-            sprintf('http://%s/espace-referent/instances/proces-verbaux/%s/modifier', $this->hosts['app'], $report->getUuid()),
+            sprintf('http://%s/espace-referent/instances/proces-verbaux/%s/modifier', $this->getParameter('app_host'), $report->getUuid()),
             $this->client->getRequest()->getUri()
         );
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
@@ -230,19 +230,5 @@ class OfficialReportManagerControllerTest extends WebTestCase
         yield ['benjyd@aol.com'];
         yield ['jacques.picard@en-marche.fr'];
         yield ['referent-child@en-marche-dev.fr'];
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

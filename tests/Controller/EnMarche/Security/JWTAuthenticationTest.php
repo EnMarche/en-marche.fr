@@ -2,7 +2,7 @@
 
 namespace Tests\App\Controller\EnMarche\Security;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -48,19 +48,5 @@ class JWTAuthenticationTest extends WebTestCase
         ]);
         $this->assertStatusCode(401, $this->client);
         $this->assertSame('{"code":401,"message":"Expired JWT Token"}', $this->client->getResponse()->getContent());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

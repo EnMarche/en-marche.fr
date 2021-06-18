@@ -4,9 +4,9 @@ namespace Tests\App\Controller\EnMarche;
 
 use App\Entity\Adherent;
 use App\Entity\AdherentChangeEmailToken;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -65,19 +65,5 @@ class UserControllerTest extends WebTestCase
         $this->manager->clear(Adherent::class);
         $adherent = $this->getAdherentRepository()->findOneByUuid($token->getAdherentUuid()->toString());
         self::assertSame('new.mail@test.com', $adherent->getEmailAddress());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

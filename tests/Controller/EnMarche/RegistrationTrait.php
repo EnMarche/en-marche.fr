@@ -3,7 +3,7 @@
 namespace Tests\App\Controller\EnMarche;
 
 use App\Entity\AdherentActivationToken;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ trait RegistrationTrait
      * the given crawler must contain the registration form.
      */
     private function register(
-        Client $client,
+        KernelBrowser $client,
         Crawler $crawler,
         string $redirectUrl = '/espace-adherent/accueil'
     ): Crawler {

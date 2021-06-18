@@ -4,17 +4,14 @@ namespace Tests\App\Procuration;
 
 use App\Entity\ProcurationProxy;
 use App\Procuration\ProcurationReliabilityProcessor;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  * @group procuration
  */
-class ProcurationReliabilityProcessorTest extends WebTestCase
+class ProcurationReliabilityProcessorTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var ProcurationReliabilityProcessor
      */
@@ -55,15 +52,11 @@ class ProcurationReliabilityProcessorTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->procurationReliabilityProcessor = new ProcurationReliabilityProcessor($this->getAdherentRepository());
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->procurationReliabilityProcessor = null;
 
         parent::tearDown();

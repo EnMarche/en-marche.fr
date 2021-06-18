@@ -24,7 +24,7 @@ class FloatToStringTransformerTest extends TestCase
         $this->assertSame($float, (new FloatToStringTransformer())->reverseTransform($string));
     }
 
-    public function floatToString()
+    public function floatToString(): array
     {
         return [
             [0.1, '0.10'],

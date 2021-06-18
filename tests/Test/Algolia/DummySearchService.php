@@ -18,7 +18,7 @@ class DummySearchService implements SearchService
         $this->decorated = $decorated;
     }
 
-    public function index(ObjectManager $objectManager, $searchables, $requestOptions = [])
+    public function index(ObjectManager $objectManager, $searchables, $requestOptions = []): NullResponse
     {
         foreach (\is_array($searchables) ? $searchables : [$searchables] as $object) {
             if (!isset($this->entitiesToIndex[\get_class($object)])) {
@@ -31,7 +31,7 @@ class DummySearchService implements SearchService
         return new NullResponse();
     }
 
-    public function remove(ObjectManager $objectManager, $searchables, $requestOptions = [])
+    public function remove(ObjectManager $objectManager, $searchables, $requestOptions = []): NullResponse
     {
         foreach (\is_array($searchables) ? $searchables : [$searchables] as $object) {
             if (!isset($this->entitiesToUnIndex[\get_class($object)])) {
@@ -69,7 +69,7 @@ class DummySearchService implements SearchService
         return $this->entitiesToUnIndex[$className] ?? 0;
     }
 
-    public function isSearchable($className)
+    public function isSearchable($className): bool
     {
         return $this->decorated->isSearchable($className);
     }
@@ -90,12 +90,12 @@ class DummySearchService implements SearchService
     {
     }
 
-    public function search(ObjectManager $objectManager, $className, $query = '', $requestOptions = [])
+    public function search(ObjectManager $objectManager, $className, $query = '', $requestOptions = []): array
     {
         return [];
     }
 
-    public function rawSearch($className, $query = '', $requestOptions = [])
+    public function rawSearch($className, $query = '', $requestOptions = []): array
     {
         return [
             'hits' => [],

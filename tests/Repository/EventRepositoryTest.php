@@ -5,17 +5,14 @@ namespace Tests\App\Repository;
 use App\DataFixtures\ORM\LoadEventCategoryData;
 use App\Repository\EventRepository;
 use App\Search\SearchParametersFilter;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class EventRepositoryTest extends WebTestCase
+class EventRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var EventRepository
      */
@@ -67,15 +64,11 @@ class EventRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->repository = $this->getEventRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->repository = null;
 
         parent::tearDown();

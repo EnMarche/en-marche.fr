@@ -23,7 +23,7 @@ class CustomGenderValidatorTest extends ConstraintValidatorTestCase
 
         $this->assertSame(
             $violation,
-            $violationsCount = \count($this->context->getViolations()),
+            \count($this->context->getViolations()),
             sprintf('%u violation expected. Got gender "%s" for customGender "%s"', $violation, $gender, (string) $customGender)
         );
     }

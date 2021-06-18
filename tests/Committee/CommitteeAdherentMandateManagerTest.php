@@ -44,6 +44,8 @@ class CommitteeAdherentMandateManagerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->mandateRepository = $this->createMock(CommitteeAdherentMandateRepository::class);
         $this->electedRepresentativeRepository = $this->createMock(ElectedRepresentativeRepository::class);
@@ -67,6 +69,8 @@ class CommitteeAdherentMandateManagerTest extends TestCase
         $this->translator = null;
         $this->mandateManager = null;
         $this->committeeManager = null;
+
+        parent::tearDown();
     }
 
     public function testCannotCreateMandateIfIncorrectGender()

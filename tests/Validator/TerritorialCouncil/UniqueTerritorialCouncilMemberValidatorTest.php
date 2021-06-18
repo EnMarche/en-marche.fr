@@ -92,12 +92,12 @@ class UniqueTerritorialCouncilMemberValidatorTest extends ConstraintValidatorTes
         ;
     }
 
-    protected function createValidator()
+    protected function createValidator(): UniqueTerritorialCouncilMemberValidator
     {
         return $this->createCustomValidatorFail();
     }
 
-    protected function createCustomValidatorFail()
+    protected function createCustomValidatorFail(): UniqueTerritorialCouncilMemberValidator
     {
         $adherentRepository = $this->createMock(AdherentRepository::class);
         $translator = $this->createMock(TranslatorInterface::class);

@@ -26,12 +26,16 @@ class ReportVoterTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->voter = new ReportVoter($this->authorizationChecker);
     }
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->voter = new ReportVoter($this->authorizationChecker);
     }

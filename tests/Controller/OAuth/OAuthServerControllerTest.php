@@ -8,9 +8,9 @@ use App\Entity\Device;
 use App\Entity\OAuth\AuthorizationCode;
 use Defuse\Crypto\Crypto;
 use League\OAuth2\Server\CryptKey;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 
@@ -78,7 +78,7 @@ class OAuthServerControllerTest extends WebTestCase
         ]);
 
         $this->isSuccessful($this->client->getResponse());
-        self::assertCount(3, $devices = $this->deviceRepository->findAll());
+        self::assertCount(3, $this->deviceRepository->findAll());
 
         $newDevice = $this->deviceRepository->findOneBy(['deviceUuid' => 'dd4SOCS-4UlCtO-gZiQGDA']);
         self::assertSame('dd4SOCS-4UlCtO-gZiQGDA', $newDevice->getIdentifier());
@@ -303,7 +303,7 @@ class OAuthServerControllerTest extends WebTestCase
             'lastName' => 'Mirabeau',
             'zipCode' => '73100',
         ];
-        foreach ($data as $expectedKey => $expectedValue) {
+        foreach ($expected as $expectedKey => $expectedValue) {
             static::assertArrayHasKey($expectedKey, $data);
             static::assertSame($expectedValue, $data[$expectedKey]);
         }
@@ -396,7 +396,6 @@ class OAuthServerControllerTest extends WebTestCase
     private function findAuthorizationCode(string $identifier): ?AuthorizationCode
     {
         return $this
-            ->getContainer()
             ->get('doctrine')
             ->getRepository(AuthorizationCode::class)
             ->findAuthorizationCodeByIdentifier($identifier)
@@ -422,7 +421,7 @@ class OAuthServerControllerTest extends WebTestCase
 
         $params['state'] = 'bds1775p6f3ks29h2vla20ng5n';
 
-        return sprintf('http://'.$this->hosts['app'].'/oauth/v2/auth?%s', http_build_query($params));
+        return sprintf('http://'.$this->getParameter('app_host').'/oauth/v2/auth?%s', http_build_query($params));
     }
 
     private function getEncryptedCode(AuthorizationCode $authCode): string
@@ -475,17 +474,13 @@ class OAuthServerControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
-        $this->encryptionKey = $this->getContainer()->getParameter('ssl_encryption_key');
-        $this->privateCryptKey = new CryptKey($this->getContainer()->getParameter('ssl_private_key'));
+        $this->encryptionKey = $this->getParameter('ssl_encryption_key');
+        $this->privateCryptKey = new CryptKey($this->getParameter('ssl_private_key'));
         $this->deviceRepository = $this->getRepository(Device::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->privateCryptKey = null;
         $this->encryptionKey = null;
         $this->deviceRepository = null;

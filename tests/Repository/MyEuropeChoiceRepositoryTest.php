@@ -4,16 +4,13 @@ namespace Tests\App\Repository;
 
 use App\Entity\MyEuropeChoice;
 use App\Repository\MyEuropeChoiceRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class MyEuropeChoiceRepositoryTest extends WebTestCase
+class MyEuropeChoiceRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var MyEuropeChoiceRepository
      */
@@ -41,16 +38,12 @@ class MyEuropeChoiceRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        static::$container = $this->getContainer();
         $this->repository = $this->getMyEuropeChoiceRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->repository = null;
-        static::$container = null;
 
         parent::tearDown();
     }

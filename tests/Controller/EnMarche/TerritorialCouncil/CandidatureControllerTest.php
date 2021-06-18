@@ -8,7 +8,7 @@ use App\Entity\VotingPlatform\Designation\Designation;
 use App\Mailer\Message\VotingPlatformCandidacyInvitationAcceptedMessage;
 use App\Mailer\Message\VotingPlatformCandidacyInvitationCreatedMessage;
 use App\Mailer\Message\VotingPlatformCandidacyInvitationDeclinedMessage;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\Mandrill\MailAssertTrait;
 use Tests\App\Test\Helper\PHPUnitHelper;
@@ -38,7 +38,7 @@ class CandidatureControllerTest extends WebTestCase
         $this->authenticateAsAdherent($this->client, $adherent->getEmailAddress());
 
         $crawler = $this->client->request('GET', '/conseil-territorial');
-        $this->assertResponseStatusCode(200, $response = $this->client->getResponse());
+        $this->assertResponseStatusCode(200, $this->client->getResponse());
         $this->assertStringContainsString('Conseil territorial de Paris', $crawler->filter('.instance-page__infos li')->first()->text());
 
         /** @var Designation $designation */
@@ -248,19 +248,5 @@ class CandidatureControllerTest extends WebTestCase
 
         self::assertSame('ma profession de foi', $values['territorial_council_candidacy[faithStatement]']);
         self::assertArrayNotHasKey('territorial_council_candidacy[isPublicFaithStatement]', $values);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

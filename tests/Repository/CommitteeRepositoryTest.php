@@ -3,16 +3,13 @@
 namespace Tests\App\Repository;
 
 use App\Repository\CommitteeRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class CommitteeRepositoryTest extends WebTestCase
+class CommitteeRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var CommitteeRepository
      */
@@ -32,16 +29,12 @@ class CommitteeRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        static::$container = $this->getContainer();
         $this->repository = $this->getCommitteeRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->repository = null;
-        static::$container = null;
 
         parent::tearDown();
     }

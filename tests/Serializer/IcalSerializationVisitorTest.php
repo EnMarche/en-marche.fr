@@ -16,9 +16,18 @@ class IcalSerializationVisitorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->propertyNamingStrategy = $this->createMock(PropertyNamingStrategyInterface::class);
+        parent::setUp();
 
+        $this->propertyNamingStrategy = $this->createMock(PropertyNamingStrategyInterface::class);
         $this->visitor = new IcalSerializationVisitor($this->propertyNamingStrategy);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->propertyNamingStrategy = null;
+        $this->visitor = null;
     }
 
     /**

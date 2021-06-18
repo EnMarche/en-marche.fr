@@ -6,10 +6,10 @@ use App\Entity\Mooc\AttachmentFile;
 use App\EntityListener\FileListener;
 use League\Flysystem\FilesystemInterface;
 use League\Glide\Server;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Tests\App\AbstractKernelTestCase;
 
-class FileListenerTest extends WebTestCase
+class FileListenerTest extends AbstractKernelTestCase
 {
     private $entityFileListener;
 
@@ -26,11 +26,9 @@ class FileListenerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        self::bootKernel();
-
         $this->entityFileListener = new FileListener(
-            static::$container->get(FilesystemInterface::class),
-            static::$container->get(Server::class)
+            $this->get(FilesystemInterface::class),
+            $this->get(Server::class)
         );
     }
 }

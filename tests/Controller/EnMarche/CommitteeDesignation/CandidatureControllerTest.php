@@ -5,7 +5,7 @@ namespace Tests\App\Controller\EnMarche\CommitteeDesignation;
 use App\DataFixtures\ORM\LoadCommitteeData;
 use App\Mailer\Message\VotingPlatformCandidacyInvitationCreatedMessage;
 use Doctrine\ORM\EntityManager;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\Mandrill\MailAssertTrait;
 
@@ -70,19 +70,5 @@ class CandidatureControllerTest extends WebTestCase
 
         $this->assertClientIsRedirectedTo('/comites/en-marche-allemagne/candidature/choix-de-binome/fini', $this->client);
         $this->assertCountMails(1, VotingPlatformCandidacyInvitationCreatedMessage::class, 'adherent-male-49@en-marche-dev.fr');
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

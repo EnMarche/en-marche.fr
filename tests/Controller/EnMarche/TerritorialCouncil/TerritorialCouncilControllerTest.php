@@ -3,9 +3,9 @@
 namespace Tests\App\Controller\EnMarche\TerritorialCouncil;
 
 use App\DataFixtures\ORM\LoadAdherentData;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -156,19 +156,5 @@ class TerritorialCouncilControllerTest extends WebTestCase
 
         self::assertCount(1, $crawler->filter('.btn:contains("Je candidate en binôme")'));
         self::assertCount(1, $crawler->filter('.btn--disabled:contains("Je candidate en binôme")'));
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

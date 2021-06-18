@@ -3,9 +3,9 @@
 namespace Tests\App\Controller\EnMarche;
 
 use App\Mailer\Message\BoardMemberContactAdherentsMessage;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -306,19 +306,5 @@ class BoardMemberControllerTest extends WebTestCase
         $this->client->request(Request::METHOD_DELETE, '/espace-membres-conseil/list/boardmember/9999');
 
         $this->assertResponseStatusCode(Response::HTTP_NOT_FOUND, $this->client->getResponse());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

@@ -31,8 +31,18 @@ class AbstractConsumerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->entityManager = $this->getMockBuilder(EntityManagerInterface::class)->getMock();
         $this->validator = $this->createMock(ValidatorInterface::class);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->entityManager = null;
+        $this->validator = null;
     }
 
     public function testExecuteWithInvalidMessageBody()

@@ -33,7 +33,7 @@ class CommitteeProviderTest extends TestCase
         );
 
         // This one is not geocoded and will not included in the final results
-        $committees[] = $committee3 = $this->createCommitteeMock(
+        $committees[] = $this->createCommitteeMock(
             'b3d93750-d983-46bb-8f36-1a7ce39e74b5',
             'comite-rouen',
             'Comité de Rouen'

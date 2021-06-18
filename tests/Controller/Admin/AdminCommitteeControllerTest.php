@@ -10,9 +10,9 @@ use App\Entity\AdherentMandate\AdherentMandateInterface;
 use App\Entity\AdherentMandate\CommitteeAdherentMandate;
 use App\Entity\AdherentMandate\CommitteeMandateQualityEnum;
 use App\ValueObject\Genders;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -554,8 +554,6 @@ class AdminCommitteeControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->committeeRepository = $this->getCommitteeRepository();
         $this->committeeMandateRepository = $this->getCommitteeMandateRepository();
         $this->adherentRepository = $this->getAdherentRepository();
@@ -563,8 +561,6 @@ class AdminCommitteeControllerTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->committeeRepository = null;
         $this->committeeMandateRepository = null;
         $this->adherentRepository = null;

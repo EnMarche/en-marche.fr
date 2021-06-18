@@ -3,9 +3,9 @@
 namespace Tests\App\Controller\EnMarche;
 
 use App\Controller\EnMarche\ArticleController;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -33,7 +33,7 @@ class ArticleControllerTest extends WebTestCase
 
         $this->isSuccessful($response = $this->client->getResponse());
         $this->assertSame(1, $crawler->filter('html:contains("An exhibit of Markdown")')->count());
-        $this->assertStringContainsString('<img src="/assets/images/article.jpg', $this->client->getResponse()->getContent());
+        $this->assertStringContainsString('<img src="/assets/images/article.jpg', $response->getContent());
     }
 
     public function testArticleWithoutImage()
@@ -42,7 +42,7 @@ class ArticleControllerTest extends WebTestCase
 
         $this->isSuccessful($response = $this->client->getResponse());
         $this->assertSame(1, $crawler->filter('html:contains("An exhibit of Markdown")')->count());
-        $this->assertStringNotContainsString('<img src="/assets/images/article.jpg', $this->client->getResponse()->getContent());
+        $this->assertStringNotContainsString('<img src="/assets/images/article.jpg', $response->getContent());
     }
 
     public function testArticleDraft()
@@ -114,19 +114,5 @@ class ArticleControllerTest extends WebTestCase
         $this->client->request(Request::METHOD_GET, '/articles/opinions/mes-opinions');
 
         $this->assertStringContainsString('<a href="http://www.google.fr" class="category category--opinions">', $this->client->getResponse()->getContent());
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->kill();
-
-        parent::tearDown();
     }
 }

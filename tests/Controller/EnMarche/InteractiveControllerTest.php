@@ -8,9 +8,9 @@ use App\Interactive\MyEuropeProcessorHandler;
 use App\Repository\EmailRepository;
 use App\Repository\MyEuropeChoiceRepository;
 use App\Repository\MyEuropeInvitationRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
@@ -22,7 +22,6 @@ class InteractiveControllerTest extends WebTestCase
 
     public const MY_EUROPE_PATH = '/mon-europe';
     public const MY_EUROPE_RESTART_PATH = '/mon-europe/recommencer';
-    public const MY_EUROPE_SENT_PATH = '/mon-europe/%s/merci';
 
     /* @var MyEuropeChoiceRepository */
     private $MyEuropeChoiceRepository;
@@ -85,8 +84,6 @@ class InteractiveControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->MyEuropeChoiceRepository = $this->getMyEuropeChoiceRepository();
         $this->MyEuropeInvitationRepository = $this->getMyEuropeInvitationRepository();
         $this->emailRepository = $this->getEmailRepository();
@@ -94,8 +91,6 @@ class InteractiveControllerTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->emailRepository = null;
         $this->MyEuropeInvitationRepository = null;
         $this->MyEuropeChoiceRepository = null;

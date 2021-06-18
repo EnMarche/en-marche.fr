@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\ValueObject;
+namespace Tests\App\Utils;
 
 use App\Utils\EmojisRemover;
 use PHPUnit\Framework\TestCase;

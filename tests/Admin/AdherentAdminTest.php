@@ -4,16 +4,16 @@ namespace Tests\App\Admin;
 
 use App\DataFixtures\ORM\LoadAdherentData;
 use App\Entity\Adherent;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest;
 use Tests\App\Controller\ControllerTestTrait;
 
 /**
  * @group functional
  * @group admin
  */
-class AdherentAdminTest extends WebTestCase
+class AdherentAdminTest extends AbstractWebCaseTest
 {
     use ControllerTestTrait;
 
@@ -141,15 +141,11 @@ class AdherentAdminTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->adherentRepository = $this->getAdherentRepository();
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->adherentRepository = null;
 
         parent::tearDown();

@@ -7,9 +7,6 @@ use App\OAuth\Model\Client;
 use App\OAuth\Model\Scope;
 use League\OAuth2\Server\CryptKey;
 
-/**
- * @method assertArrayHasKey($key, $array, $message = '')
- */
 trait ApiControllerTestTrait
 {
     protected function getAccessToken(
@@ -53,7 +50,6 @@ trait ApiControllerTestTrait
     {
         /** @var AccessToken $accessToken */
         $accessToken = $this
-            ->getContainer()
             ->get('doctrine')
             ->getManager()
             ->getRepository(AccessToken::class)

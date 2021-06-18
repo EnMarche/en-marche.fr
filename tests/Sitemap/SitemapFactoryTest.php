@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\App\Sitemap;
+namespace Tests\App\Sitemap;
 
 use App\Entity\Article;
 use App\Entity\ArticleCategory;
@@ -133,6 +133,15 @@ class SitemapFactoryTest extends TestCase
         $this->cache = $this->createMock(CacheItemPoolInterface::class);
     }
 
+    protected function tearDown(): void
+    {
+        $this->objectManager = null;
+        $this->router = null;
+        $this->cache = null;
+
+        parent::tearDown();
+    }
+
     protected function initMock(): void
     {
         $category = new ArticleCategory();
@@ -188,15 +197,6 @@ class SitemapFactoryTest extends TestCase
                 [Page::class, $pageRepository],
             ]))
         ;
-    }
-
-    protected function tearDown(): void
-    {
-        $this->objectManager = null;
-        $this->router = null;
-        $this->cache = null;
-
-        parent::tearDown();
     }
 
     private function invokeReflectionMethod(

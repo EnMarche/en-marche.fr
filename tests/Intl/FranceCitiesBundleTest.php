@@ -88,7 +88,7 @@ class FranceCitiesBundleTest extends TestCase
         $this->assertEquals($expectedCities, FranceCitiesBundle::getPostalCodeCities($postalCode));
     }
 
-    public function providePostalCodes()
+    public function providePostalCodes(): array
     {
         return [
             [

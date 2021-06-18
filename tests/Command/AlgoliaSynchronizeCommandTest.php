@@ -12,12 +12,12 @@ use App\Entity\Timeline\Manifesto;
 use App\Entity\Timeline\Measure;
 use App\Entity\Timeline\Profile;
 use App\Entity\Timeline\Theme;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractCommandCaseTest;
 
 /**
  * @group command
  */
-class AlgoliaSynchronizeCommandTest extends WebTestCase
+class AlgoliaSynchronizeCommandTest extends AbstractCommandCaseTest
 {
     /**
      * @dataProvider dataProviderTestCommand
@@ -28,7 +28,7 @@ class AlgoliaSynchronizeCommandTest extends WebTestCase
 
         $this->assertStringContainsString('Done!', $output->getDisplay());
 
-        $indexer = static::$kernel->getContainer()->get('search.service');
+        $indexer = $this->get('search.service');
         self::assertSame($expected, $indexer->countForIndexByType($className));
     }
 

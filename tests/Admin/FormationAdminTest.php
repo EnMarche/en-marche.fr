@@ -2,28 +2,14 @@
 
 namespace Tests\App\Admin;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 
 class FormationAdminTest extends WebTestCase
 {
     use ControllerTestTrait;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->init();
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        $this->kill();
-    }
 
     /**
      * @dataProvider uriProvider

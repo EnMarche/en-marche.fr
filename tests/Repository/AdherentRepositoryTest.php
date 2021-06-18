@@ -12,16 +12,13 @@ use App\Repository\AdherentRepository;
 use App\Repository\ReferentTagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class AdherentRepositoryTest extends WebTestCase
+class AdherentRepositoryTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var AdherentRepository
      */
@@ -91,7 +88,7 @@ class AdherentRepositoryTest extends WebTestCase
 
         $this->assertSameSize($results, $boardMembers);
 
-        foreach ($boardMembers as $key => $adherent) {
+        foreach ($boardMembers as $adherent) {
             $this->assertContains($adherent->getEmailAddress(), $results);
         }
     }
@@ -109,7 +106,7 @@ class AdherentRepositoryTest extends WebTestCase
         $this->assertInstanceOf(Paginator::class, $boardMembers);
         $this->assertSameSize($results, $boardMembers);
 
-        foreach ($boardMembers as $key => $adherent) {
+        foreach ($boardMembers as $adherent) {
             $this->assertContains($adherent->getEmailAddress(), $results);
         }
     }
@@ -202,7 +199,7 @@ class AdherentRepositoryTest extends WebTestCase
         $this->assertFalse($this->adherentRepository->hostCommittee($this->getAdherent(LoadAdherentData::ADHERENT_4_UUID)));
     }
 
-    public function dataProviderSearchBoardMembers()
+    public function dataProviderSearchBoardMembers(): array
     {
         return [
             // Gender
@@ -261,16 +258,12 @@ class AdherentRepositoryTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->adherentRepository = $this->getAdherentRepository();
         $this->referentTagRepository = $this->getRepository(ReferentTag::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->adherentRepository = null;
         $this->referentTagRepository = null;
 

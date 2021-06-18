@@ -2,12 +2,12 @@
 
 namespace Tests\App\Command;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\App\AbstractCommandCaseTest;
 
 /**
  * @group command
  */
-class DonationUpdateReferenceCommandTest extends WebTestCase
+class DonationUpdateReferenceCommandTest extends AbstractCommandCaseTest
 {
     public function testCommand(): void
     {

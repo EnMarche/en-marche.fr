@@ -43,6 +43,8 @@ class PoliticalCommitteeManagerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this
             ->entityManager
@@ -71,6 +73,8 @@ class PoliticalCommitteeManagerTest extends TestCase
         $this->mandateRepository = null;
         $this->membershipRepository = null;
         $this->translator = null;
+
+        parent::tearDown();
     }
 
     public function testCreateMembershipSuccessfully(): void
@@ -574,7 +578,7 @@ class PoliticalCommitteeManagerTest extends TestCase
 
     private function createAdherent(): Adherent
     {
-        return $adherent = Adherent::create(
+        return Adherent::create(
             Uuid::fromString('c0d66d5f-e124-4641-8fd1-1dd72ffda563'),
             'd.dupont@test.com',
             'password',

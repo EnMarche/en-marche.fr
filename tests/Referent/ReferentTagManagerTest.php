@@ -7,17 +7,14 @@ use App\Entity\ApplicationRequest\ApplicationRequest;
 use App\Entity\ReferentTag;
 use App\Referent\ReferentTagManager;
 use App\Repository\ReferentTagRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\App\Controller\ControllerTestTrait;
+use Tests\App\AbstractKernelTestCase;
 
 /**
  * @group functional
  */
-class ReferentTagManagerTest extends WebTestCase
+class ReferentTagManagerTest extends AbstractKernelTestCase
 {
-    use ControllerTestTrait;
-
     /**
      * @var ReferentTagManager
      */
@@ -30,17 +27,18 @@ class ReferentTagManagerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->init();
+        parent::setUp();
 
-        $this->referentTagManager = $this->getContainer()->get(ReferentTagManager::class);
+        $this->referentTagManager = $this->get(ReferentTagManager::class);
         $this->referentTagRepository = $this->getRepository(ReferentTag::class);
     }
 
     protected function tearDown(): void
     {
-        $this->referentTagManager = null;
+        parent::tearDown();
 
-        $this->kill();
+        $this->referentTagManager = null;
+        $this->referentTagRepository = null;
     }
 
     /**
@@ -71,7 +69,7 @@ class ReferentTagManagerTest extends WebTestCase
      */
     public function testIsUpdateNeeded(bool $isUpdateNeeded, string $postalCode, array $referentCodes): void
     {
-        $adherent = $this->createAdherent($postalCode, $referentCodes);
+        $adherent = $this->createAdherentMock($postalCode, $referentCodes);
 
         $this->assertSame($isUpdateNeeded, $this->referentTagManager->isUpdateNeeded($adherent));
     }
@@ -101,7 +99,7 @@ class ReferentTagManagerTest extends WebTestCase
     /**
      * @return Adherent|MockObject
      */
-    private function createAdherent(string $postalCode, array $referentCodes): Adherent
+    private function createAdherentMock(string $postalCode, array $referentCodes): Adherent
     {
         return $this->createConfiguredMock(Adherent::class, [
             'getCountry' => 'FR',

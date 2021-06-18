@@ -33,7 +33,7 @@ class AdherentLoginTimestampRecorderTest extends TestCase
         $this->assertInstanceOf(\DateTime::class, $adherent->getLastLoggedAt());
     }
 
-    private function createAdherent()
+    private function createAdherent(): Adherent
     {
         return Adherent::create(
             Adherent::createUuid('john.smith@example.org'),

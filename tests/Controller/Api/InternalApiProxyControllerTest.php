@@ -5,9 +5,9 @@ namespace Tests\App\Controller\Api;
 use App\DataFixtures\ORM\LoadInternalApiApplicationData;
 use App\Event\EventTypeEnum;
 use League\OAuth2\Server\CryptKey;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ApiControllerTestTrait;
 use Tests\App\Controller\ControllerTestTrait;
 
@@ -72,15 +72,11 @@ class InternalApiProxyControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
-        $this->privateCryptKey = new CryptKey($this->getContainer()->getParameter('ssl_private_key'));
+        $this->privateCryptKey = new CryptKey($this->getParameter('ssl_private_key'));
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->privateCryptKey = null;
 
         parent::tearDown();

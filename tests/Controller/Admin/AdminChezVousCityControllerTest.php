@@ -6,9 +6,9 @@ use Algolia\SearchBundle\SearchService;
 use App\Entity\ChezVous\City;
 use App\Repository\ChezVous\CityRepository;
 use Doctrine\ORM\EntityRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\App\AbstractWebCaseTest as WebTestCase;
 use Tests\App\Controller\ControllerTestTrait;
 use Tests\App\Test\Algolia\DummySearchService;
 
@@ -75,15 +75,11 @@ class AdminChezVousCityControllerTest extends WebTestCase
     {
         parent::setUp();
 
-        $this->init();
-
         $this->cityRepository = $this->get(CityRepository::class);
     }
 
     protected function tearDown(): void
     {
-        $this->kill();
-
         $this->cityRepository = null;
 
         parent::tearDown();

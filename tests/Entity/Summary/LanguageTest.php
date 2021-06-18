@@ -1,6 +1,6 @@
 <?php
 
-namespace Entity\Summary;
+namespace Tests\App\Entity\Summary;
 
 use App\Entity\MemberSummary\Language;
 use PHPUnit\Framework\TestCase;
