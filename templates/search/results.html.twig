@@ -1,4 +1,4 @@
-{% spaceless %}
+{% apply spaceless %}
     {% for error in errors %}
         <div class="error">
             {{ error }}
@@ -6,4 +6,4 @@
     {% endfor %}
 
     {{ include("search/_#{search.type}.html.twig") }}
-{% endspaceless %}
+{% endapply %}

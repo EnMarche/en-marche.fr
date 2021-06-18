@@ -65,11 +65,4 @@ class RedirectionManagerTest extends AbstractKernelTestCase
         self::assertSame($target, $redirection->getTo());
         self::assertSame($type, $redirection->getType());
     }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->get('app.cache.redirection')->clear();
-    }
 }

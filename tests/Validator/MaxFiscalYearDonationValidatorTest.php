@@ -2,28 +2,16 @@
 
 namespace Tests\App\Validator;
 
-use App\Address\GeoCoder;
 use App\Donation\DonationRequest;
-use App\Donation\DonationRequestUtils;
 use App\Donation\PayboxPaymentSubscription;
-use App\Membership\MembershipRegistrationProcess;
 use App\Repository\TransactionRepository;
 use App\Validator\MaxFiscalYearDonation;
 use App\Validator\MaxFiscalYearDonationValidator;
-use Cocur\Slugify\Slugify;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MaxFiscalYearDonationValidatorTest extends ConstraintValidatorTestCase
 {
-    /**
-     * @var DonationRequestUtils
-     */
-    private $donationRequestUtils;
-
     /**
      * @dataProvider noValidateDonationProvider
      */
@@ -181,26 +169,5 @@ class MaxFiscalYearDonationValidatorTest extends ConstraintValidatorTestCase
         $donationRequest->setEmailAddress($email);
 
         return $donationRequest;
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->donationRequestUtils = new DonationRequestUtils(
-            $this->createMock(ValidatorInterface::class),
-            $this->createMock(SessionInterface::class),
-            $this->createMock(CsrfTokenManagerInterface::class),
-            $this->createMock(Slugify::class),
-            $this->createMock(MembershipRegistrationProcess::class),
-            $this->createMock(GeoCoder::class)
-        );
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        $this->donationRequestUtils = null;
     }
 }

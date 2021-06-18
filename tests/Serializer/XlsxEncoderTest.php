@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Exporter;
+namespace Tests\App\Serializer;
 
 use App\Serializer\XlsxEncoder;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;

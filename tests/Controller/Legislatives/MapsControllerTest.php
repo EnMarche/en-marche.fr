@@ -17,15 +17,22 @@ class MapsControllerTest extends WebTestCase
 
     public function testCandidates()
     {
-        $this->client->request(Request::METHOD_GET, $this->hosts['scheme'].'://'.$this->hosts['legislatives'].'/la-carte');
+        $this->client->request(Request::METHOD_GET, '/la-carte');
 
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
     }
 
     public function testEvents()
     {
-        $this->client->request(Request::METHOD_GET, $this->hosts['scheme'].'://'.$this->hosts['legislatives'].'/les-evenements');
+        $this->client->request(Request::METHOD_GET, '/les-evenements');
 
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->client->setServerParameter('HTTP_HOST', $this->getParameter('legislatives_host'));
     }
 }

@@ -7,7 +7,6 @@ use App\Entity\Event\MunicipalEvent;
 use App\Serializer\EventICalHandler;
 use App\Serializer\IcalSerializationVisitor;
 use JMS\Serializer\GraphNavigator;
-use JMS\Serializer\SerializationContext;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\UuidInterface;
 
@@ -57,8 +56,6 @@ class EventIcalHandlerTest extends TestCase
         $visitor = $this->createMock(IcalSerializationVisitor::class);
         $committeeEvent = $this->createMock(CommitteeEvent::class);
         $uuid = $this->createMock(UuidInterface::class);
-        $type = [];
-        $serializationContext = $this->createMock(SerializationContext::class);
         $startDate = $this->createMock('\DateTime');
         $endDate = $this->createMock('\DateTime');
 
@@ -83,6 +80,6 @@ class EventIcalHandlerTest extends TestCase
                 ->method('setRoot')
         ;
 
-        $this->handler->serialize($visitor, $committeeEvent, $type, $serializationContext);
+        $this->handler->serialize($visitor, $committeeEvent);
     }
 }

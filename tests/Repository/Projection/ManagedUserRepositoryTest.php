@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Repository;
+namespace Tests\App\Repository\Projection;
 
 use App\Entity\Geo\Zone;
 use App\ManagedUsers\ManagedUsersFilter;

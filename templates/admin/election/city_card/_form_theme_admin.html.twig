@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block sonata_type_native_collection_widget_row %}
-    {% spaceless %}
+    {% apply spaceless %}
         <tr>
             <td class="sonata-ba-list-field sonata-ba-list-field-text">
                 <a href="#" class="btn btn-link sonata-collection-delete">
@@ -25,7 +25,7 @@
             </td>
             {{ form_row(child, { label: false }) }}
         </tr>
-    {% endspaceless %}
+    {% endapply %}
 {% endblock sonata_type_native_collection_widget_row %}
 
 {% block app_admin_election_city_card_city_partner_partners_partners_entry_row %}

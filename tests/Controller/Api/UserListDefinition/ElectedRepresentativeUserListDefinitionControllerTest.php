@@ -115,7 +115,7 @@ class ElectedRepresentativeUserListDefinitionControllerTest extends WebTestCase
 
         $this->client->request(
             Request::METHOD_POST,
-            sprintf('/api/elected-representative/user-list-definitions/members/save'),
+            '/api/elected-representative/user-list-definitions/members/save',
             [],
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
@@ -130,7 +130,7 @@ class ElectedRepresentativeUserListDefinitionControllerTest extends WebTestCase
 
         $this->client->request(
             Request::METHOD_POST,
-            sprintf('/api/elected-representative/user-list-definitions/members/save'),
+            '/api/elected-representative/user-list-definitions/members/save',
             ['members' => []],
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
@@ -158,7 +158,7 @@ class ElectedRepresentativeUserListDefinitionControllerTest extends WebTestCase
 
         $this->client->request(
             Request::METHOD_POST,
-            sprintf('/api/elected-representative/user-list-definitions/members/save'),
+            '/api/elected-representative/user-list-definitions/members/save',
             [
                 'members' => [
                     11 => ['member_of' => [1, 3]],

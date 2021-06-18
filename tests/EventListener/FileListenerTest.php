@@ -26,9 +26,18 @@ class FileListenerTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->entityFileListener = new FileListener(
             $this->get(FilesystemInterface::class),
             $this->get(Server::class)
         );
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->entityFileListener = null;
     }
 }

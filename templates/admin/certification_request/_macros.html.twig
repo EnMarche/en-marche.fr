@@ -1,5 +1,5 @@
 {% macro get_certification_request_status_badge(certification_request) %}
-    {% spaceless %}
+    {% apply spaceless %}
         {% if certification_request.ocrStatus %}
             <span class="badge
                 {% if certification_request.isPreApproved %}
@@ -25,7 +25,7 @@
             ">
             {{ ('certification_request.status.'~certification_request.status)|trans }}
         </span>
-    {% endspaceless %}
+    {% endapply %}
 {% endmacro %}
 
 {% macro get_certification_request_processed_by(certification_request) %}

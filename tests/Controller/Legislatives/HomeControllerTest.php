@@ -17,7 +17,7 @@ class HomeControllerTest extends WebTestCase
 
     public function testLegislativesCandidatesDirectory()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, $this->hosts['scheme'].'://'.$this->hosts['legislatives']);
+        $crawler = $this->client->request(Request::METHOD_GET, '/');
 
         $this->assertResponseStatusCode(Response::HTTP_OK, $this->client->getResponse());
 
@@ -77,5 +77,12 @@ class HomeControllerTest extends WebTestCase
         $this->assertSame('Onzième circonscription des Français établis hors de France', $profile->filter('#candidate-district-name')->text());
         $this->assertSame(0, $profile->filter('.candidate_links')->count());
         $this->assertSame(2, $description->filter('p')->count());
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->client->setServerParameter('HTTP_HOST', $this->getParameter('legislatives_host'));
     }
 }

@@ -991,7 +991,7 @@ class AdherentUpdateTerritorialCouncilMembershipsCommandHandlerTest extends Test
         $tcRepository->expects($this->any())
             ->method('findByMandates')
             ->willReturnCallback(function (array $mandates) use ($foundMandates, $tc) {
-                return (bool) array_intersect($mandates, $foundMandates) ? [$tc] : [];
+                return array_intersect($mandates, $foundMandates) ? [$tc] : [];
             })
         ;
     }

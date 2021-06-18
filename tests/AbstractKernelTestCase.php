@@ -23,6 +23,10 @@ abstract class AbstractKernelTestCase extends KernelTestCase
     {
         parent::tearDown();
 
+        static::ensureKernelShutdown();
+        static::$kernel = null;
+        static::$booted = false;
+
         $this->manager = null;
     }
 }

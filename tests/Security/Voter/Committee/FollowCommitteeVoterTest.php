@@ -22,9 +22,9 @@ class FollowCommitteeVoterTest extends AbstractAdherentVoterTest
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->adherentRepository = $this->createMock(AdherentRepository::class);
+
+        parent::setUp();
     }
 
     protected function tearDown(): void

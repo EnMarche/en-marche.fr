@@ -203,11 +203,16 @@ class SitemapFactoryTest extends TestCase
         string $methodName,
         Sitemap $sitemap = null,
         int $page = null,
-        int $perpage = null
-    ) {
+        int $perPage = null
+    ): void {
         $reflection = new \ReflectionMethod(SitemapFactory::class, $methodName);
         $reflection->setAccessible(true);
 
-        return $reflection->invoke(new SitemapFactory($this->objectManager, $this->router, $this->cache), $sitemap, $page, $perpage);
+        $reflection->invoke(
+            new SitemapFactory($this->objectManager, $this->router, $this->cache),
+            $sitemap,
+            $page,
+            $perPage
+        );
     }
 }

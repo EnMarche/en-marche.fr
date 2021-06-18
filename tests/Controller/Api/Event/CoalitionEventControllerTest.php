@@ -60,7 +60,7 @@ class CoalitionEventControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => "Bearer $accessToken",
         ], json_encode([
             'type' => EventTypeEnum::TYPE_COALITION,
-            'name' => 'My event',
+            'name' => 'My best event !',
             'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
             'time_zone' => 'Europe/Paris',
             'begin_at' => '2021-01-29 16:30:30',
@@ -84,7 +84,7 @@ class CoalitionEventControllerTest extends WebTestCase
 
         $response = json_decode($this->client->getResponse()->getContent(), true);
 
-        self::assertSame('My event', $response['name']);
+        self::assertSame('My best event !', $response['name']);
         self::assertSame('online', $response['mode']);
     }
 }

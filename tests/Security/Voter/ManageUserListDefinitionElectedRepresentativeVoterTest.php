@@ -27,10 +27,10 @@ class ManageUserListDefinitionElectedRepresentativeVoterTest extends AbstractAdh
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->electedRepresentativeRepository = $this->createMock(ElectedRepresentativeRepository::class);
         $this->session = $this->createMock(SessionInterface::class);
+
+        parent::setUp();
     }
 
     protected function tearDown(): void

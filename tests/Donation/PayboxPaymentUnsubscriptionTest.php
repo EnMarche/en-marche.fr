@@ -2,7 +2,6 @@
 
 namespace Tests\App\Donation;
 
-use App\Donation\DonationRequestUtils;
 use App\Donation\PayboxPaymentUnsubscription;
 use App\Entity\Donation;
 use App\Exception\PayboxPaymentUnsubscriptionException;
@@ -45,7 +44,6 @@ class PayboxPaymentUnsubscriptionTest extends AbstractKernelTestCase
             $this->createConfiguredMock(Request::class, [
                 'cancel' => 'ACQ=NO&ERREUR=9&IDENTIFIANT=2&REFERENCE=refcmd1',
             ]),
-            $this->get(DonationRequestUtils::class)
         );
     }
 
@@ -56,7 +54,6 @@ class PayboxPaymentUnsubscriptionTest extends AbstractKernelTestCase
         return new PayboxPaymentUnsubscription(
             $this->createConfiguredMock(MailerService::class, []),
             $this->createConfiguredMock(Request::class, ['cancel' => 'ACQ=OK&IDENTIFIANT=2&REFERENCE=refcmd1']),
-            $this->get(DonationRequestUtils::class)
         );
     }
 }

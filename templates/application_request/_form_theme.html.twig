@@ -69,7 +69,7 @@
 {% endblock %}
 
 {% block _favorite_city_entry_row %}
-    {% spaceless %}
+    {% apply spaceless %}
         <div class="type-and-select__item summary-favorite-city">
             <span class="type-and-select__item--value favorite-city-value">
                 &nbsp;
@@ -83,7 +83,7 @@
             </span>
             <input type="hidden" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
         </div>
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}
 
 {% block _running_mate_request_favoriteCities_entry_row %}

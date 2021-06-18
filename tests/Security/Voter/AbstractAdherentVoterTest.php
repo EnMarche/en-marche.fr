@@ -20,10 +20,13 @@ abstract class AbstractAdherentVoterTest extends TestCase
     protected function setUp(): void
     {
         $this->voter = $this->getVoter();
+        parent::setUp();
     }
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         $this->voter = null;
     }
 

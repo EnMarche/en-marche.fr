@@ -25,8 +25,6 @@ trait ControllerTestTrait
 {
     use TestHelperTrait;
 
-    protected $hosts = [];
-
     public function assertResponseStatusCode(int $statusCode, Response $response, string $message = '')
     {
         $this->assertSame($statusCode, $response->getStatusCode(), $message);

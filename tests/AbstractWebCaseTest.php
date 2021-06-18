@@ -3,13 +3,14 @@
 namespace Tests\App;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class AbstractWebCaseTest extends WebTestCase
 {
-    /** @var \Symfony\Bundle\FrameworkBundle\Client */
+    /** @var KernelBrowser */
     protected $client;
-    /** @var \Doctrine\ORM\EntityManagerInterface */
+    /** @var EntityManagerInterface */
     protected $manager;
 
     protected function setUp(): void
@@ -25,6 +26,10 @@ abstract class AbstractWebCaseTest extends WebTestCase
     protected function tearDown(): void
     {
         parent::tearDown();
+
+        static::ensureKernelShutdown();
+        static::$kernel = null;
+        static::$booted = false;
 
         $this->client = null;
         $this->manager = null;

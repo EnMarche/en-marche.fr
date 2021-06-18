@@ -18,9 +18,9 @@ class AttendEventVoterTest extends AbstractAdherentVoterTest
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->registrationRepository = $this->createMock(EventRegistrationRepository::class);
+
+        parent::setUp();
     }
 
     protected function tearDown(): void
@@ -56,7 +56,7 @@ class AttendEventVoterTest extends AbstractAdherentVoterTest
         $this->registrationRepository->expects($this->once())
             ->method('isAlreadyRegistered')
             ->with($email, $subject)
-            ->willReturn($granted ? true : false)
+            ->willReturn($granted)
         ;
 
         $this->assertGrantedForAdherent($granted, true, $adherent, $attribute, $subject);

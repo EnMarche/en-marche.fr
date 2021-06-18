@@ -721,9 +721,8 @@ class CommitteeManagerControllerTest extends WebTestCase
 
         $reader = new Xlsx();
         $spreadsheet = $reader->load($tmpFilename);
-        $array = $spreadsheet->getActiveSheet()->toArray();
 
-        return $array;
+        return $spreadsheet->getActiveSheet()->toArray();
     }
 
     protected function setUp(): void

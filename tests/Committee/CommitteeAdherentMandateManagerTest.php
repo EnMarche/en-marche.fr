@@ -419,7 +419,7 @@ class CommitteeAdherentMandateManagerTest extends TestCase
             $gender,
             'Damien',
             'DUPONT',
-            new \DateTime($birthday ? $birthday : '1979-03-25'),
+            new \DateTime($birthday ?: '1979-03-25'),
             'position',
             PostAddress::createFrenchAddress('2 Rue de la République', '69001-69381')
         );

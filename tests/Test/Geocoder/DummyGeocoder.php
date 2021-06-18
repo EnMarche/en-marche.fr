@@ -143,17 +143,21 @@ class DummyGeocoder implements Geocoder
 
     public function reverse(float $latitude, float $longitude): Collection
     {
+        return new AddressCollection();
     }
 
     public function geocodeQuery(GeocodeQuery $query): Collection
     {
+        return new AddressCollection();
     }
 
     public function reverseQuery(ReverseQuery $query): Collection
     {
+        return new AddressCollection();
     }
 
     public function getName(): string
     {
+        return 'geocoder';
     }
 }

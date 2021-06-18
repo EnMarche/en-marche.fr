@@ -1,4 +1,4 @@
-{% spaceless %}
+{% apply spaceless %}
     {% set row = {
         gender: request.gender ? ('common.gender.' ~ request.gender)|trans,
         identity: request.lastName ~ ' ' ~ request.firstName,
@@ -12,4 +12,4 @@
     }|merge(columns|default({})) %}
 
     {{ row|json_encode|raw }}
-{% endspaceless %}
+{% endapply %}

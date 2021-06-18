@@ -119,7 +119,7 @@ class EntityAddressGeocodingSubscriberTest extends TestCase
 
     private function createCommittee(string $address): Committee
     {
-        $committee = new Committee(
+        return new Committee(
             Uuid::fromString('30619ef2-cc3c-491e-9449-f795ef109898'),
             Uuid::fromString('d3522426-1bac-4da4-ade8-5204c9e2caae'),
             'En Marche ! - Lyon',
@@ -128,8 +128,6 @@ class EntityAddressGeocodingSubscriberTest extends TestCase
             (new PhoneNumber())->setCountryCode('FR')->setNationalNumber('0407080502'),
             '69001-en-marche-clichy'
         );
-
-        return $committee;
     }
 
     private function createAdherent(string $address): Adherent
