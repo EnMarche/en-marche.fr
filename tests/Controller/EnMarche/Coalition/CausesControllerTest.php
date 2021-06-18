@@ -259,7 +259,7 @@ class CausesControllerTest extends WebTestCase
         $this->isSuccessful($response = $this->client->getResponse());
 
         self::assertSame('text/csv; charset=UTF-8', $response->headers->get('Content-Type'));
-        self::assertRegExp(
+        self::assertMatchesRegularExpression(
             '/^attachment; filename="causes--[\d-]{17}.csv"$/',
             $response->headers->get('Content-Disposition')
         );

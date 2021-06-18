@@ -6,7 +6,6 @@ use App\DataFixtures\ORM\LoadAdherentData;
 use App\DataFixtures\ORM\LoadClientData;
 use App\Entity\Device;
 use App\Entity\OAuth\AuthorizationCode;
-use App\OAuth\Model\Client;
 use Defuse\Crypto\Crypto;
 use League\OAuth2\Server\CryptKey;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -119,7 +118,7 @@ class OAuthServerControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->isSuccessful($response);
         static::assertSame('application/json; charset=UTF-8', $response->headers->get('Content-Type'));
-        static::assertRegExp(self::ACCESS_TOKEN_RESPONSE_PAYLOAD_REGEX, $response->getContent());
+        static::assertMatchesRegularExpression(self::ACCESS_TOKEN_RESPONSE_PAYLOAD_REGEX, $response->getContent());
         $encryptedRefreshToken2 = json_decode($this->client->getResponse()->getContent(), true)['refresh_token'];
 
         // 2nd request with the same refresh token must fail because refresh token are valid one time only
@@ -211,7 +210,7 @@ class OAuthServerControllerTest extends WebTestCase
         $this->client->submit($crawler->selectButton('Accepter')->form());
         $response = $this->client->getResponse();
         static::assertTrue($response->isRedirect());
-        static::assertRegExp(self::AUTH_TOKEN_URI_REGEX, $location = $response->headers->get('Location'));
+        static::assertMatchesRegularExpression(self::AUTH_TOKEN_URI_REGEX, $location = $response->headers->get('Location'));
         if (!preg_match(self::AUTH_TOKEN_URI_REGEX, $location, $matches)) {
             throw new \RuntimeException('Unable to fetch the OAuth authorization token from the URI.');
         }
@@ -255,7 +254,7 @@ class OAuthServerControllerTest extends WebTestCase
         $this->client->submit($crawler->selectButton('Accepter')->form());
         $response = $this->client->getResponse();
         static::assertTrue($response->isRedirect());
-        static::assertRegExp(self::AUTH_TOKEN_URI_REGEX, $location = $response->headers->get('Location'));
+        static::assertMatchesRegularExpression(self::AUTH_TOKEN_URI_REGEX, $location = $response->headers->get('Location'));
         if (!preg_match(self::AUTH_TOKEN_URI_REGEX, $location, $matches)) {
             throw new \RuntimeException('Unable to fetch the OAuth authorization token from the URI.');
         }
@@ -270,7 +269,7 @@ class OAuthServerControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->isSuccessful($response);
         static::assertSame('application/json; charset=UTF-8', $response->headers->get('Content-Type'));
-        static::assertRegExp(self::ACCESS_TOKEN_RESPONSE_PAYLOAD_REGEX, $json = $response->getContent());
+        static::assertMatchesRegularExpression(self::ACCESS_TOKEN_RESPONSE_PAYLOAD_REGEX, $json = $response->getContent());
 
         // 6. /api/me is not accessible without the access token
         $this->client->request(Request::METHOD_GET, '/api/me');
@@ -313,14 +312,7 @@ class OAuthServerControllerTest extends WebTestCase
         $this->client->request(Request::METHOD_GET, $this->createAuthorizeUrl());
         $response = $this->client->getResponse();
         static::assertTrue($response->isRedirect());
-        static::assertRegExp(self::AUTH_TOKEN_URI_REGEX, $response->headers->get('Location'));
-
-        // TODO later
-//        // 9. I should see my authorized app
-//        $this->client->request(Request::METHOD_GET, '/espace-personnel/applications');
-//        $response = $this->client->getResponse();
-//        $this->isSuccessful($response);
-//        $this->assertStringContainsString('<td>En-Marche !</td>', $response->getContent());
+        static::assertMatchesRegularExpression(self::AUTH_TOKEN_URI_REGEX, $response->headers->get('Location'));
     }
 
     public function testOAuthAuthenticationFailedWithoutRedirectUriIfClientHasMoreThan1RedirectUri(): void
@@ -360,7 +352,7 @@ class OAuthServerControllerTest extends WebTestCase
         $this->client->followRedirect();
         $response = $this->client->getResponse();
         static::assertTrue($response->isRedirect());
-        static::assertRegExp(self::AUTH_TOKEN_URI_REGEX, $response->headers->get('Location'));
+        static::assertMatchesRegularExpression(self::AUTH_TOKEN_URI_REGEX, $response->headers->get('Location'));
     }
 
     public function testOAuthAuthenticationIsFailedForClientWithRequestedRoles(): void

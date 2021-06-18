@@ -53,7 +53,7 @@ class ThematicCommunityControllerTest extends WebTestCase
 
         $crawler = $this->client->click($crawler->selectLink('Modifier mes préférences')->link());
 
-        $this->assertRegExp('#http://test.enmarche.code/communautes-thematiques/adhesion/.{36}/modifier#', $crawler->getUri());
+        $this->assertMatchesRegularExpression('#http://test.enmarche.code/communautes-thematiques/adhesion/.{36}/modifier#', $crawler->getUri());
     }
 
     public function testICannotEditAMembershipThatIsNotMine()

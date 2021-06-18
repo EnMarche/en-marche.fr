@@ -486,7 +486,7 @@ class CommitteeControllerTest extends AbstractGroupControllerTest
 
         foreach ($hosts as $position => $host) {
             [$initials, $name, $role] = $host;
-            $this->assertRegExp(
+            $this->assertMatchesRegularExpression(
                 '/^'.preg_quote($initials).'\s+'.preg_quote($name).'\s+'.$role.$contact.'?$/',
                 trim($nodes->eq($position)->text())
             );
@@ -499,7 +499,7 @@ class CommitteeControllerTest extends AbstractGroupControllerTest
 
         foreach ($adherents as $position => $adherent) {
             [$initials, $name, $role] = $adherent;
-            $this->assertRegExp(
+            $this->assertMatchesRegularExpression(
                 '/^'.preg_quote($initials).'\s+'.preg_quote($name).'\s+'.$role.'?$/',
                 trim($nodes->eq($position)->text())
             );

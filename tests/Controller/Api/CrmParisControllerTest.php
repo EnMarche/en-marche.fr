@@ -33,7 +33,7 @@ class CrmParisControllerTest extends WebTestCase
 
         self::assertSame('none', $response->headers->get('Content-Encoding'));
         self::assertSame('text/csv; charset=UTF-8', $response->headers->get('Content-Type'));
-        self::assertRegExp(
+        self::assertMatchesRegularExpression(
             '/^attachment; filename=[\d]{14}-adherents.csv$/',
             $response->headers->get('Content-Disposition')
         );
@@ -44,7 +44,7 @@ a046adbe-9c7b-56a9-a676-6151a6785dda;Jacques;Picard;jacques.picard@en-marche.fr;
 29461c49-6316-5be1-9ac3-17816bf2d819;Lucie;Olivera;luciole1989@spambox.fr;+33727363643;"13 boulevard des Italiens";75009;"Paris 9e";9;female;17/09/1989;48.871323;2.335376;jeunesse;0
 CONTENT;
 
-        $this->assertRegExp(sprintf('#%s#', preg_quote($regex)), $responseContent);
+        $this->assertMatchesRegularExpression(sprintf('#%s#', preg_quote($regex)), $responseContent);
 
         // Ensure adherents without subscription type 'candidate_email' isn't exported
         $this->assertStringNotContainsString('gisele-berthoux@caramail.com', $responseContent);
