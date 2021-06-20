@@ -50,7 +50,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     itemOperations={
  *         "get": {
  *             "method": "GET",
- *             "path": "/jecoute/news/{id}",
+ *             "path": "/jecoute/news/{uuid}",
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "swagger_context": {
  *                 "summary": "Retrieves a News resource by UUID.",
  *                 "description": "Retrieves a News resource by UUID.",

@@ -23,13 +23,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     collectionOperations={},
  *     itemOperations={
  *         "get": {
- *             "path": "/v3/device/{id}",
- *             "requirements": {"id": "[\w-]+"},
+ *             "path": "/v3/device/{deviceUuid}",
+ *             "requirements": {"deviceUuid": "[\w-]+"},
  *             "access_control": "is_granted('ROLE_OAUTH_DEVICE') and object.equals(user.getDevice())"
  *         },
  *         "put": {
- *             "path": "/v3/device/{id}",
- *             "requirements": {"id": "[\w-]+"},
+ *             "path": "/v3/device/{deviceUuid}",
+ *             "requirements": {"deviceUuid": "[\w-]+"},
  *             "access_control": "is_granted('ROLE_OAUTH_DEVICE') and object.equals(user.getDevice())"
  *         },
  *     }

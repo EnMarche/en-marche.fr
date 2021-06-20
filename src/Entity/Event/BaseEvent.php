@@ -90,22 +90,25 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     itemOperations={
  *         "get": {
- *             "path": "/v3/events/{id}",
+ *             "path": "/v3/events/{uuid}",
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "normalization_context": {
  *                 "groups": {"event_read", "image_owner_exposed", "with_user_registration"}
  *             },
  *         },
  *         "get_public": {
  *             "method": "GET",
- *             "path": "/events/{id}",
+ *             "path": "/events/{uuid}",
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *         },
  *         "put": {
- *             "path": "/v3/events/{id}",
+ *             "path": "/v3/events/{uuid}",
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "access_control": "object.getAuthor() == user",
  *         },
  *         "delete": {
- *             "path": "/v3/events/{id}",
- *             "requirements": {"id": "%pattern_uuid%"},
+ *             "path": "/v3/events/{uuid}",
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "access_control": "object.getAuthor() == user",
  *             "swagger_context": {
  *                 "parameters": {

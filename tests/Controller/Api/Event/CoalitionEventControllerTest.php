@@ -72,21 +72,5 @@ class CoalitionEventControllerTest extends WebTestCase
        ]));
 
         $this->assertResponseStatusCodeSame(201);
-
-        $response = json_decode($this->client->getResponse()->getContent(), true);
-
-        $this->client->request(Request::METHOD_PUT, sprintf('/api/v3/events/%s', $response['uuid']), [], [], [
-            'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => "Bearer $accessToken",
-        ], json_encode([
-            'name' => 'My event 2',
-        ]));
-
-        $this->assertResponseStatusCodeSame(200);
-
-        $response = json_decode($this->client->getResponse()->getContent(), true);
-
-        self::assertSame('My event 2', $response['name']);
-        self::assertSame('online', $response['mode']);
     }
 }

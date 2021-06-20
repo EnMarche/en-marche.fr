@@ -34,15 +34,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     itemOperations={
  *         "get": {
- *             "path": "/coalitions/{id}",
- *             "requirements": {"id": "%pattern_uuid%"}
+ *             "path": "/coalitions/{uuid}",
+ *             "requirements": {"uuid": "%pattern_uuid%"}
  *         },
  *         "follow": {
  *             "method": "PUT|DELETE",
- *             "path": "/v3/coalitions/{id}/follower",
+ *             "path": "/v3/coalitions/{uuid}/follower",
  *             "denormalization_context": {"api_allow_update": false},
  *             "controller": "App\Controller\Api\FollowController::follower",
- *             "requirements": {"id": "%pattern_uuid%"},
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "deserialize": false,
  *         },
  *     },

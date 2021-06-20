@@ -30,14 +30,16 @@ final class JecouteNewsZipCodeFilter extends AbstractFilter
             return;
         }
 
-        $zones = $this->zoneRepository->findByPostalCode($value);
+        if (!$zones = $this->zoneRepository->findByPostalCode($value)) {
+            return;
+        }
 
         $rootAlias = $queryBuilder->getRootAliases()[0];
 
         $queryBuilder
             ->leftJoin(sprintf('%s.zone', $rootAlias), 'zone')
             ->leftJoin('zone.children', 'children')
-            ->where('zone IS NULL OR zone IN (:zones) OR children IN (:zones)')
+            ->andWhere('zone IS NULL OR zone IN (:zones) OR children IN (:zones)')
             ->setParameter('zones', $zones)
         ;
     }

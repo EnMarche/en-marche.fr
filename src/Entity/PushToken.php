@@ -30,11 +30,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *     },
  *     itemOperations={
  *         "get": {
- *             "path": "/v3/push-token/{id}",
+ *             "path": "/v3/push-token/{identifier}",
  *             "access_control": "is_granted('IS_AUTHOR_OF_PUSH_TOKEN', object)"
  *         },
  *         "delete": {
- *             "path": "/v3/push-token/{id}",
+ *             "path": "/v3/push-token/{identifier}",
  *             "access_control": "is_granted('IS_AUTHOR_OF_PUSH_TOKEN', object)"
  *         },
  *     }

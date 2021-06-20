@@ -39,8 +39,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     itemOperations={
  *         "get": {
- *             "path": "/v3/email_templates/{id}",
- *             "requirements": {"id": "%pattern_uuid%"},
+ *             "path": "/v3/email_templates/{uuid}",
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "access_control": "is_granted('ROLE_MESSAGE_REDACTOR') and object.getAuthor() == user",
  *             "swagger_context": {
  *                 "parameters": {
@@ -55,13 +55,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *             },
  *         },
  *         "put": {
- *             "path": "/v3/email_templates/{id}",
- *             "requirements": {"id": "%pattern_uuid%"},
+ *             "path": "/v3/email_templates/{uuid}",
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "access_control": "is_granted('ROLE_MESSAGE_REDACTOR') and object.getAuthor() == user",
  *         },
  *         "delete": {
- *             "path": "/v3/email_templates/{id}",
- *             "requirements": {"id": "%pattern_uuid%"},
+ *             "path": "/v3/email_templates/{uuid}",
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "access_control": "is_granted('ROLE_MESSAGE_REDACTOR') and object.getAuthor() == user",
  *             "swagger_context": {
  *                 "parameters": {
