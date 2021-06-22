@@ -6,14 +6,14 @@ use Symfony\Component\Intl\Countries;
 
 class UnitedNationsBundle
 {
-    private static $countries;
+    private static $countries = [];
 
     /**
      * Returns the list of the United Nations member states translated in a given locale.
      */
     public static function getCountries(?string $locale = 'fr'): array
     {
-        if (self::$countries[$locale]) {
+        if (isset(self::$countries[$locale])) {
             return self::$countries[$locale];
         }
 

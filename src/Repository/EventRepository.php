@@ -37,6 +37,7 @@ class EventRepository extends ServiceEntityRepository
     use UuidEntityRepositoryTrait {
         findOneByUuid as findOneByValidUuid;
     }
+
     public const TYPE_PAST = 'past';
     public const TYPE_UPCOMING = 'upcoming';
     public const TYPE_ALL = 'all';

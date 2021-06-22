@@ -770,18 +770,22 @@ Feature:
         "detail": "first_name: Cette valeur ne doit pas être vide.\nemail_address: Cette valeur ne doit pas être vide.\nzone: Cette valeur ne doit pas être vide.\ncgu_accepted: Cette valeur ne doit pas être vide.",
         "violations": [
             {
+                "code": "@uuid@",
                 "propertyPath": "first_name",
                 "message": "Cette valeur ne doit pas être vide."
             },
             {
+                "code": "@uuid@",
                 "propertyPath": "email_address",
                 "message": "Cette valeur ne doit pas être vide."
             },
             {
+                "code": "@uuid@",
                 "propertyPath": "zone",
                 "message": "Cette valeur ne doit pas être vide."
             },
             {
+                "code": "@uuid@",
                 "propertyPath": "cgu_accepted",
                 "message": "Cette valeur ne doit pas être vide."
             }
@@ -811,6 +815,7 @@ Feature:
         "detail": "email_address: Vous avez déjà soutenu cette cause.",
         "violations": [
             {
+                "code": "@uuid@",
                 "propertyPath": "email_address",
                 "message": "Vous avez déjà soutenu cette cause."
             }
@@ -840,6 +845,7 @@ Feature:
         "detail": "email_address: L'utilisateur avec cette adresse e-mail existe déjà. Veuillez vous connecter pour soutenir la cause.",
         "violations": [
             {
+                "code": null,
                 "propertyPath": "email_address",
                 "message": "L'utilisateur avec cette adresse e-mail existe déjà. Veuillez vous connecter pour soutenir la cause."
             }

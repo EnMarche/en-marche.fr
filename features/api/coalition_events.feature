@@ -783,26 +783,32 @@ Feature:
       "detail": "coalition: Cette valeur ne doit pas être vide.\nname: Cette valeur ne doit pas être vide.\ncanonical_name: Cette valeur ne doit pas être vide.\ndescription: Cette valeur ne doit pas être vide.\nbegin_at: Cette valeur ne doit pas être vide.\nfinish_at: Cette valeur ne doit pas être vide.",
       "violations": [
         {
+          "code": "@uuid@",
           "propertyPath": "coalition",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "name",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "canonical_name",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "description",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "begin_at",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "finish_at",
           "message": "Cette valeur ne doit pas être vide."
         }
@@ -999,26 +1005,32 @@ Feature:
       "detail": "cause: Cette valeur ne doit pas être vide.\nname: Cette valeur ne doit pas être vide.\ncanonical_name: Cette valeur ne doit pas être vide.\ndescription: Cette valeur ne doit pas être vide.\nbegin_at: Cette valeur ne doit pas être vide.\nfinish_at: Cette valeur ne doit pas être vide.",
       "violations": [
         {
+          "code": "@uuid@",
           "propertyPath": "cause",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "name",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "canonical_name",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "description",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "begin_at",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "finish_at",
           "message": "Cette valeur ne doit pas être vide."
         }

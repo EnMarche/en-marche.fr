@@ -16,16 +16,16 @@ class RetrieveCauseController
         $this->causeRepository = $causeRepository;
     }
 
-    public function __invoke(string $id): ?Cause
+    public function __invoke(string $uuid): ?Cause
     {
-        if (false === Uuid::isValid($id)) {
-            $data = $this->causeRepository->findOneBy(['slug' => $id]);
+        if (false === Uuid::isValid($uuid)) {
+            $data = $this->causeRepository->findOneBy(['slug' => $uuid]);
         } else {
-            $data = $this->causeRepository->findOneByUuid($id);
+            $data = $this->causeRepository->findOneByUuid($uuid);
         }
 
         if (null === $data || !$data->isApproved()) {
-            throw new NotFoundHttpException(sprintf('Cause with id or slug %s not found.', $id));
+            throw new NotFoundHttpException(sprintf('Cause with id or slug %s not found.', $uuid));
         }
 
         return $data;

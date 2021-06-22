@@ -56,15 +56,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     itemOperations={
  *         "get": {
- *             "path": "/v3/adherent_messages/{id}",
+ *             "path": "/v3/adherent_messages/{uuid}",
  *             "access_control": "is_granted('ROLE_MESSAGE_REDACTOR') and (object.getAuthor() == user or user.hasDelegatedFromUser(object.getAuthor(), 'messages'))",
- *             "requirements": {"id": "%pattern_uuid%"},
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "normalization_context": {"groups": {"message_read"}},
  *         },
  *         "put": {
- *             "path": "/v3/adherent_messages/{id}",
+ *             "path": "/v3/adherent_messages/{uuid}",
  *             "access_control": "is_granted('ROLE_MESSAGE_REDACTOR') and (object.getAuthor() == user or user.hasDelegatedFromUser(object.getAuthor(), 'messages'))",
- *             "requirements": {"id": "%pattern_uuid%"},
+ *             "requirements": {"uuid": "%pattern_uuid%"},
  *             "normalization_context": {"groups": {"message_read"}},
  *         },
  *         "send": {

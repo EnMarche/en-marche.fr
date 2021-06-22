@@ -143,22 +143,27 @@ Feature:
       "detail": "quick_actions[0].title: Vous devez saisir au moins 2 caractères.\nquick_actions[0].url: Cette valeur ne doit pas être vide.\nquick_actions[3].title: Cette valeur ne doit pas être vide.\nquick_actions[3].title: Vous devez saisir au moins 2 caractères.\nquick_actions[3].url: Cette valeur n'est pas une URL valide.",
       "violations": [
         {
+          "code": "@uuid@",
           "propertyPath": "quick_actions[0].title",
           "message": "Vous devez saisir au moins 2 caractères."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "quick_actions[0].url",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "quick_actions[3].title",
           "message": "Cette valeur ne doit pas être vide."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "quick_actions[3].title",
           "message": "Vous devez saisir au moins 2 caractères."
         },
         {
+          "code": "@uuid@",
           "propertyPath": "quick_actions[3].url",
           "message": "Cette valeur n'est pas une URL valide."
         }

@@ -10,7 +10,7 @@ class EnabledFilter extends SQLFilter
 {
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
-        if (!$targetEntity->reflClass->implementsInterface(EnabledInterface::class)) {
+        if (!is_a($targetEntity->getName(), EnabledInterface::class, true)) {
             return '';
         }
 

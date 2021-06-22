@@ -131,7 +131,6 @@ Feature:
     Given I am logged with "michelle.dufour@example.ch" via OAuth client "J'écoute" with scope "jemarche_app"
     When I send a "GET" request to "/api/jecoute/news?zipCode=59000"
     Then the response status code should be 200
-    Then print last response
     And the response should be in JSON
     And the JSON should be equal to:
     """

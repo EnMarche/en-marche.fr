@@ -6,6 +6,8 @@ api_platform:
     enable_swagger_ui: true
     enable_entrypoint: false
     allow_plain_identifiers: true
+    exception_to_status:
+        ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException: 400
     formats:
         json:
             mime_types: ['application/json']
