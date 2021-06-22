@@ -9,6 +9,7 @@ use App\Exporter\CausesExporter;
 use App\Form\Coalition\CauseFilterType;
 use App\Form\Coalition\CauseType;
 use App\Mailchimp\Synchronisation\Command\CoalitionMemberChangeCommand;
+use App\Repository\Coalition\CauseFollowerRepository;
 use App\Repository\Coalition\CauseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -113,6 +114,8 @@ class CausesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($actualAuthor !== ($newAuthor = $cause->getAuthor()) && !$cause->hasFollower($newAuthor)) {
                 $entityManager->persist($cause->createFollower($newAuthor));
+                $entityManager->flush();
+                $cause->refreshFollowersCount();
             }
 
             $entityManager->flush();
