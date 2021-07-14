@@ -5543,16 +5543,16 @@
         },
         {
             "name": "knplabs/knp-time-bundle",
-            "version": "v1.16.0",
+            "version": "v1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpTimeBundle.git",
-                "reference": "5937765753967d691ffde7ea23770a74df9b11ba"
+                "reference": "cfbef12c504cd656075f056b8158ccb753c0474d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpTimeBundle/zipball/5937765753967d691ffde7ea23770a74df9b11ba",
-                "reference": "5937765753967d691ffde7ea23770a74df9b11ba",
+                "url": "https://api.github.com/repos/KnpLabs/KnpTimeBundle/zipball/cfbef12c504cd656075f056b8158ccb753c0474d",
+                "reference": "cfbef12c504cd656075f056b8158ccb753c0474d",
                 "shasum": ""
             },
             "require": {
@@ -5610,9 +5610,9 @@
             ],
             "support": {
                 "issues": "https://github.com/KnpLabs/KnpTimeBundle/issues",
-                "source": "https://github.com/KnpLabs/KnpTimeBundle/tree/v1.16.0"
+                "source": "https://github.com/KnpLabs/KnpTimeBundle/tree/v1.16.1"
             },
-            "time": "2021-03-02T16:13:12+00:00"
+            "time": "2021-07-13T11:56:11+00:00"
         },
         {
             "name": "kreait/clock",
