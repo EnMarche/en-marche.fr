@@ -49,6 +49,7 @@ class LoadAdminData extends Fixture
             'ROLE_ADMIN_REFERENTS_AREAS',
             'ROLE_ADMIN_TIMELINE',
             'ROLE_ADMIN_CLIENTS',
+            'ROLE_ADMIN_SCOPES',
             'ROLE_ADMIN_ORGANIGRAMM',
             'ROLE_ADMIN_MOOC',
             'ROLE_ADMIN_EMAIL_SUBSCRIPTION_TYPES',

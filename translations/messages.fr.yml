@@ -1136,3 +1136,14 @@ procuration_proxy.reliability_1: Inconnu
 procuration_proxy.reliability_4: Plutôt fiable
 procuration_proxy.reliability_6: Fiable
 procuration_proxy.reliability_8: Très fiable
+
+#
+# Scopes
+#
+scope.feature.dashboard: Vue d'ensemble
+scope.feature.contacts: Contacts
+scope.feature.messages: Messagerie
+scope.feature.mobile_app: Application Mobile
+scope.feature.elections: Elections
+
+scope.app.data_corner: DataCorner

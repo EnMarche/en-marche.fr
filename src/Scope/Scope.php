@@ -32,16 +32,24 @@ class Scope
     /**
      * @var array
      *
-     * @SymfonySerializer\Groups({"scopes"})
+     * @SymfonySerializer\Groups({"scopes", "scope"})
      */
     private $apps;
 
-    public function __construct(string $code, string $name, array $zones, array $apps)
+    /**
+     * @var array
+     *
+     * @SymfonySerializer\Groups({"scope"})
+     */
+    private $features;
+
+    public function __construct(string $code, string $name, array $zones, array $apps, array $features)
     {
         $this->code = $code;
         $this->name = $name;
         $this->zones = $zones;
         $this->apps = $apps;
+        $this->features = $features;
     }
 
     public function getCode(): string
@@ -65,5 +73,10 @@ class Scope
     public function getApps(): ?array
     {
         return $this->apps;
+    }
+
+    public function getFeatures(): array
+    {
+        return $this->features;
     }
 }

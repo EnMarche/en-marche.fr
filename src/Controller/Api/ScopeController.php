@@ -7,19 +7,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ScopeController extends AbstractController
 {
+    use ScopeTrait;
+
+    public function __construct(GeneralScopeGenerator $generalScopeGenerator)
+    {
+        $this->generalScopeGenerator = $generalScopeGenerator;
+    }
+
     /**
-     * @Route("/v3/profile/me/scopes", name="app_api_user_profile_scopes", methods={"GET"})
+     * @Route("/v3/profile/me/scope/{scopeCode}", name="app_api_user_profile_scope", methods={"GET"})
      */
-    public function __invoke(GeneralScopeGenerator $scopeGenerator): JsonResponse
+    public function __invoke(UserInterface $user, string $scopeCode): JsonResponse
     {
         return $this->json(
-            $scopeGenerator->generateScopes($this->getUser()),
+            $this->getScope($scopeCode, $user),
             Response::HTTP_OK,
             [],
-            ['groups' => ['scopes']]
+            ['groups' => ['scope']]
         );
     }
 }

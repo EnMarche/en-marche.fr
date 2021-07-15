@@ -2,11 +2,8 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\Adherent;
 use App\Entity\InternalApiApplication;
-use App\Scope\Exception\NotFoundScopeGeneratorException;
 use App\Scope\GeneralScopeGenerator;
-use App\Scope\Scope;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,15 +21,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class InternalApiProxyController extends AbstractController
 {
+    use ScopeTrait;
+
     // here, the forbidden headers in lower case
     private const FORBIDDEN_HEADERS = [
         'host',
         'x-user-uuid',
         'content-length',
     ];
-
-    /** @var GeneralScopeGenerator */
-    private $generalScopeGenerator;
 
     public function __construct(GeneralScopeGenerator $generalScopeGenerator)
     {
@@ -87,20 +83,5 @@ class InternalApiProxyController extends AbstractController
         return array_filter($request->headers->all(), function ($header) {
             return !\in_array(strtolower($header), self::FORBIDDEN_HEADERS);
         }, \ARRAY_FILTER_USE_KEY);
-    }
-
-    private function getScope(string $scopeCode, Adherent $adherent): Scope
-    {
-        try {
-            $generator = $this->generalScopeGenerator->getGenerator($scopeCode);
-
-            if ($generator->supports($adherent)) {
-                return $generator->generate($adherent);
-            }
-        } catch (NotFoundScopeGeneratorException $e) {
-            // Catch for throwing AccessDenied exception
-        }
-
-        throw $this->createAccessDeniedException('User has no required scope.');
     }
 }
