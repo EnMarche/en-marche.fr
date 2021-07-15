@@ -168,7 +168,7 @@ class LoadClientData extends Fixture
             'Data-Corner',
             'Data-Corner',
             'BHLfR-MWLVBF@Z.ZBh4EdTFJ',
-            [GrantTypeEnum::AUTHORIZATION_CODE, GrantTypeEnum::REFRESH_TOKEN],
+            [GrantTypeEnum::AUTHORIZATION_CODE, GrantTypeEnum::REFRESH_TOKEN, GrantTypeEnum::PASSWORD],
             ['http://localhost:3000/auth']
         );
         $client12->setAskUserForAuthorization(false);

@@ -1,0 +1,9 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    <ul>
+        {% for feature in object.features %}
+            <li>{{ ('scope.feature.' ~ feature)|trans }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

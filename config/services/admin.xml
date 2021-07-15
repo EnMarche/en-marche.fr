@@ -579,6 +579,14 @@
             </call>
         </service>
 
+        <service id="app.admin.scope" class="App\Admin\ScopeAdmin">
+            <tag name="sonata.admin" manager-type="orm" label="Scopes" group="Tech" />
+
+            <argument />
+            <argument>App\Entity\Scope</argument>
+            <argument />
+        </service>
+
         <service id="app.admin.timeline_manifesto" class="App\Admin\TimelineManifestoAdmin">
             <tag name="sonata.admin" manager-type="orm" label="OLDOLF » Programmes" group="Idées" />
 
